@@ -1,0 +1,45 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Public and private information about the user.",
+      "type": "object",
+      "properties": {
+        "displayName": { "type": "string", "description": "Users name" },
+        "photoURL": { "type": "string", "description": "Users profile picture" },
+        "email": { "type": "string", "format": "email" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["displayName", "email", "createdAt"]
+    },
+    "Medicine": {
+      "title": "Medicine",
+      "description": "Information about a scanned medicine and its status.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "medicineName": { "type": "string" },
+        "detectedDate": { "type": "string", "format": "date" },
+        "mfgDate": { "type": "string", "format": "date" },
+        "status": { "type": "string", "enum": ["expired", "warning", "valid", "estimated"] },
+        "purpose": { "type": "string" },
+        "typicalShelfLife": { "type": "string" },
+        "reasoning": { "type": "string" },
+        "confidence": { "type": "number" },
+        "daysLeft": { "type": "number" },
+        "scannedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "medicineName", "status", "scannedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile documents."
+    },
+    "/users/{userId}/medicines/{medicineId}": {
+      "schema": "Medicine",
+      "description": "Individual scanned medicines for a user."
+    }
+  }
+}

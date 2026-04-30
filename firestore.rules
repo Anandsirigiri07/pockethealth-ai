@@ -1,0 +1,66 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Global Helpers
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Medicine Validation Blueprint
+    function isValidMedicine(data) {
+      return data.userId == request.auth.uid &&
+             data.medicineName is string && data.medicineName.size() <= 256 &&
+             data.status in ['expired', 'warning', 'valid', 'estimated'] &&
+             data.scannedAt is string &&
+             (data.detectedDate == null || data.detectedDate is string) &&
+             (data.mfgDate == null || data.mfgDate is string) &&
+             (data.purpose == null || data.purpose is string) &&
+             (data.typicalShelfLife == null || data.typicalShelfLife is string) &&
+             (data.reasoning == null || data.reasoning is string) &&
+             (data.confidence == null || data.confidence is number) &&
+             (data.daysLeft == null || data.daysLeft is number);
+    }
+
+    // Match User Collection
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow create: if isOwner(userId) && 
+                      incoming().keys().hasAll(['displayName', 'email', 'createdAt']) &&
+                      incoming().displayName is string &&
+                      incoming().email is string;
+      allow update: if isOwner(userId) && 
+                      incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'photoURL']);
+
+      // Medicine Inventory Subcollection
+      match /medicines/{medicineId} {
+        allow list: if isOwner(userId);
+        allow get: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidMedicine(incoming());
+        allow update: if isOwner(userId) && isValidMedicine(incoming()) && 
+                        incoming().userId == existing().userId;
+        allow delete: if isOwner(userId);
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "PocketHealth AI",
+  "description": "Your warm, knowledgeable, and empathetic personal health companion. Understand symptoms, translate lab reports, and navigate your health with ease.",
+  "requestFramePermissions": ["geolocation", "camera"],
+  "majorCapabilities": []
+}
