@@ -35,6 +35,7 @@ import LocationViewer from '@/src/components/LocationViewer';
 import MedicineScanner from '@/src/components/MedicineScanner';
 import MedicineInventory from '@/src/components/MedicineInventory';
 import LabTranslator from '@/src/components/LabTranslator';
+import MedicalImageExplainer from '@/src/components/MedicalImageExplainer';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '@/src/lib/firebase';
 
@@ -49,6 +50,7 @@ export default function App() {
   const [isScannerOpen, setIsScannerOpen] = useState(false);
   const [isInventoryOpen, setIsInventoryOpen] = useState(false);
   const [isLabOpen, setIsLabOpen] = useState(false);
+  const [isMedicalImageOpen, setIsMedicalImageOpen] = useState(false);
   const { selectedLanguage, setSelectedLanguage, t } = useLanguage();
   const [expiringSoonCount, setExpiringSoonCount] = useState(0);
   const [shareId, setShareId] = useState<string | null>(null);
@@ -163,6 +165,7 @@ export default function App() {
     { id: 'expiry', label: t.medicineScanner, icon: Calendar, action: () => setIsScannerOpen(true) },
     { id: 'inventory', label: t.medicineCabinetMode, icon: Pill, action: () => setIsInventoryOpen(true) },
     { id: 'sos', label: t.emergencyMap, icon: AlertCircle, action: () => setIsEmergencyOpen(true) },
+    { id: 'scan', label: t.medicalImageExplainer, icon: Stethoscope, action: () => setIsMedicalImageOpen(true) },
     { id: 'symptoms', label: t.symptomAnalyser, icon: ClipboardList, prompt: 'I have been logging my symptoms and want you to find patterns.' },
   ];
 
@@ -327,6 +330,11 @@ export default function App() {
       <LabTranslator 
         isOpen={isLabOpen} 
         onClose={() => setIsLabOpen(false)} 
+      />
+
+      <MedicalImageExplainer 
+        isOpen={isMedicalImageOpen} 
+        onClose={() => setIsMedicalImageOpen(false)} 
       />
 
       {/* Main Chat Area */}

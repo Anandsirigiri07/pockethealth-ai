@@ -27,6 +27,7 @@ export const translations = {
     medicineCabinetMode: "Medicine Cabinet",
     emergencyMap: "Emergency & Map",
     symptomAnalyser: "Symptom Analyser",
+    medicalImageExplainer: "X-Ray & MRI Reader",
     
     // Scanner/Translator
     expiryChecker: "Expiry Checker",
@@ -53,6 +54,14 @@ export const translations = {
     analyzingReport: "Analyzing Report...",
     extractingData: "Extracting medical data",
     analyzeAnother: "Analyze Another Report",
+    
+    // Medical Image Explainer
+    scanAnalysis: "Scan Analysis",
+    takePhotoScan: "Take Photo of Scan",
+    positionScan: "Position the scan within the frame",
+    uploadScanImage: "Upload Scan Image",
+    analyzingScan: "Analyzing Scan...",
+    scanResults: "Scan Analysis Results",
     
     // Inventory
     noMedicines: "No medicines found",
@@ -164,6 +173,7 @@ I can help you with:
     medicineCabinetMode: "दवा कैबिनेट",
     emergencyMap: "आपातकाल और मानचित्र",
     symptomAnalyser: "लक्षण विश्लेषक",
+    medicalImageExplainer: "एक्स-रे और एमआरआई रीडर",
     
     // Scanner/Translator
     expiryChecker: "समाप्ति जांचकर्ता",
@@ -190,6 +200,14 @@ I can help you with:
     analyzingReport: "रिपोर्ट का विश्लेषण कर रहा है...",
     extractingData: "चिकित्सा डेटा निकालना",
     analyzeAnother: "एक और रिपोर्ट का विश्लेषण करें",
+    
+    // Medical Image Explainer
+    scanAnalysis: "स्कैन विश्लेषण",
+    takePhotoScan: "स्कैन की फोटो लें",
+    positionScan: "स्कैन को फ्रेम के भीतर रखें",
+    uploadScanImage: "स्कैन छवि अपलोड करें",
+    analyzingScan: "स्कैन का विश्लेषण कर रहा है...",
+    scanResults: "स्कैन विश्लेषण परिणाम",
     
     // Inventory
     noMedicines: "कोई दवा नहीं मिली",
@@ -301,6 +319,7 @@ I can help you with:
     medicineCabinetMode: "ಔಷಧಿ ಕ್ಯಾಬಿನೆಟ್",
     emergencyMap: "ತುರ್ತು ಮತ್ತು ನಕ್ಷೆ",
     symptomAnalyser: "ರೋಗಲಕ್ಷಣ ವಿಶ್ಲೇಷಕ",
+    medicalImageExplainer: "ಎಕ್ಸ್-ರೇ ಮತ್ತು ಎಂಆರ್ಐ ರೀಡರ್",
     
     // Scanner/Translator
     expiryChecker: "ಅವಧಿ ಮುಕ್ತಾಯ ಪರೀಕ್ಷಕ",
@@ -327,6 +346,14 @@ I can help you with:
     analyzingReport: "ವರದಿಯನ್ನು ವಿಲೇಷಿಸಲಾಗುತ್ತಿದೆ...",
     extractingData: "ವೈದ್ಯಕೀಯ ಡೇಟಾವನ್ನು ಹೊರತೆಗೆಯಲಾಗುತ್ತಿದೆ",
     analyzeAnother: "ಮತ್ತೊಂದು ವರದಿಯನ್ನು ವಿಲೇಷಿಸಿ",
+    
+    // Medical Image Explainer
+    scanAnalysis: "ಸ್ಕ್ಯಾನ್ ವಿಶ್ಲೇಷಣೆ",
+    takePhotoScan: "ಸ್ಕ್ಯಾನ್ ಫೋಟೋ ತೆಗೆಯಿರಿ",
+    positionScan: "ಸ್ಕ್ಯಾನ್ ಅನ್ನು ಫ್ರೇಮ್‌ನಲ್ಲಿರಿಸಿ",
+    uploadScanImage: "ಸ್ಕ್ಯಾನ್ ಚಿತ್ರವನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ",
+    analyzingScan: "ಸ್ಕ್ಯಾನ್ ವಿಶ್ಲೇಷಿಸಲಾಗುತ್ತಿದೆ...",
+    scanResults: "ಸ್ಕ್ಯಾನ್ ವಿಶ್ಲೇಷಣೆ ಫಲಿತಾಂಶಗಳು",
     
     // Inventory
     noMedicines: "ಯಾವುದೇ ಔಷಧಿಗಳು ಕಂಡುಬಂದಿಲ್ಲ",
@@ -438,6 +465,7 @@ I can help you with:
     medicineCabinetMode: "మెడిసిన్ క్యాబినెట్",
     emergencyMap: "అత్యవసర పరిస్థితి & మ్యాప్",
     symptomAnalyser: "లక్షణ విశ్లేషకుడు",
+    medicalImageExplainer: "ఎక్స్-రే & ఎంఆర్ఐ రీడర్",
     
     // Scanner/Translator
     expiryChecker: "గడువు ముగింపు తనిఖీదారు",
@@ -464,6 +492,14 @@ I can help you with:
     analyzingReport: "నివేదికను విశ్లేషిస్తోంది...",
     extractingData: "వైద్య డేటాను సంగ్రహిస్తోంది",
     analyzeAnother: "మరో నివేదికను విశ్లేషించండి",
+    
+    // Medical Image Explainer
+    scanAnalysis: "స్కాన్ విశ్లేషణ",
+    takePhotoScan: "స్కాన్ ఫోటో తీయండి",
+    positionScan: "స్కాన్‌ను ఫ్రేమ్‌లో ఉంచండి",
+    uploadScanImage: "స్కాన్ చిత్రాన్ని అప్‌లోడ్ చేయండి",
+    analyzingScan: "స్కాన్‌ను విశ్లేషిస్తోంది...",
+    scanResults: "స్కాన్ విశ్లేషణ ఫలితాలు",
     
     // Inventory
     noMedicines: "ఔషధాలేవీ కనుగొనబడలేదు",
