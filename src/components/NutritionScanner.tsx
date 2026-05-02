@@ -143,7 +143,7 @@ function NutritionScanner({ isOpen, onClose }: NutritionScannerProps) {
                   <h3 className="font-display font-bold text-2xl text-slate-900 tracking-tight">{t.nutritionScanner}</h3>
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                    <p className="text-[11px] text-slate-500 font-black uppercase tracking-widest">{t.foodAnalysis} • {language}</p>
+                    <p className="text-[11px] text-slate-500 font-black uppercase tracking-widest">{t.nutritionAnalysis} • {language}</p>
                   </div>
                 </div>
               </div>
