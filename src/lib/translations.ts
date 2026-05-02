@@ -27,7 +27,7 @@ export const translations = {
     medicineCabinetMode: "Medicine Cabinet",
     emergencyMap: "Emergency & Map",
     symptomAnalyser: "Symptom Analyser",
-    medicalImageExplainer: "X-Ray & MRI Reader",
+    medicalImageExplainer: "Scan Explainer",
     nutritionScanner: "Nutrition Scanner",
     
     // Scanner/Translator
@@ -61,8 +61,8 @@ export const translations = {
     takePhotoScan: "Take Photo of Scan",
     positionScan: "Position the scan within the frame",
     uploadScanImage: "Upload Scan Image",
-    analyzingScan: "Analyzing Scan...",
-    scanResults: "Scan Analysis Results",
+    analyzingScan: "AI is Reading your Scan & Report...",
+    scanResults: "Scan Explanation",
     
     // Nutrition Scanner
     nutritionAnalysis: "Nutrition Analysis",
@@ -201,7 +201,7 @@ I can help you with:
     medicineCabinetMode: "दवा कैबिनेट",
     emergencyMap: "आपातकाल और मानचित्र",
     symptomAnalyser: "लक्षण विश्लेषक",
-    medicalImageExplainer: "एक्स-रे और एमआरआई रीडर",
+    medicalImageExplainer: "स्कैन स्पष्टीकरण",
     nutritionScanner: "पोषण स्कैनर",
     
     // Scanner/Translator
@@ -235,8 +235,8 @@ I can help you with:
     takePhotoScan: "स्कैन की फोटो लें",
     positionScan: "स्कैन को फ्रेम के भीतर रखें",
     uploadScanImage: "स्कैन छवि अपलोड करें",
-    analyzingScan: "स्कैन का विश्लेषण कर रहा है...",
-    scanResults: "स्कैन विश्लेषण परिणाम",
+    analyzingScan: "एआई आपके स्कैन और रिपोर्ट को पढ़ रहा है...",
+    scanResults: "स्कैन स्पष्टीकरण",
     
     // Nutrition Scanner
     nutritionAnalysis: "पोषण विश्लेषण",
@@ -375,7 +375,7 @@ I can help you with:
     medicineCabinetMode: "ಔಷಧಿ ಕ್ಯಾಬಿನೆಟ್",
     emergencyMap: "ತುರ್ತು ಮತ್ತು ನಕ್ಷೆ",
     symptomAnalyser: "ರೋಗಲಕ್ಷಣ ವಿಶ್ಲೇಷಕ",
-    medicalImageExplainer: "ಎಕ್ಸ್-ರೇ ಮತ್ತು ಎಂಆರ್ಐ ರೀಡರ್",
+    medicalImageExplainer: "ಸ್ಕ್ಯಾನ್ ವಿವರಣೆ",
     nutritionScanner: "ಪೌಷ್ಟಿಕಾಂಶ ಸ್ಕ್ಯಾನರ್",
     
     // Scanner/Translator
@@ -409,8 +409,8 @@ I can help you with:
     takePhotoScan: "ಸ್ಕ್ಯಾನ್ ಫೋಟೋ ತೆಗೆಯಿರಿ",
     positionScan: "ಸ್ಕ್ಯಾನ್ ಅನ್ನು ಫ್ರೇಮ್‌ನಲ್ಲಿರಿಸಿ",
     uploadScanImage: "ಸ್ಕ್ಯಾನ್ ಚಿತ್ರವನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ",
-    analyzingScan: "ಸ್ಕ್ಯಾನ್ ವಿಶ್ಲೇಷಿಸಲಾಗುತ್ತಿದೆ...",
-    scanResults: "ಸ್ಕ್ಯಾನ್ ವಿಶ್ಲೇಷಣೆ ಫಲಿತಾಂಶಗಳು",
+    analyzingScan: "AI ನಿಮ್ಮ ಸ್ಕ್ಯಾನ್ ಮತ್ತು ವರದಿಯನ್ನು ಓದುತ್ತಿದೆ...",
+    scanResults: "ಸ್ಕ್ಯಾನ್ ವಿವರಣೆ",
     
     // Nutrition Scanner
     nutritionAnalysis: "ಪೌಷ್ಟಿಕಾಂಶ ವಿಶ್ಲೇಷಣೆ",
@@ -549,7 +549,7 @@ I can help you with:
     medicineCabinetMode: "మెడిసిన్ క్యాబినెట్",
     emergencyMap: "అత్యవసర పరిస్థితి & మ్యాప్",
     symptomAnalyser: "లక్షణ విశ్లేషకుడు",
-    medicalImageExplainer: "ఎక్స్-రే & ఎంఆర్ఐ రీడర్",
+    medicalImageExplainer: "స్కాన్ వివరణ",
     nutritionScanner: "పోషకాహార స్కానర్",
     
     // Scanner/Translator
@@ -583,8 +583,8 @@ I can help you with:
     takePhotoScan: "స్కాన్ ఫోటో తీయండి",
     positionScan: "స్కాన్‌ను ఫ్రేమ్‌లో ఉంచండి",
     uploadScanImage: "స్కాన్ చిత్రాన్ని అప్‌లోడ్ చేయండి",
-    analyzingScan: "స్కాన్‌ను విశ్లేషిస్తోంది...",
-    scanResults: "స్కాన్ విశ్లేషణ ఫలితాలు",
+    analyzingScan: "AI మీ స్కాన్ మరియు నివేదికను చదువుతోంది...",
+    scanResults: "స్కాన్ వివరణ",
     
     // Nutrition Scanner
     nutritionAnalysis: "పోషకాహార విశ్లేషణ",

@@ -270,50 +270,52 @@ export async function analyzeLabReportImage(base64Image: string, language: strin
   return response.text || "I'm sorry, I couldn't analyze the report. Please try a clearer photo.";
 }
 
-export async function analyzeMedicalImage(base64Image: string, language: string = 'English') {
+export async function analyzeMedicalImage(base64Image: string | null, reportText: string | null, language: string = 'English') {
   const ai = getAI();
   
-  const base64Data = base64Image.includes(',') ? base64Image.split(',')[1] : base64Image;
+  const parts: any[] = [];
+  
+  if (base64Image) {
+    const base64Data = base64Image.includes(',') ? base64Image.split(',')[1] : base64Image;
+    parts.push({
+      inlineData: {
+        data: base64Data,
+        mimeType: "image/jpeg",
+      },
+    });
+  }
+
+  const promptText = `You are PocketHealth AI's "Scan Explainer" — a patient education specialist who helps everyday people understand their medical imaging reports and scans. You are NOT a radiologist and you do NOT diagnose.
+
+CRITICAL SAFETY RULE: Always begin every response with this exact disclaimer:
+"⚕️ Important: This explanation is for educational purposes only and is not a medical diagnosis. Please discuss your results with your doctor before drawing any conclusions."
+
+${reportText ? `Radiology Report Text:
+${reportText}
+` : ''}
+
+TASK: When analyzing this medical scan image AND/OR the radiology report text, do ALL of the following:
+
+1. SCAN TYPE IDENTIFICATION: Identify type (Chest X-ray, CT, etc.), body part, and use case in one sentence.
+2. WHAT YOU CAN SEE (for images): Describe major structures in plain language. Point out unusual regions without diagnosing. Use directional language patients understand (e.g., "upper right area").
+3. REPORT DECODER (for text): Go line-by-line through Findings/Impression. For every medical term, provide: Term → Plain English meaning → Why it matters. Flag the most important finding with a ⭐.
+4. NORMAL vs. ABNORMAL GUIDE: List what was normal (✅) and what was flagged (⚠️ or 🔴).
+5. QUESTIONS TO ASK YOUR DOCTOR: Generate 4-5 specific, intelligent questions.
+6. WHAT HAPPENS NEXT: Explain common follow-up steps or specialist referrals.
+
+TONE: Calm, warm, and reassuring. Avoid "mass/lesion" without explanation. If quality is poor, be honest.
+
+End with: "Do you want me to help you prepare questions for your doctor's appointment?"
+
+CRITICAL: Your entire response MUST be in ${language}.`;
+
+  parts.push({ text: promptText });
 
   const response = await ai.models.generateContent({
     model: "gemini-3-flash-preview",
     contents: {
       role: 'user',
-      parts: [
-        {
-          inlineData: {
-            data: base64Data,
-            mimeType: "image/jpeg",
-          },
-        },
-        {
-          text: `You are in MEDICAL IMAGE EXPLAINER MODE. 
-          Analyze this medical scan (X-ray, MRI, CT, or Ultrasound) and explain it clearly in ${language}.
-          
-          Your job:
-          1. Identify the scan type and the body part shown.
-          2. List key structures visible (e.g., bones, specific organs).
-          3. Identify any notable patterns or potential anomalies (fractures, swelling, masses) using plain, non-scary language.
-          4. Explain what this means in simple terms.
-          
-          IMPORTANT: Start with a clear disclaimer that this is an AI interpretation and the user MUST consult a radiologist or their doctor for a formal diagnosis.
-          
-          Format:
-          📸 Scan Type: [Type] - [Body Part]
-          
-          🦴 Structures Observed:
-          - [Structure 1]: [Brief plain-language description]
-          - [Structure 2]: [Brief plain-language description]
-          
-          🔍 AI Insights:
-          [1-2 sentences explaining any patterns or anomalies found]
-          
-          💡 What this means for you:
-          [Simple explanation of the next steps or what to ask the doctor]
-          
-          CRITICAL: Your entire response MUST be in ${language}.`,
-        },
-      ],
+      parts: parts,
     },
     config: {
       systemInstruction: SYSTEM_PROMPT,
@@ -321,7 +323,7 @@ export async function analyzeMedicalImage(base64Image: string, language: string 
     }
   });
 
-  return response.text || "I'm sorry, I couldn't analyze the scan. Please try a clearer photo.";
+  return response.text || "I'm sorry, I couldn't analyze the scan. Please try again.";
 }
 
 export async function analyzeNutrition(base64Image: string, profile: any, language: string = 'English') {

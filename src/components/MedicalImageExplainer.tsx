@@ -34,6 +34,8 @@ function MedicalImageExplainer({ isOpen, onClose }: MedicalImageExplainerProps) 
   const [isLiveMode, setIsLiveMode] = useState(false);
   const [cameraFacingMode, setCameraFacingMode] = useState<'user' | 'environment'>('environment');
   
+  const [reportText, setReportText] = useState('');
+  
   const fileInputRef = useRef<HTMLInputElement>(null);
   const webcamRef = useRef<Webcam>(null);
 
@@ -62,17 +64,17 @@ function MedicalImageExplainer({ isOpen, onClose }: MedicalImageExplainerProps) 
   }, [webcamRef]);
 
   const handleAnalyze = async () => {
-    if (!image) return;
+    if (!image && !reportText.trim()) return;
 
     setIsScanning(true);
     setError(null);
 
     try {
-      const result = await analyzeMedicalImage(image, language);
+      const result = await analyzeMedicalImage(image, reportText, language);
       setAnalysis(result);
     } catch (err) {
       console.error(err);
-      setError("Analysis failed. Please try a clearer, brighter photo of your scan.");
+      setError("Analysis failed. Please try again with a clearer photo or report text.");
     } finally {
       setIsScanning(false);
     }
@@ -80,6 +82,7 @@ function MedicalImageExplainer({ isOpen, onClose }: MedicalImageExplainerProps) 
 
   const reset = () => {
     setImage(null);
+    setReportText('');
     setAnalysis(null);
     setError(null);
     setIsLiveMode(false);
@@ -128,43 +131,65 @@ function MedicalImageExplainer({ isOpen, onClose }: MedicalImageExplainerProps) 
             </div>
 
             <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
-              {!image && !isLiveMode ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <button 
-                    onClick={() => setIsLiveMode(true)}
-                    className="h-64 border-2 border-brand/10 rounded-[2.5rem] flex flex-col items-center justify-center gap-6 bg-brand/[0.02] group hover:border-brand/40 transition-all hover:shadow-2xl hover:shadow-brand/5 relative overflow-hidden"
-                  >
-                    <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                       <Video size={120} />
-                    </div>
-                    <div className="w-16 h-16 bg-brand rounded-3xl flex items-center justify-center text-white shadow-lg shadow-brand/20 group-hover:scale-110 transition-transform">
-                      <Camera size={32} />
-                    </div>
-                    <div className="text-center relative z-10">
-                      <p className="font-bold text-slate-900 text-xl">{t.takePhotoScan}</p>
-                      <p className="text-xs text-slate-400 font-medium mt-1">{t.positionScan}</p>
-                    </div>
-                  </button>
+              {!image && !isLiveMode && !analysis ? (
+                <div className="space-y-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <button 
+                      onClick={() => setIsLiveMode(true)}
+                      className="h-64 border-2 border-brand/10 rounded-[2.5rem] flex flex-col items-center justify-center gap-6 bg-brand/[0.02] group hover:border-brand/40 transition-all hover:shadow-2xl hover:shadow-brand/5 relative overflow-hidden"
+                    >
+                      <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+                         <Video size={120} />
+                      </div>
+                      <div className="w-16 h-16 bg-brand rounded-3xl flex items-center justify-center text-white shadow-lg shadow-brand/20 group-hover:scale-110 transition-transform">
+                        <Camera size={32} />
+                      </div>
+                      <div className="text-center relative z-10">
+                        <p className="font-bold text-slate-900 text-xl">{t.takePhotoScan}</p>
+                        <p className="text-xs text-slate-400 font-medium mt-1">{t.positionScan}</p>
+                      </div>
+                    </button>
 
-                  <div className="h-64 border-2 border-dashed border-slate-200 rounded-[2.5rem] flex flex-col items-center justify-center gap-6 bg-slate-50 relative group hover:border-brand/30 transition-all hover:bg-white hover:shadow-xl">
-                    <input 
-                      type="file" 
-                      ref={fileInputRef}
-                      onChange={handleFileChange}
-                      accept="image/*"
-                      className="absolute inset-0 opacity-0 cursor-pointer z-10"
-                    />
-                    <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                       <Upload size={120} />
-                    </div>
-                    <div className="w-16 h-16 bg-white rounded-3xl flex items-center justify-center text-slate-400 group-hover:text-brand shadow-md border border-slate-100 transition-all group-hover:scale-110">
-                      <Upload size={32} />
-                    </div>
-                    <div className="text-center">
-                      <p className="text-xl font-bold text-slate-900">{t.uploadScanImage}</p>
-                      <p className="text-xs text-slate-400 font-medium mt-1">Select from your device library</p>
+                    <div className="h-64 border-2 border-dashed border-slate-200 rounded-[2.5rem] flex flex-col items-center justify-center gap-6 bg-slate-50 relative group hover:border-brand/30 transition-all hover:bg-white hover:shadow-xl">
+                      <input 
+                        type="file" 
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        accept="image/*"
+                        className="absolute inset-0 opacity-0 cursor-pointer z-10"
+                      />
+                      <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+                         <Upload size={120} />
+                      </div>
+                      <div className="w-16 h-16 bg-white rounded-3xl flex items-center justify-center text-slate-400 group-hover:text-brand shadow-md border border-slate-100 transition-all group-hover:scale-110">
+                        <Upload size={32} />
+                      </div>
+                      <div className="text-center">
+                        <p className="text-xl font-bold text-slate-900">{t.uploadScanImage}</p>
+                        <p className="text-xs text-slate-400 font-medium mt-1">Select from your device library</p>
+                      </div>
                     </div>
                   </div>
+
+                  <div className="space-y-4">
+                    <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Paste Radiology Report (Optional)</label>
+                    <textarea 
+                      value={reportText}
+                      onChange={(e) => setReportText(e.target.value)}
+                      placeholder="Paste the text from your X-ray, MRI, or CT report here..."
+                      className="w-full h-32 bg-slate-50 border border-slate-100 rounded-2xl px-4 py-3 text-sm focus:bg-white focus:border-brand/30 outline-none transition-all font-medium resize-none shadow-inner"
+                    />
+                  </div>
+
+                  {reportText.trim() && !image && (
+                    <button 
+                      onClick={handleAnalyze}
+                      className="w-full bg-brand text-white py-6 rounded-[2rem] font-bold hover:bg-brand-dark transition-all active:scale-[0.98] shadow-2xl shadow-brand/30 flex items-center justify-center gap-3 relative overflow-hidden group"
+                    >
+                      <Sparkles size={24} className="relative z-10" />
+                      <span className="relative z-10 text-xl">Analyze Report Text</span>
+                    </button>
+                  )}
                 </div>
               ) : isLiveMode ? (
                 <div className="space-y-6">
@@ -220,20 +245,32 @@ function MedicalImageExplainer({ isOpen, onClose }: MedicalImageExplainerProps) 
               ) : (
                 <div className="space-y-8">
                   {!analysis ? (
-                    <motion.div 
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="relative group rounded-[3rem] overflow-hidden border-4 border-white shadow-2xl bg-slate-900 aspect-square md:aspect-[16/10]"
-                    >
-                      <img src={image!} alt="Medical Scan" className="w-full h-full object-contain grayscale" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                      <button 
-                        onClick={reset}
-                        className="absolute top-6 right-6 p-3 bg-black/40 backdrop-blur-xl text-white rounded-2xl hover:bg-red-500 transition-all z-20"
+                    <div className="space-y-6">
+                      <motion.div 
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="relative group rounded-[3rem] overflow-hidden border-4 border-white shadow-2xl bg-slate-900 aspect-square md:aspect-[16/10]"
                       >
-                        <X size={20} />
-                      </button>
-                    </motion.div>
+                        <img src={image!} alt="Medical Scan" className="w-full h-full object-contain grayscale" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <button 
+                          onClick={() => setImage(null)}
+                          className="absolute top-6 right-6 p-3 bg-black/40 backdrop-blur-xl text-white rounded-2xl hover:bg-red-500 transition-all z-20"
+                        >
+                          <X size={20} />
+                        </button>
+                      </motion.div>
+
+                      <div className="space-y-4">
+                        <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Paste Radiology Report (Optional)</label>
+                        <textarea 
+                          value={reportText}
+                          onChange={(e) => setReportText(e.target.value)}
+                          placeholder="Paste the text from your X-ray, MRI, or CT report here..."
+                          className="w-full h-32 bg-slate-50 border border-slate-100 rounded-[2rem] px-6 py-4 text-sm focus:bg-white focus:border-brand/30 outline-none transition-all font-medium resize-none shadow-inner"
+                        />
+                      </div>
+                    </div>
                   ) : (
                     <motion.div 
                       initial={{ opacity: 0, y: 20 }}
@@ -263,7 +300,7 @@ function MedicalImageExplainer({ isOpen, onClose }: MedicalImageExplainerProps) 
                         <div>
                           <p className="text-xs font-bold text-brand uppercase tracking-widest mb-1">Safety First</p>
                           <p className="text-sm text-slate-600 leading-relaxed font-medium">
-                            This analysis is for educational purposes. AI can misinterpret medical imaging. Never delay professional medical advice based on this reading.
+                            This analysis is for educational purposes. AI can misinterpret medical imaging or report text. Never delay professional medical advice based on this reading.
                           </p>
                         </div>
                       </div>
@@ -296,14 +333,16 @@ function MedicalImageExplainer({ isOpen, onClose }: MedicalImageExplainerProps) 
                         </div>
                       </motion.div>
                     ) : !analysis ? (
-                      <button 
-                        onClick={handleAnalyze}
-                        className="w-full bg-brand text-white py-6 rounded-[2rem] font-bold hover:bg-brand-dark transition-all active:scale-[0.98] shadow-2xl shadow-brand/30 flex items-center justify-center gap-3 relative overflow-hidden group"
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                        <Sparkles size={24} className="relative z-10" />
-                        <span className="relative z-10 text-xl">{t.analyzeImage}</span>
-                      </button>
+                      (image || reportText.trim()) && (
+                        <button 
+                          onClick={handleAnalyze}
+                          className="w-full bg-brand text-white py-6 rounded-[2rem] font-bold hover:bg-brand-dark transition-all active:scale-[0.98] shadow-2xl shadow-brand/30 flex items-center justify-center gap-3 relative overflow-hidden group"
+                        >
+                          <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                          <Sparkles size={24} className="relative z-10" />
+                          <span className="relative z-10 text-xl">Analyze Now</span>
+                        </button>
+                      )
                     ) : (
                       <div className="grid grid-cols-2 gap-4">
                         <button 
