@@ -183,8 +183,10 @@ Format:
 `;
 
 export interface Message {
+  id?: string;
   role: "user" | "model";
   text: string;
+  timestamp?: number;
 }
 
 let aiInstance: GoogleGenAI | null = null;
@@ -199,7 +201,7 @@ const getAI = () => {
   return aiInstance;
 };
 
-export async function chatWithPocketHealth(messages: Message[]) {
+export async function chatWithPocketHealth(messages: Message[], language: string = 'English') {
   const ai = getAI();
   
   const history = messages.slice(0, -1).map(m => ({
@@ -213,7 +215,7 @@ export async function chatWithPocketHealth(messages: Message[]) {
     model: "gemini-3-flash-preview",
     contents: [...history, { role: 'user', parts: [{ text: lastMessage }] }],
     config: {
-      systemInstruction: SYSTEM_PROMPT,
+      systemInstruction: `${SYSTEM_PROMPT}\n\nCRITICAL: Respond ONLY in the ${language} language. This is extremely important for accessibility. If the user's language is not English, translate your entire response into ${language}.`,
       temperature: 0.7,
       topP: 0.95,
       topK: 64,
@@ -221,6 +223,52 @@ export async function chatWithPocketHealth(messages: Message[]) {
   });
 
   return response.text || "I'm sorry, I couldn't process that. Please try again.";
+}
+
+export async function analyzeLabReportImage(base64Image: string, language: string = 'English') {
+  const ai = getAI();
+  
+  const base64Data = base64Image.includes(',') ? base64Image.split(',')[1] : base64Image;
+
+  const response = await ai.models.generateContent({
+    model: "gemini-3-flash-preview",
+    contents: {
+      role: 'user',
+      parts: [
+        {
+          inlineData: {
+            data: base64Data,
+            mimeType: "image/jpeg",
+          },
+        },
+        {
+          text: `You are in LAB REPORT TRANSLATOR MODE. 
+          Analyze this lab report image and explain it clearly in ${language}.
+          
+          Your job:
+          - For each value: state Normal / Low / High
+          - Explain what it means for their daily life in 1-2 plain sentences (energy, sleep, diet, risk)
+          - Give one actionable tip per value
+          - End with a short overall summary
+          
+          Format per value:
+          🔬 [Test Name] — [Normal/Low/High]
+          What it means: [plain language explanation]
+          Tip: [one actionable advice]
+          
+          📋 Overall summary: [2-3 sentence wrap-up]
+          
+          CRITICAL: Your entire response MUST be in ${language}.`,
+        },
+      ],
+    },
+    config: {
+      systemInstruction: SYSTEM_PROMPT,
+      temperature: 0.4,
+    }
+  });
+
+  return response.text || "I'm sorry, I couldn't analyze the report. Please try a clearer photo.";
 }
 
 export const OPENING_GREETING = `Hi! I'm PocketHealth AI — your personal health companion. 👋

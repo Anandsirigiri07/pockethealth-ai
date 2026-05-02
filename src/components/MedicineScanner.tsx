@@ -20,6 +20,8 @@ import { GoogleGenAI } from "@google/genai";
 import { cn } from '@/src/lib/utils';
 import { db, auth, handleFirestoreError, OperationType } from '@/src/lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { Language } from '@/src/lib/translations';
+import { useLanguage } from '@/src/lib/LanguageContext';
 
 interface MedicineScannerProps {
   isOpen: boolean;
@@ -42,7 +44,8 @@ interface ExpiryResult {
   };
 }
 
-export default function MedicineScanner({ isOpen, onClose }: MedicineScannerProps) {
+function MedicineScanner({ isOpen, onClose }: MedicineScannerProps) {
+  const { selectedLanguage: language, t } = useLanguage();
   const [image, setImage] = useState<string | null>(null);
   const [isScanning, setIsScanning] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -79,7 +82,7 @@ export default function MedicineScanner({ isOpen, onClose }: MedicineScannerProp
     }
   }, [webcamRef]);
 
-  const preprocessImage = async (base64: string): Promise<string> => {
+  const preprocessImage = useCallback(async (base64: string): Promise<string> => {
     return new Promise((resolve) => {
       const img = new Image();
       img.src = base64;
@@ -91,7 +94,7 @@ export default function MedicineScanner({ isOpen, onClose }: MedicineScannerProp
           return;
         }
 
-        const MAX_DIM = 1500;
+        const MAX_DIM = 1200; // Slightly reduced for performance
         let width = img.width;
         let height = img.height;
         if (width > height) {
@@ -120,46 +123,36 @@ export default function MedicineScanner({ isOpen, onClose }: MedicineScannerProp
         for (let i = 0; i < data.length; i += 4) {
           const gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
           let val = factor * (gray - 128) + 128;
-          val = Math.max(0, Math.min(255, val));
-          data[i] = data[i+1] = data[i+2] = val;
+          data[i] = data[i+1] = data[i+2] = val > 255 ? 255 : (val < 0 ? 0 : val);
+        }
+        
+        // 2. Optimized Sharpening (5*center - top - bottom - left - right)
+        const sw = canvas.width;
+        const sh = canvas.height;
+        const src = new Uint8ClampedArray(data); // Copy for source
+        
+        for (let y = 1; y < sh - 1; y++) {
+          for (let x = 1; x < sw - 1; x++) {
+            const off = (y * sw + x) * 4;
+            const top = ((y - 1) * sw + x) * 4;
+            const bot = ((y + 1) * sw + x) * 4;
+            const lft = (y * sw + (x - 1)) * 4;
+            const rgt = (y * sw + (x + 1)) * 4;
+
+            const res = 5 * src[off] - src[top] - src[bot] - src[lft] - src[rgt];
+            const val = res > 255 ? 255 : (res < 0 ? 0 : res);
+            
+            data[off] = data[off + 1] = data[off + 2] = val;
+            data[off + 3] = 255;
+          }
         }
         ctx.putImageData(imageData, 0, 0);
 
-        // 2. Convolution (Sharpening to clarify text edges)
-        const sharpenKernel = [
-          0, -1,  0,
-         -1,  5, -1,
-          0, -1,  0
-        ];
-        
-        const sw = canvas.width;
-        const sh = canvas.height;
-        const src = ctx.getImageData(0, 0, sw, sh).data;
-        const output = ctx.createImageData(sw, sh);
-        const dst = output.data;
-
-        for (let y = 1; y < sh - 1; y++) {
-          for (let x = 1; x < sw - 1; x++) {
-            const dstOff = (y * sw + x) * 4;
-            let res = 0;
-            for (let ky = -1; ky <= 1; ky++) {
-              for (let kx = -1; kx <= 1; kx++) {
-                const srcOff = ((y + ky) * sw + (x + kx)) * 4;
-                const wt = sharpenKernel[(ky + 1) * 3 + (kx + 1)];
-                res += src[srcOff] * wt;
-              }
-            }
-            dst[dstOff] = dst[dstOff + 1] = dst[dstOff + 2] = Math.max(0, Math.min(255, res));
-            dst[dstOff + 3] = 255;
-          }
-        }
-        ctx.putImageData(output, 0, 0);
-
-        resolve(canvas.toDataURL('image/jpeg', 0.92));
+        resolve(canvas.toDataURL('image/jpeg', 0.85)); // Slightly lower quality for faster upload
       };
       img.onerror = () => resolve(base64);
     });
-  };
+  }, []);
 
   const handleScan = async () => {
     if (!image) return;
@@ -214,7 +207,9 @@ RETURN JSON ONLY:
   }
 }
 
-If no medicine is visible, return {"error": "NO_MEDICINE"}.`,
+If no medicine is visible, return {"error": "NO_MEDICINE"}.
+            
+CRITICAL: The "purpose" and "reasoning" fields MUST be written in ${language}.`,
             },
           ],
         },
@@ -323,8 +318,8 @@ If no medicine is visible, return {"error": "NO_MEDICINE"}.`,
                   <Calendar size={20} />
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-xl text-slate-900">Expiry Checker</h3>
-                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">AI Vision Scan</p>
+                  <h3 className="font-display font-bold text-xl text-slate-900">{t.expiryChecker}</h3>
+                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{t.aiVisionScan}</p>
                 </div>
               </div>
               <button 
@@ -346,8 +341,8 @@ If no medicine is visible, return {"error": "NO_MEDICINE"}.`,
                       <Video size={32} />
                     </div>
                     <div className="text-center">
-                      <p className="font-bold text-slate-900">Live Camera Scan</p>
-                      <p className="text-xs text-slate-400 font-medium">Use your camera for real-time detection</p>
+                      <p className="font-bold text-slate-900">{t.liveCameraScan}</p>
+                      <p className="text-xs text-slate-400 font-medium">{t.realTimeDetection}</p>
                     </div>
                   </button>
 
@@ -356,7 +351,7 @@ If no medicine is visible, return {"error": "NO_MEDICINE"}.`,
                       <div className="w-full border-t border-slate-100"></div>
                     </div>
                     <div className="relative flex justify-center text-[10px] font-black uppercase tracking-widest">
-                      <span className="bg-white px-4 text-slate-300">or upload</span>
+                      <span className="bg-white px-4 text-slate-300">{t.orUpload}</span>
                     </div>
                   </div>
 
@@ -371,7 +366,7 @@ If no medicine is visible, return {"error": "NO_MEDICINE"}.`,
                     <div className="w-10 h-10 bg-white rounded-2xl flex items-center justify-center text-slate-400 group-hover:text-brand shadow-sm transition-all group-hover:scale-110">
                       <Upload size={20} />
                     </div>
-                    <p className="text-sm font-bold text-slate-900">Choose from Device</p>
+                    <p className="text-sm font-bold text-slate-900">{t.chooseFromDevice}</p>
                   </div>
                 </div>
               ) : isLiveMode ? (
@@ -424,7 +419,7 @@ If no medicine is visible, return {"error": "NO_MEDICINE"}.`,
                        </button>
                     </div>
                   </div>
-                  <p className="text-center text-xs text-slate-400 font-bold uppercase tracking-widest">Center the expiry date label in the box</p>
+                  <p className="text-center text-xs text-slate-400 font-bold uppercase tracking-widest">{t.centerExpiryBox}</p>
                 </div>
               ) : (
                 <div className="space-y-6">
@@ -494,8 +489,8 @@ If no medicine is visible, return {"error": "NO_MEDICINE"}.`,
                           </div>
                         </div>
                         <div>
-                          <p className="font-bold text-slate-900 tracking-tight text-lg">AI is Reading the Pack...</p>
-                          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Analyzing Expiry Labels</p>
+                          <p className="font-bold text-slate-900 tracking-tight text-lg">{t.analyzingPack}</p>
+                          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">{t.analyzingLabels}</p>
                         </div>
                       </motion.div>
                     ) : result ? (
@@ -524,9 +519,9 @@ If no medicine is visible, return {"error": "NO_MEDICINE"}.`,
                           <div className="flex-1">
                             <div className="flex items-center justify-between mb-1">
                               <h4 className="font-display font-bold text-slate-900 text-lg tracking-tight">
-                                {result.status === 'expired' ? "Medicine Expired" : 
-                                 result.status === 'warning' ? "Expiring Soon" : 
-                                 result.status === 'estimated' ? "General Info" : "Safe to Use"}
+                                {result.status === 'expired' ? t.expired : 
+                                 result.status === 'warning' ? t.expiringSoon : 
+                                 result.status === 'estimated' ? t.estimated : t.safeToUse}
                               </h4>
                               {result.confidence && (
                                 <span className={cn(
@@ -547,14 +542,14 @@ If no medicine is visible, return {"error": "NO_MEDICINE"}.`,
 
                         {result.purpose && (
                           <div className="mb-4 p-3 bg-white/40 rounded-2xl border border-white/50 text-xs text-slate-600 leading-relaxed italic">
-                            <span className="font-bold text-slate-900 not-italic block mb-0.5">Indications:</span>
+                            <span className="font-bold text-slate-900 not-italic block mb-0.5">{t.indications}:</span>
                             {result.purpose}
                           </div>
                         )}
 
                         {result.reasoning && (
                           <div className="mb-4 p-3 bg-brand/5 rounded-2xl border border-brand/10 text-[11px] text-brand/80 font-medium">
-                            <span className="font-bold block mb-0.5 uppercase tracking-widest text-[9px]">AI Verification</span>
+                            <span className="font-bold block mb-0.5 uppercase tracking-widest text-[9px]">{t.aiVerification}</span>
                             {result.reasoning}
                           </div>
                         )}
@@ -565,7 +560,7 @@ If no medicine is visible, return {"error": "NO_MEDICINE"}.`,
                              result.mfgDate ? "bg-white/60 border-white/50" : "bg-slate-50/50 border-slate-100"
                            )}>
                             <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1">
-                              Mfg Date
+                              {t.mfgDate}
                             </p>
                             <p className="font-bold text-slate-700">
                               {result.mfgDate || "Not Detected"}
@@ -576,7 +571,7 @@ If no medicine is visible, return {"error": "NO_MEDICINE"}.`,
                              result.detectedDate ? "bg-red-50/30 border-red-100/50" : "bg-slate-50/50 border-slate-100"
                            )}>
                             <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1">
-                              Exp Date
+                              {t.expDate}
                             </p>
                             <p className="font-bold text-red-600">
                               {result.detectedDate || "Not Detected"}
@@ -595,7 +590,7 @@ If no medicine is visible, return {"error": "NO_MEDICINE"}.`,
                           </div>
                           <div className="bg-white/60 p-4 rounded-3xl border border-white/50 shadow-sm backdrop-blur-sm">
                             <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1">
-                              Days Left
+                              {t.daysLeft}
                             </p>
                             <p className={cn(
                               "font-bold text-lg",
@@ -603,8 +598,8 @@ If no medicine is visible, return {"error": "NO_MEDICINE"}.`,
                               result.status === 'warning' ? "text-amber-600" : 
                               result.status === 'estimated' ? "text-blue-600" : "text-emerald-600"
                             )}>
-                              {result.status === 'expired' ? "EXPIRED" : 
-                               result.status === 'estimated' ? "ESTIMATED" : `${result.daysLeft || '?'}`}
+                              {result.status === 'expired' ? t.expired.toUpperCase() : 
+                               result.status === 'estimated' ? t.estimated.toUpperCase() : `${result.daysLeft || '?'}`}
                             </p>
                           </div>
                         </div>
@@ -635,12 +630,12 @@ If no medicine is visible, return {"error": "NO_MEDICINE"}.`,
                             ) : saveSuccess ? (
                               <>
                                 <CheckCircle size={20} />
-                                Saved to Cabinet
+                                {t.savedToCabinet}
                               </>
                             ) : (
                               <>
                                 <Save size={20} />
-                                Save to Inventory
+                                {t.saveToInventory}
                               </>
                             )}
                           </button>
@@ -654,7 +649,7 @@ If no medicine is visible, return {"error": "NO_MEDICINE"}.`,
                       >
                         <AlertTriangle className="text-red-500 shrink-0 mt-0.5" size={20} />
                         <div>
-                          <p className="text-sm text-red-600 font-bold">Analysis Failed</p>
+                          <p className="text-sm text-red-600 font-bold">{t.analysisFailed}</p>
                           <p className="text-xs text-red-500 mt-1">{error}</p>
                         </div>
                       </motion.div>
@@ -665,7 +660,7 @@ If no medicine is visible, return {"error": "NO_MEDICINE"}.`,
                       >
                         <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                         <Hash size={20} className="relative z-10" />
-                        <span className="relative z-10 text-lg">Analyze This Image</span>
+                        <span className="relative z-10 text-lg">{t.analyzeImage}</span>
                       </button>
                     )}
                   </AnimatePresence>
@@ -679,7 +674,7 @@ If no medicine is visible, return {"error": "NO_MEDICINE"}.`,
                 onClick={image || isLiveMode ? reset : onClose}
                 className="flex-1 py-4 px-6 rounded-2xl font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 transition-all active:scale-95 shadow-sm"
               >
-                {image || isLiveMode ? "Go Back" : "Close"}
+                {image || isLiveMode ? t.goBack : t.close}
               </button>
             </div>
           </motion.div>
@@ -688,3 +683,5 @@ If no medicine is visible, return {"error": "NO_MEDICINE"}.`,
     </AnimatePresence>
   );
 }
+
+export default React.memo(MedicineScanner);

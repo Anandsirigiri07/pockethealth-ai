@@ -1,0 +1,552 @@
+export type Language = 'English' | 'Hindi' | 'Kannada' | 'Telugu';
+
+export const translations = {
+  English: {
+    appName: "PocketHealth AI",
+    alwaysConnected: "Always Connected",
+    howCanIHelp: "How can I help you today?",
+    appSubtitle: "Your empathetic, medical-grade assistant for quick health insights and emergency navigation.",
+    aiPowered: "AI POWERED",
+    askPlaceholder: "Ask anything about your health...",
+    dailyWisdom: "Daily Health Wisdom",
+    backHome: "Back to home",
+    logout: "Log out",
+    resetChat: "Reset Chat",
+    medicalDisclaimer: "Medical awareness info only. Always consult a professional.",
+    nearbyCare: "Nearby Care",
+    emergencySos: "Emergency SOS",
+    medicineCabinet: "Medicine Cabinet",
+    
+    // Modes
+    secondOpinion: "Second Opinion",
+    labTranslator: "Lab Translator",
+    riskNarrator: "Risk Narrator",
+    medicationCheck: "Medication Check",
+    hospitalGuide: "Hospital Guide",
+    medicineScanner: "Medicine Scanner",
+    medicineCabinetMode: "Medicine Cabinet",
+    emergencyMap: "Emergency & Map",
+    symptomAnalyser: "Symptom Analyser",
+    
+    // Scanner/Translator
+    expiryChecker: "Expiry Checker",
+    aiVisionScan: "AI Vision Scan",
+    liveCameraScan: "Live Camera Scan",
+    realTimeDetection: "Use your camera for real-time detection",
+    orUpload: "or upload",
+    chooseFromDevice: "Choose from Device",
+    centerExpiryBox: "Center the expiry date label in the box",
+    analyzeImage: "Analyze This Image",
+    analyzingPack: "AI is Reading the Pack...",
+    analyzingLabels: "Analyzing Expiry Labels",
+    analysisFailed: "Analysis Failed",
+    goBack: "Go Back",
+    close: "Close",
+    saveToInventory: "Save to Inventory",
+    savedToCabinet: "Saved to Cabinet",
+    
+    // Lab Translator
+    reportAnalysis: "Report Analysis",
+    takePhotoReport: "Take Photo of Report",
+    positionReport: "Position your lab report within the camera frame",
+    uploadReportImage: "Upload Report Image",
+    analyzingReport: "Analyzing Report...",
+    extractingData: "Extracting medical data",
+    analyzeAnother: "Analyze Another Report",
+    
+    // Inventory
+    noMedicines: "No medicines found",
+    searchMedicines: "Search medicines...",
+    all: "All",
+    warning: "Warning",
+    disclaimer: "Medications are tracked based on your scans. Always check physical packaging before use.",
+    expiringSoon: "Expiring Soon",
+    expired: "Expired",
+    safeToUse: "Safe to Use",
+    estimated: "Estimated",
+    daysLeft: "Days Left",
+    mfgDate: "Mfg Date",
+    expDate: "Exp Date",
+    indications: "Indications",
+    aiVerification: "AI Verification",
+    
+    // Emergency
+    callAmbulance: "Call Ambulance",
+    nearbyHospitals: "Nearby Hospitals",
+    findingHospitals: "Finding nearby hospitals...",
+    noHospitalsFound: "No hospitals found nearby",
+    call: "Call",
+    map: "Map",
+    startLiveShare: "Start Live Location Share",
+    sharingLive: "Sharing Live",
+    stopShare: "STOP SHARE",
+    secureLink: "Secure Link • Self-Destructs in 1 hr",
+    nearbyFacilities: "Nearby Facilities",
+    calibratingLocation: "Calibrating Location...",
+    satellitePrecision: "Satellite Precision",
+    yourLocation: "Your Location",
+    getDirections: "Get Directions",
+    hospital: "Hospital",
+    pharmacy: "Pharmacy",
+    beforeYouLeave: "Before you leave...",
+    emergencyChecklist: "Ensure you have your identification (Aadhaar), previous medical records, and current medications. If you're alone, inform a family member of your destination.",
+    update: "Update",
+    scanning: "Scanning...",
+    locationRequired: "Location required",
+    
+    // Login
+    welcomeBack: "Welcome Back",
+    signInWithGoogle: "Sign in with Google",
+    secureHealthcare: "Secure & Private Healthcare Assistant",
+    betterInsights: "Better insights, faster care. Your intelligent companion for medical guidance and emergency assistance.",
+    encrypted: "End-to-End Encrypted",
+    trustedBy: "Trusted by individuals seeking reliable health information. Not a substitute for professional medical help.",
+    connecting: "Connecting...",
+    
+    // Disclaimer
+    importantDisclaimer: "Important Medical Disclaimer",
+    importantSafety: "Important Safety Information",
+    readCarefully: "Please read this disclaimer carefully before using PocketHealth AI.",
+    notADoctor: "PocketHealth AI is an artificial intelligence-powered informational tool. It is NOT a doctor, and it does not provide medical diagnoses, treatment advice, or prescriptions.",
+    disclaimerPoint1: "Information provided is for educational and awareness purposes only.",
+    disclaimerPoint2: "Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+    disclaimerPoint3: "Never disregard professional medical advice or delay in seeking it because of something you have read on this application.",
+    disclaimerPoint4: "In case of a medical emergency, call your local emergency services (e.g., 102/108 in India) or visit the nearest hospital immediately.",
+    disclaimerPoint5: "AI interpretations of lab results or symptoms may be inaccurate or incomplete.",
+    disclaimerAcknowledge: "By clicking \"I Understand & Accept\", you acknowledge that you have read, understood, and agree to these terms, and that you will use this tool responsibly as a supplement to, not a replacement for, professional medical care.",
+    acceptAndContinue: "I Understand & Accept",
+    readToBottom: "Please read to the bottom",
+    consentStored: "Your health is priority. This consent is stored locally on your device.",
+    
+    healthTips: [
+      { title: "Stay Hydrated", text: "Aim for 8 glasses of water daily to maintain cognitive function and skin health.", icon: "💧", color: "text-blue-500" },
+      { title: "Digital Detox", text: "Power down all screens at least 30 minutes before sleep for better melatonin production.", icon: "🌙", color: "text-indigo-500" },
+      { title: "Mindful Minutes", text: "Take 5 minutes today for deep breathing to lower cortisol and reduce stress levels.", icon: "🧘", color: "text-emerald-500" },
+      { title: "Posture Check", text: "Ensure your screen is at eye level and keep your feet flat on the floor while working.", icon: "📐", color: "text-amber-500" },
+      { title: "Vitamin D Boost", text: "Spend 10 minutes in natural sunlight today to support bone health and immune system.", icon: "☀️", color: "text-orange-500" },
+      { title: "Protein Power", text: "Include a protein source in every meal to help stabilize blood sugar and maintain muscle.", icon: "🍳", color: "text-red-500" },
+      { title: "Steps Matter", text: "Try to take a 10-minute walk after lunch to improve digestion and metabolism.", icon: "🚶", color: "text-teal-500" }
+    ],
+    
+    openingGreeting: `Hi! I'm PocketHealth AI — your personal health companion. 👋
+
+I can help you with:
+🩺 Understanding what your doctor told you
+🧪 Translating your lab report into plain language
+⏳ Understanding your future health risks
+💊 Checking if your medications interact
+🏥 Navigating a hospital visit
+📓 Finding patterns in your symptoms`
+  },
+  Hindi: {
+    appName: "पॉकेटहेल्थ AI",
+    alwaysConnected: "हमेशा कनेक्टेड",
+    howCanIHelp: "आज मैं आपकी कैसे मदद कर सकता हूँ?",
+    appSubtitle: "त्वरित स्वास्थ्य अंतर्दृष्टि और आपातकालीन नेविगेशन के लिए आपका सहानुभूतिपूर्ण, चिकित्सा-ग्रेड सहायक।",
+    aiPowered: "AI संचालित",
+    askPlaceholder: "अपने स्वास्थ्य के बारे में कुछ भी पूछें...",
+    dailyWisdom: "दैनिक स्वास्थ्य ज्ञान",
+    backHome: "घर वापस",
+    logout: "लॉग आउट",
+    resetChat: "चैट रीसेट करें",
+    medicalDisclaimer: "केवल चिकित्सा जागरूकता जानकारी। हमेशा किसी पेशेवर से सलाह लें।",
+    nearbyCare: "पास की देखभाल",
+    emergencySos: "आपातकालीन SOS",
+    medicineCabinet: "दवा कैबिनेट",
+    
+    // Modes
+    secondOpinion: "दूसरी राय",
+    labTranslator: "लैब अनुवादक",
+    riskNarrator: "जोखिम वर्णनकर्ता",
+    medicationCheck: "दवा की जाँच",
+    hospitalGuide: "अस्पताल गाइड",
+    medicineScanner: "दवा स्कैनर",
+    medicineCabinetMode: "दवा कैबिनेट",
+    emergencyMap: "आपातकाल और मानचित्र",
+    symptomAnalyser: "लक्षण विश्लेषक",
+    
+    // Scanner/Translator
+    expiryChecker: "समाप्ति जांचकर्ता",
+    aiVisionScan: "AI विजन स्कैन",
+    liveCameraScan: "लाइव कैमरा स्कैन",
+    realTimeDetection: "वास्तविक समय का पता लगाने के लिए अपने कैमरे का उपयोग करें",
+    orUpload: "या अपलोड करें",
+    chooseFromDevice: "डिवाइस से चुनें",
+    centerExpiryBox: "बॉक्स में समाप्ति तिथि लेबल को केंद्र में रखें",
+    analyzeImage: "इस छवि का विश्लेषण करें",
+    analyzingPack: "AI पैक पढ़ रहा है...",
+    analyzingLabels: "समाप्ति लेबल का विश्लेषण",
+    analysisFailed: "विश्लेषण विफल रहा",
+    goBack: "वापस जाएं",
+    close: "बंद करें",
+    saveToInventory: "इन्वेंट्री में सहेजें",
+    savedToCabinet: "कैबिनेट में सहेजा गया",
+    
+    // Lab Translator
+    reportAnalysis: "रिपोर्ट विश्लेषण",
+    takePhotoReport: "रिपोर्ट की फोटो लें",
+    positionReport: "अपनी लैब रिपोर्ट को कैमरा फ्रेम के भीतर रखें",
+    uploadReportImage: "रिपोर्ट छवि अपलोड करें",
+    analyzingReport: "रिपोर्ट का विश्लेषण कर रहा है...",
+    extractingData: "चिकित्सा डेटा निकालना",
+    analyzeAnother: "एक और रिपोर्ट का विश्लेषण करें",
+    
+    // Inventory
+    noMedicines: "कोई दवा नहीं मिली",
+    searchMedicines: "दवाएं खोजें...",
+    all: "सभी",
+    warning: "चेतावनी",
+    disclaimer: "दवाओं को आपके स्कैन के आधार पर ट्रैक किया जाता है। उपयोग करने से पहले हमेशा भौतिक पैकेजिंग की जांच करें।",
+    expiringSoon: "जल्द समाप्त होने वाली",
+    expired: "समाप्त",
+    safeToUse: "उपयोग के लिए सुरक्षित",
+    estimated: "अनुमानित",
+    daysLeft: "दिन शेष",
+    mfgDate: "निर्माण तिथि",
+    expDate: "समाप्ति तिथि",
+    indications: "संकेत",
+    aiVerification: "AI सत्यापन",
+    
+    // Emergency
+    callAmbulance: "एम्बुलेंस बुलाओ",
+    nearbyHospitals: "पास के अस्पताल",
+    findingHospitals: "पास के अस्पतालों की तलाश...",
+    noHospitalsFound: "पास में कोई अस्पताल नहीं मिला",
+    call: "कॉल करें",
+    map: "मानचित्र",
+    startLiveShare: "लाइव लोकेशन शेयर शुरू करें",
+    sharingLive: "लाइव शेयरिंग",
+    stopShare: "शेयर बंद करें",
+    secureLink: "सुरक्षित लिंक • 1 घंटे में स्व-नष्ट",
+    nearbyFacilities: "पास की सुविधाएं",
+    calibratingLocation: "स्थान को कैलिब्रेट कर रहा है...",
+    satellitePrecision: "सैटेलाइट परिशुद्धता",
+    yourLocation: "आपका स्थान",
+    getDirections: "दिशानिर्देश प्राप्त करें",
+    hospital: "अस्पताल",
+    pharmacy: "फार्मेसी",
+    beforeYouLeave: "निकलने से पहले...",
+    emergencyChecklist: "सुनिश्चित करें कि आपके पास अपनी पहचान (आधार), पिछले चिकित्सा रिकॉर्ड और वर्तमान दवाएं हैं। यदि आप अकेले हैं, तो परिवार के किसी सदस्य को अपनी मंजिल की सूचना दें।",
+    update: "अपडेट करें",
+    scanning: "स्कैनिंग...",
+    locationRequired: "स्थान आवश्यक है",
+    
+    // Login
+    welcomeBack: "वापस स्वागत है",
+    signInWithGoogle: "गूगल के साथ साइन इन करें",
+    secureHealthcare: "सुरक्षित और निजी स्वास्थ्य सेवा सहायक",
+    betterInsights: "बेहतर अंतर्दृष्टि, तेज़ देखभाल। चिकित्सा मार्गदर्शन और आपातकालीन सहायता के लिए आपका बुद्धिमान साथी।",
+    encrypted: "एंड-टू-एंड एन्क्रिप्टेड",
+    trustedBy: "विश्वसनीय स्वास्थ्य जानकारी चाहने वाले व्यक्तियों द्वारा भरोसा किया गया। पेशेवर चिकित्सा सहायता का विकल्प नहीं।",
+    connecting: "जुड़ रहा है...",
+    
+    // Disclaimer
+    importantDisclaimer: "महत्वपूर्ण चिकित्सा अस्वीकरण",
+    importantSafety: "महत्वपूर्ण सुरक्षा जानकारी",
+    readCarefully: "पॉकेटहेल्थ AI का उपयोग करने से पहले कृपया इस अस्वीकरण को ध्यान से पढ़ें।",
+    notADoctor: "पॉकेटहेल्थ AI एक कृत्रिम बुद्धिमत्ता-आधारित सूचनात्मक उपकरण है। यह डॉक्टर नहीं है, और यह चिकित्सा निदान, उपचार सलाह या नुस्खे प्रदान नहीं करता है।",
+    disclaimerPoint1: "प्रदान की गई जानकारी केवल शैक्षिक और जागरूकता उद्देश्यों के लिए है।",
+    disclaimerPoint2: "किसी चिकित्सा स्थिति के संबंध में आपके किसी भी प्रश्न के लिए हमेशा अपने चिकित्सक या अन्य योग्य स्वास्थ्य प्रदाता की सलाह लें।",
+    disclaimerPoint3: "इस एप्लिकेशन पर पढ़ी गई किसी बात के कारण कभी भी पेशेवर चिकित्सा सलाह की उपेक्षा न करें या इसे लेने में देरी न करें।",
+    disclaimerPoint4: "चिकित्सा आपात स्थिति के मामले में, अपनी स्थानीय आपातकालीन सेवाओं (जैसे भारत में 102/108) को कॉल करें या तुरंत निकटतम अस्पताल जाएं।",
+    disclaimerPoint5: "लैब परिणामों या लक्षणों की AI व्याख्याएं गलत या अधूरी हो सकती हैं।",
+    disclaimerAcknowledge: "\"मैं समझता हूं और स्वीकार करता हूं\" पर क्लिक करके, आप स्वीकार करते हैं कि आपने इन शर्तों को पढ़ लिया है, समझ लिया है और उनसे सहमत हैं, और आप इस उपकरण का उपयोग पेशेवर चिकित्सा देखभाल के पूरक के रूप में करेंगे, विकल्प के रूप में नहीं।",
+    acceptAndContinue: "मैं समझता हूँ और स्वीकार करता हूँ",
+    readToBottom: "कृपया नीचे तक पढ़ें",
+    consentStored: "आपका स्वास्थ्य प्राथमिकता है। यह सहमति आपके डिवाइस पर स्थानीय रूप से संग्रहीत की जाती है।",
+    
+    healthTips: [
+      { title: "हाइड्रेटेड रहें", text: "संज्ञानात्मक कार्य और त्वचा के स्वास्थ्य को बनाए रखने के लिए रोजाना 8 गिलास पानी पीने का लक्ष्य रखें।", icon: "💧", color: "text-blue-500" },
+      { title: "डिजिटल डिटॉक्स", text: "बेहतर मेलाटोनिन उत्पादन के लिए सोने से कम से कम 30 मिनट पहले सभी स्क्रीन बंद कर दें।", icon: "🌙", color: "text-indigo-500" },
+      { title: "माइंडफुल मिनट", text: "कोर्टिसोल को कम करने और तनाव के स्तर को कम करने के लिए आज 5 मिनट गहरी सांस लेने के लिए निकालें।", icon: "🧘", color: "text-emerald-500" },
+      { title: "पोस्चर चेक", text: "सुनिश्चित करें कि आपकी स्क्रीन आंखों के स्तर पर है और काम करते समय अपने पैरों को फर्श पर सपाट रखें।", icon: "📐", color: "text-amber-500" },
+      { title: "विटामिन डी बूस्ट", text: "हड्डियों के स्वास्थ्य और प्रतिरक्षा प्रणाली का समर्थन करने के लिए आज 10 मिनट प्राकृतिक धूप में बिताएं।", icon: "☀️", color: "text-orange-500" },
+      { title: "प्रोटीन पावर", text: "रक्त शर्करा को स्थिर करने और मांसपेशियों को बनाए रखने में मदद करने के लिए हर भोजन में प्रोटीन स्रोत शामिल करें।", icon: "🍳", color: "text-red-500" },
+      { title: "कदम मायने रखते हैं", text: "पाचन और चयापचय में सुधार के लिए दोपहर के भोजन के बाद 10 मिनट की सैर करने का प्रयास करें।", icon: "🚶", color: "text-teal-500" }
+    ],
+    
+    openingGreeting: `नमस्ते! मैं पॉकेटहेल्थ AI हूँ — आपका व्यक्तिगत स्वास्थ्य साथी। 👋
+
+मैं आपकी इसमें मदद कर सकता हूँ:
+🩺 आपके डॉक्टर ने आपको जो बताया उसे समझना
+🧪 आपकी लैब रिपोर्ट का सरल भाषा में अनुवाद करना
+⏳ आपके भविष्य के स्वास्थ्य जोखिमों को समझना
+💊 यह जांचना कि आपकी दवाएं आपस में क्रिया तो नहीं करतीं
+🏥 अस्पताल की यात्रा में मार्गदर्शन करना
+📓 आपके लक्षणों में पैटर्न ढूँढना`
+  },
+  Kannada: {
+    appName: "ಪಾಕೆಟ್ ಹೆಲ್ತ್ AI",
+    alwaysConnected: "ಯಾವಾಗಲೂ ಸಂಪರ್ಕದಲ್ಲಿದೆ",
+    howCanIHelp: "ಇಂದು ನಾನು ನಿಮಗೆ ಹೇಗೆ ಸಹಾಯ ಮಾಡಲಿ?",
+    appSubtitle: "ತ್ವರಿತ ಆರೋಗ್ಯ ಒಳನೋಟಗಳು ಮತ್ತು ತುರ್ತು ಸಂಚರಣೆಗಾಗಿ ನಿಮ್ಮ ವೈದ್ಯಕೀಯ ದರ್ಜೆಯ ಸಹಾಯಕ.",
+    aiPowered: "AI ಚಾಲಿತ",
+    askPlaceholder: "ನಿಮ್ಮ ಆರೋಗ್ಯದ ಬಗ್ಗೆ ಏನನ್ನಾದರೂ ಕೇಳಿ...",
+    dailyWisdom: "ದೈನಂದಿನ ಆರೋಗ್ಯ ಜ್ಞಾನ",
+    backHome: "ಮನೆಗೆ ಮರಳಿ",
+    logout: "ಲಾಗ್ ಔಟ್",
+    resetChat: "ಚಾಟ್ ಮರುಹೊಂದಿಸಿ",
+    medicalDisclaimer: "ವೈದ್ಯಕೀಯ ಜಾಗೃತಿ ಮಾಹಿತಿ ಮಾತ್ರ. ಯಾವಾಗಲೂ ತಜ್ಞರನ್ನು ಸಂಪರ್ಕಿಸಿ.",
+    nearbyCare: "ಹತ್ತಿರದ ಆರೈಕೆ",
+    emergencySos: "ತುರ್ತು SOS",
+    medicineCabinet: "ಔಷಧಿ ಕ್ಯಾಬಿನೆಟ್",
+    
+    // Modes
+    secondOpinion: "ಎರಡನೇ ಅಭಿಪ್ರಾಯ",
+    labTranslator: "ಲ್ಯಾಬ್ ಅನುವಾದಕ",
+    riskNarrator: "ಅಪಾಯ ನಿರೂಪಕ",
+    medicationCheck: "ಔಷಧಿ ತಪಾಸಣೆ",
+    hospitalGuide: "ಆಸ್ಪತ್ರೆ ಮಾರ್ಗದರ್ಶಿ",
+    medicineScanner: "ಔಷಧಿ ಸ್ಕ್ಯಾನರ್",
+    medicineCabinetMode: "ಔಷಧಿ ಕ್ಯಾಬಿನೆಟ್",
+    emergencyMap: "ತುರ್ತು ಮತ್ತು ನಕ್ಷೆ",
+    symptomAnalyser: "ರೋಗಲಕ್ಷಣ ವಿಶ್ಲೇಷಕ",
+    
+    // Scanner/Translator
+    expiryChecker: "ಅವಧಿ ಮುಕ್ತಾಯ ಪರೀಕ್ಷಕ",
+    aiVisionScan: "AI ವಿಷನ್ ಸ್ಕ್ಯಾನ್",
+    liveCameraScan: "ಲೈವ್ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್",
+    realTimeDetection: "ನೈಜ-ಸಮಯದ ಪತ್ತೆಗಾಗಿ ನಿಮ್ಮ ಕ್ಯಾಮೆರಾವನ್ನು ಬಳಸಿ",
+    orUpload: "ಅಥವಾ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ",
+    chooseFromDevice: "ಸಾಧನದಿಂದ ಆರಿಸಿ",
+    centerExpiryBox: "ಬಾಕ್ಸ್‌ನಲ್ಲಿ ಅವಧಿ ಮುಕ್ತಾಯ ದಿನಾಂಕ ಲೇಬಲ್ ಅನ್ನು ಮಧ್ಯದಲ್ಲಿರಿಸಿ",
+    analyzeImage: "ಈ ಚಿತ್ರವನ್ನು ವಿಲೇಷಿಸಿ",
+    analyzingPack: "AI ಪ್ಯಾಕ್ ಅನ್ನು ಓದುತ್ತಿದೆ...",
+    analyzingLabels: "ಅವಧಿ ಮುಕ್ತಾಯ ಲೇಬಲ್‌ಗಳ ವಿಲೇಷಣೆ",
+    analysisFailed: "ವಿಲೇಷಣೆ ವಿಫಲವಾಗಿದೆ",
+    goBack: "ಹಿಂದಕ್ಕೆ ಹೋಗಿ",
+    close: "ಮುಚ್ಚಿ",
+    saveToInventory: "ದಾಸ್ತಾನುಗಳಿಗೆ ಉಳಿಸಿ",
+    savedToCabinet: "ಕ್ಯಾಬಿನೆಟ್‌ಗೆ ಉಳಿಸಲಾಗಿದೆ",
+    
+    // Lab Translator
+    reportAnalysis: "ವರದಿ ವಿಲೇಷಣೆ",
+    takePhotoReport: "ವರದಿಯ ಫೋಟೋ ತೆಗೆಯಿರಿ",
+    positionReport: "ನಿಮ್ಮ ಲ್ಯಾಬ್ ವರದಿಯನ್ನು ಕ್ಯಾಮೆರಾ ಫ್ರೇಮ್‌ನಲ್ಲಿರಿಸಿ",
+    uploadReportImage: "ವರದಿ ಚಿತ್ರವನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ",
+    analyzingReport: "ವರದಿಯನ್ನು ವಿಲೇಷಿಸಲಾಗುತ್ತಿದೆ...",
+    extractingData: "ವೈದ್ಯಕೀಯ ಡೇಟಾವನ್ನು ಹೊರತೆಗೆಯಲಾಗುತ್ತಿದೆ",
+    analyzeAnother: "ಮತ್ತೊಂದು ವರದಿಯನ್ನು ವಿಲೇಷಿಸಿ",
+    
+    // Inventory
+    noMedicines: "ಯಾವುದೇ ಔಷಧಿಗಳು ಕಂಡುಬಂದಿಲ್ಲ",
+    searchMedicines: "ಔಷಧಿಗಳನ್ನು ಹುಡುಕಿ...",
+    all: "ಎಲ್ಲಾ",
+    warning: "ಎಚ್ಚರಿಕೆ",
+    disclaimer: "ನಿಮ್ಮ ಸ್ಕ್ಯಾನ್ಗಳ ಆಧಾರದ ಮೇಲೆ ಔಷಧಿಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಲಾಗುತ್ತದೆ. ಬಳಕೆಗೆ ಮೊದಲು ಯಾವಾಗಲೂ ಭೌತಿಕ ಪ್ಯಾಕೇಜಿಂಗ್ ಅನ್ನು ಪರಿಶೀಲಿಸಿ.",
+    expiringSoon: "ಶೀಘ್ರದಲ್ಲೇ ಅವಧಿ ಮುಗಿಯಲಿದೆ",
+    expired: "ಅವಧಿ ಮುಗಿದಿದೆ",
+    safeToUse: "ಬಳಸಲು ಸುರಕ್ಷಿತ",
+    estimated: "ಅಂದಾಜು",
+    daysLeft: "ದಿನಗಳು ಬಾಕಿ ಇವೆ",
+    mfgDate: "ತಯಾರಿಸಿದ ದಿನಾಂಕ",
+    expDate: "ಅವಧಿ ಮುಕ್ತಾಯ ದಿನಾಂಕ",
+    indications: "ಸೂಚನೆಗಳು",
+    aiVerification: "AI ಪರಿಶೀಲನೆ",
+    
+    // Emergency
+    callAmbulance: "ಆಂಬ್ಯುಲೆನ್ಸ್ ಕರೆ ಮಾಡಿ",
+    nearbyHospitals: "ಹತ್ತಿರದ ಆಸ್ಪತ್ರೆಗಳು",
+    findingHospitals: "ಹತ್ತಿರದ ಆಸ್ಪತ್ರೆಗಳನ್ನು ಹುಡುಕಲಾಗುತ್ತಿದೆ...",
+    noHospitalsFound: "ಹತ್ತಿರದಲ್ಲಿ ಯಾವುದೇ ಆಸ್ಪತ್ರೆಗಳು ಕಂಡುಬಂದಿಲ್ಲ",
+    call: "ಕರೆ ಮಾಡಿ",
+    map: "ನಕ್ಷೆ",
+    startLiveShare: "ಲೈವ್ ಸ್ಥಳ ಹಂಚಿಕೆಯನ್ನು ಪ್ರಾರಂಭಿಸಿ",
+    sharingLive: "ಲೈವ್ ಹಂಚಿಕೆ",
+    stopShare: "ಹಂಚಿಕೆಯನ್ನು ನಿಲ್ಲಿಸಿ",
+    secureLink: "ಸುರಕ್ಷಿತ ಲಿಂಕ್ • 1 ಗಂಟೆಯಲ್ಲಿ ಸ್ವಯಂ-ನಾಶವಾಗುತ್ತದೆ",
+    nearbyFacilities: "ಹತ್ತಿರದ ಸೌಲಭ್ಯಗಳು",
+    calibratingLocation: "ಸ್ಥಳವನ್ನು ಮಾಪನಾಂಕ ಮಾಡಲಾಗುತ್ತಿದೆ...",
+    satellitePrecision: "ಉಪಗ್ರಹ ನಿಖರತೆ",
+    yourLocation: "ನಿಮ್ಮ ಸ್ಥಳ",
+    getDirections: "ಮಾರ್ಗಸೂಚಿಗಳನ್ನು ಪಡೆಯಿರಿ",
+    hospital: "ಆಸ್ಪತ್ರೆ",
+    pharmacy: "ಫಾರ್ಮಸಿ",
+    beforeYouLeave: "ಹೊರಡುವ ಮೊದಲು...",
+    emergencyChecklist: "ನಿಮ್ಮ ಗುರುತಿನ ಚೀಟಿ (ಆಧಾರ್), ಹಿಂದಿನ ವೈದ್ಯಕೀಯ ದಾಖಲೆಗಳು ಮತ್ತು ಪ್ರಸ್ತುತ ಔಷಧಿಗಳನ್ನು ನಿಮ್ಮ ಬಳಿ ಇರುವುದನ್ನು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ. ನೀವು ಒಬ್ಬಂಟಿಯಾಗಿದ್ದರೆ, ನಿಮ್ಮ ಗಮ್ಯಸ್ಥಾನದ ಬಗ್ಗೆ ಕುಟುಂಬದ ಸದಸ್ಯರಿಗೆ ತಿಳಿಸಿ.",
+    update: "ನವೀಕರಿಸಿ",
+    scanning: "ಸ್ಕ್ಯಾನ್ ಮಾಡಲಾಗುತ್ತಿದೆ...",
+    locationRequired: "ಸ್ಥಳದ ಅಗತ್ಯವಿದೆ",
+    
+    // Login
+    welcomeBack: "ಮತ್ತೆ ಸುಸ್ವಾಗತ",
+    signInWithGoogle: "ಗೂಗಲ್ ಮೂಲಕ ಸೈನ್ ಇನ್ ಮಾಡಿ",
+    secureHealthcare: "ಸುರಕ್ಷಿತ ಮತ್ತು ಖಾಸಗಿ ಆರೋಗ್ಯ ಸಹಾಯಕ",
+    betterInsights: "ಉತ್ತಮ ಒಳನೋಟಗಳು, ವೇಗದ ಆರೈಕೆ. ವೈದ್ಯಕೀಯ ಮಾರ್ಗದರ್ಶನ ಮತ್ತು ತುರ್ತು ಸಹಾಯಕ್ಕಾಗಿ ನಿಮ್ಮ ಬುದ್ಧಿವಂತ ಸಂಗಾತಿ.",
+    encrypted: "ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗಿದೆ",
+    trustedBy: "ವಿಶ್ವಾಸಾರ್ಹ ಆರೋಗ್ಯ ಮಾಹಿತಿಯನ್ನು ಬಯಸುವ ವ್ಯಕ್ತಿಗಳಿಂದ ನಂಬಲ್ಪಟ್ಟಿದೆ. ವೃತ್ತಿಪರ ವೈದ್ಯಕೀಯ ಸಹಾಯಕ್ಕೆ ಪರ್ಯಾಯವಲ್ಲ.",
+    connecting: "ಸಂಪರ್ಕಿಸಲಾಗುತ್ತಿದೆ...",
+    
+    // Disclaimer
+    importantDisclaimer: "ಪ್ರಮುಖ ವೈದ್ಯಕೀಯ ಹಕ್ಕು ನಿರಾಕರಣೆ",
+    importantSafety: "ಪ್ರಮುಖ ಸುರಕ್ಷತಾ ಮಾಹಿತಿ",
+    readCarefully: "ಪಾಕೆಟ್ ಹೆಲ್ತ್ AI ಬಳಸುವ ಮೊದಲು ದಯವಿಟ್ಟು ಈ ಹಕ್ಕು ನಿರಾಕರಣೆಯನ್ನು ಎಚ್ಚರಿಕೆಯಿಂದ ಓದಿ.",
+    notADoctor: "ಪಾಕೆಟ್ ಹೆಲ್ತ್ AI ಕೃತಕ ಬುದ್ಧಿಮತ್ತೆ ಆಧಾರಿತ ಮಾಹಿತಿ ಸಾಧನವಾಗಿದೆ. ಇದು ವೈದ್ಯರಲ್ಲ, ಮತ್ತು ಇದು ವೈದ್ಯಕೀಯ ರೋಗನಿರ್ಣಯ, ಚಿಕಿತ್ಸೆ ಸಲಹೆ ಅಥವಾ ಪ್ರಿಸ್ಕ್ರಿಪ್ಷನ್ಗಳನ್ನು ನೀಡುವುದಿಲ್ಲ.",
+    disclaimerPoint1: "ಒದಗಿಸಿದ ಮಾಹಿತಿಯು ಕೇವಲ ಶೈಕ್ಷಣಿಕ ಮತ್ತು ಜಾಗೃತಿ ಉದ್ದೇಶಗಳಿಗಾಗಿ ಮಾತ್ರ.",
+    disclaimerPoint2: "ವೈದ್ಯಕೀಯ ಸ್ಥಿತಿಗೆ ಸಂಬಂಧಿಸಿದಂತೆ ನೀವು ಹೊಂದಿರುವ ಯಾವುದೇ ಪ್ರಶ್ನೆಗಳಿಗೆ ಯಾವಾಗಲೂ ನಿಮ್ಮ ವೈದ್ಯರ ಅಥವಾ ಇತರ ಅರ್ಹ ಆರೋಗ್ಯ ಪೂರೈಕೆದಾರರ ಸಲಹೆಯನ್ನು ಪಡೆಯಿರಿ.",
+    disclaimerPoint3: "ಈ ಅಪ್ಲಿಕೇಶನ್‌ನಲ್ಲಿ ನೀವು ಓದಿದ ಕಾರಣಕ್ಕಾಗಿ ವೃತ್ತಿಪರ ವೈದ್ಯಕೀಯ ಸಲಹೆಯನ್ನು ಎಂದಿಗೂ ನಿರ್ಲಕ್ಷಿಸಬೇಡಿ ಅಥವಾ ಅದನ್ನು ಪಡೆಯುವಲ್ಲಿ ವಿಳಂಬ ಮಾಡಬೇಡಿ.",
+    disclaimerPoint4: "ವೈದ್ಯಕೀಯ ತುರ್ತು ಸಂದರ್ಭದಲ್ಲಿ, ನಿಮ್ಮ ಸ್ಥಳೀಯ ತುರ್ತು ಸೇವೆಗಳಿಗೆ (ಉದಾಹರಣೆಗೆ ಭಾರತದಲ್ಲಿ 102/108) ಕರೆ ಮಾಡಿ ಅಥವಾ ತಕ್ಷಣ ಹತ್ತಿರದ ಆಸ್ಪತ್ರೆಗೆ ಭೇಟಿ ನೀಡಿ.",
+    disclaimerPoint5: "ಲ್ಯಾಬ್ ಫಲಿತಾಂಶಗಳು ಅಥವಾ ರೋಗಲಕ್ಷಣಗಳ AI ವ್ಯಾಖ್ಯಾನಗಳು ತಪ್ಪಾಗಿರಬಹುದು ಅಥವಾ ಅಪೂರ್ಣವಾಗಿರಬಹುದು.",
+    disclaimerAcknowledge: "\"ನನಗೆ ಅರ್ಥವಾಗಿದೆ ಮತ್ತು ಒಪ್ಪುತ್ತೇನೆ\" ಕ್ಲಿಕ್ ಮಾಡುವ ಮೂಲಕ, ನೀವು ಈ ನಿಯಮಗಳನ್ನು ಓದಿದ್ದೀರಿ, ಅರ್ಥಮಾಡಿಕೊಂಡಿದ್ದೀರಿ ಮತ್ತು ಒಪ್ಪುತ್ತೀರಿ ಎಂದು ನೀವು ಒಪ್ಪಿಕೊಳ್ಳುತ್ತೀರಿ ಮತ್ತು ವೃತ್ತಿಪರ ವೈದ್ಯಕೀಯ ಆರೈಕೆಗೆ ಬದಲಿಯಾಗಿ ಅಲ್ಲದೆ ಪೂರಕವಾಗಿ ಈ ಉಪಕರಣವನ್ನು ಜವಾಬ್ದಾರಿಯುತವಾಗಿ ಬಳಸುತ್ತೀರಿ.",
+    acceptAndContinue: "ನನಗೆ ಅರ್ಥವಾಗಿದೆ ಮತ್ತು ಒಪ್ಪುತ್ತೇನೆ",
+    readToBottom: "ದಯವಿಟ್ಟು ಕೊನೆಯವರೆಗೆ ಓದಿ",
+    consentStored: "ನಿಮ್ಮ ಆರೋಗ್ಯವೇ ಆದ್ಯತೆ. ಈ ಒಪ್ಪಿಗೆಯನ್ನು ನಿಮ್ಮ ಸಾಧನದಲ್ಲಿ ಸ್ಥಳೀಯವಾಗಿ ಸಂಗ್ರಹಿಸಲಾಗಿದೆ.",
+    
+    healthTips: [
+      { title: "ಹೈಡ್ರೀಕರಿಸಿದ ಸ್ಥಿತಿಯಲ್ಲಿರಿ", text: "ಅರಿವಿನ ಕಾರ್ಯ ಮತ್ತು ಚರ್ಮದ ಆರೋಗ್ಯವನ್ನು ಕಾಪಾಡಿಕೊಳ್ಳಲು ದಿನಕ್ಕೆ 8 ಲೋಟ ನೀರು ಕುಡಿಯುವ ಗುರಿಯನ್ನು ಹೊಂದಿರಿ.", icon: "💧", color: "text-blue-500" },
+      { title: "ಡಿಜಿಟಲ್ ಡಿಟಾಕ್ಸ್", text: "ಉತ್ತಮ ಮೆಲಟೋನಿನ್ ಉತ್ಪಾದನೆಗಾಗಿ ನಿದ್ರೆಗೆ ಕನಿಷ್ಠ 30 ನಿಮಿಷಗಳ ಮೊದಲು ಎಲ್ಲಾ ಸ್ಕ್ರೀನ್ಗಳನ್ನು ಆಫ್ ಮಾಡಿ.", icon: "🌙", color: "text-indigo-500" },
+      { title: "ಜಾಗೃತ ನಿಮಿಷಗಳು", text: "ಕಾರ್ಟಿಸೋಲ್ ಅನ್ನು ಕಡಿಮೆ ಮಾಡಲು ಮತ್ತು ಒತ್ತಡದ ಮಟ್ಟವನ್ನು ಕಡಿಮೆ ಮಾಡಲು ಇಂದು 5 ನಿಮಿಷಗಳ ಕಾಲ ಆಳವಾದ ಉಸಿರಾಟವನ್ನು ತೆಗೆದುಕೊಳ್ಳಿ.", icon: "🧘", color: "text-emerald-500" },
+      { title: "ಭಂಗಿ ಪರೀಕ್ಷೆ", text: "ನಿಮ್ಮ ಸ್ಕ್ರೀನ್ ಕಣ್ಣಿನ ಮಟ್ಟದಲ್ಲಿದೆ ಎಂದು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ ಮತ್ತು ಕೆಲಸ ಮಾಡುವಾಗ ನಿಮ್ಮ ಪಾದಗಳನ್ನು ನೆಲದ ಮೇಲೆ ಇರಿಸಿ.", icon: "📐", color: "text-amber-500" },
+      { title: "ವಿಟಮಿನ್ ಡಿ ಹೆಚ್ಚಳ", text: "ಮೂಳೆ ಆರೋಗ್ಯ ಮತ್ತು ಪ್ರತಿರಕ್ಷಣಾ ವ್ಯವಸ್ಥೆಯನ್ನು ಬೆಂಬಲಿಸಲು ಇಂದು 10 ನಿಮಿಷಗಳ ಕಾಲ ನೈಸರ್ಗಿಕ ಸೂರ್ಯನ ಬೆಳಕಿನಲ್ಲಿ ಕಳೆಯಿರಿ.", icon: "☀️", color: "text-orange-500" },
+      { title: "ಪ್ರೋಟೀನ್ ಶಕ್ತಿ", text: "ರಕ್ತದಲ್ಲಿನ ಸಕ್ಕರೆಯನ್ನು ಸ್ಥಿರಗೊಳಿಸಲು ಮತ್ತು ಸ್ನಾಯುಗಳನ್ನು ಕಾಪಾಡಿಕೊಳ್ಳಲು ಪ್ರತಿ ಊಟದಲ್ಲಿ ಪ್ರೋಟೀನ್ ಮೂಲವನ್ನು ಸೇರಿಸಿ.", icon: "🍳", color: "text-red-500" },
+      { title: "ಹೆಜ್ಜೆಗಳು ಮುಖ್ಯ", text: "ಜೀರ್ಣಕ್ರಿಯೆ ಮತ್ತು ಚಯಾಪಚಯವನ್ನು ಸುಧಾರಿಸಲು ಮಧ್ಯಾಹ್ನದ ಊಟದ ನಂತರ 10 ನಿಮಿಷಗಳ ನಡಿಗೆಗೆ ಪ್ರಯತ್ನಿಸಿ.", icon: "🚶", color: "text-teal-500" }
+    ],
+    
+    openingGreeting: `ನಮಸ್ಕಾರ! ನಾನು ಪಾಕೆಟ್ ಹೆಲ್ತ್ AI — ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಆರೋಗ್ಯ ಸಂಗಾತಿ. 👋
+
+ನಾನು ನಿಮಗೆ ಇವುಗಳಲ್ಲಿ ಸಹಾಯ ಮಾಡಬಲ್ಲೆ:
+🩺 ನಿಮ್ಮ ವೈದ್ಯರು ನಿಮಗೆ ಹೇಳಿದ್ದನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳುವುದು
+🧪 ನಿಮ್ಮ ಲ್ಯಾಬ್ ವರದಿಯನ್ನು ಸರಳ ಭಾಷೆಗೆ ಅನುವಾದಿಸುವುದು
+⏳ ನಿಮ್ಮ ಭವಿಷ್ಯದ ಆರೋಗ್ಯ ಅಪಾಯಗಳನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳುವುದು
+💊 ನಿಮ್ಮ ಔಷಧಿಗಳು ಪರಸ್ಪರ ಪ್ರತಿಕ್ರಿಯಿಸುತ್ತವೆಯೇ ಎಂದು ಪರಿಶೀಲಿಸುವುದು
+🏥 ಆಸ್ಪತ್ರೆ ಭೇಟಿಯಲ್ಲಿ ಮಾರ್ಗದರ್ಶನ ನೀಡುವುದು
+📓 ನಿಮ್ಮ ರೋಗಲಕ್ಷಣಗಳಲ್ಲಿ ಮಾದರಿಗಳನ್ನು ಕಂಡುಹಿಡಿಯುವುದು`
+  },
+  Telugu: {
+    appName: "పాకెట్ హెల్త్ AI",
+    alwaysConnected: "ఎల్లప్పుడూ కనెక్ట్ అయి ఉంది",
+    howCanIHelp: "ఈరోజు నేను మీకు ఎలా సహాయం చేయగలను?",
+    appSubtitle: "త్వరిత ఆరోగ్య అంతర్దృష్టులు మరియు అత్యవసర నావిగేషన్ కోసం మీ వైద్య స్థాయి సహాయకుడు.",
+    aiPowered: "AI ఆధారితం",
+    askPlaceholder: "మీ ఆరోగ్యం గురించి ఏదైనా అడగండి...",
+    dailyWisdom: "రోజువారీ ఆరోగ్య జ్ఞానం",
+    backHome: "హోమ్ కి తిరిగి వెళ్ళండి",
+    logout: "లాగ్ అవుట్",
+    resetChat: "చాట్‌ను రీసెట్ చేయండి",
+    medicalDisclaimer: "వైద్య అవగాహన సమాచారం మాత్రమే. ఎల్లప్పుడూ నిపుణుడిని సంప్రదించండి.",
+    nearbyCare: "దగ్గరి సంరక్షణ",
+    emergencySos: "అత్యవసర SOS",
+    medicineCabinet: "మెడిసిన్ క్యాబినెట్",
+    
+    // Modes
+    secondOpinion: "రెండవ అభిప్రాయం",
+    labTranslator: "ల్యాబ్ అనువాదకుడు",
+    riskNarrator: "ప్రమాద నిరూపకుడు",
+    medicationCheck: "ఔషధ తనిఖీ",
+    hospitalGuide: "ఆసుపత్రి గైడ్",
+    medicineScanner: "మెడిసిన్ స్కానర్",
+    medicineCabinetMode: "మెడిసిన్ క్యాబినెట్",
+    emergencyMap: "అత్యవసర పరిస్థితి & మ్యాప్",
+    symptomAnalyser: "లక్షణ విశ్లేషకుడు",
+    
+    // Scanner/Translator
+    expiryChecker: "గడువు ముగింపు తనిఖీదారు",
+    aiVisionScan: "AI విజన్ స్కాన్",
+    liveCameraScan: "లైవ్ కెమెరా స్కాన్",
+    realTimeDetection: "నిజ-సమయ గుర్తింపు కోసం మీ కెమెరాను ఉపయోగించండి",
+    orUpload: "లేదా అప్‌లోడ్ చేయండి",
+    chooseFromDevice: "పరికరం నుండి ఎంచుకోండి",
+    centerExpiryBox: "బాక్స్‌లో గడువు ముగింపు తేదీ లేబుల్‌ను మధ్యలో ఉంచండి",
+    analyzeImage: "ఈ చిత్రాన్ని విశ్లేషించండి",
+    analyzingPack: "AI ప్యాక్‌ని చదువుతోంది...",
+    analyzingLabels: "గడువు ముగింపు లేబుల్‌ల విశ్లేషణ",
+    analysisFailed: "విశ్లేషణ విఫలమైంది",
+    goBack: "వెనక్కి వెళ్ళండి",
+    close: "మూసివేయి",
+    saveToInventory: "ఇన్వెంటరీకి సేవ్ చేయండి",
+    savedToCabinet: "క్యాబినెట్‌కు సేవ్ చేయబడింది",
+    
+    // Lab Translator
+    reportAnalysis: "నివేదిక విశ్లేషణ",
+    takePhotoReport: "నివేదిక ఫోటో తీయండి",
+    positionReport: "మీ ల్యాబ్ నివేదికను కెమెరా ఫ్రేమ్‌లో ఉంచండి",
+    uploadReportImage: "నివేదిక చిత్రాన్ని అప్‌లోడ్ చేయండి",
+    analyzingReport: "నివేదికను విశ్లేషిస్తోంది...",
+    extractingData: "వైద్య డేటాను సంగ్రహిస్తోంది",
+    analyzeAnother: "మరో నివేదికను విశ్లేషించండి",
+    
+    // Inventory
+    noMedicines: "ఔషధాలేవీ కనుగొనబడలేదు",
+    searchMedicines: "మందుల కోసం వెతకండి...",
+    all: "అన్నీ",
+    warning: "హెచ్చరిక",
+    disclaimer: "మీ స్కాన్‌ల ఆధారంగా మందులు ట్రాక్ చేయబడతాయి. ఉపయోగించే ముందు ఎల్లప్పుడూ భౌతిక ప్యాకేజింగ్‌ను తనిఖీ చేయండి.",
+    expiringSoon: "త్వరలో గడువు ముగియనుంది",
+    expired: "గడువు ముగిసింది",
+    safeToUse: "వాడటానికి సురక్షితం",
+    estimated: "అంచనా",
+    daysLeft: "రోజులు మిగిలి ఉన్నాయి",
+    mfgDate: "తయారీ తేదీ",
+    expDate: "గడువు తేదీ",
+    indications: "సూచనలు",
+    aiVerification: "AI ధృవీకరణ",
+    
+    // Emergency
+    callAmbulance: "అంబులెన్స్‌కు కాల్ చేయండి",
+    nearbyHospitals: "దగ్గరి ఆసుపత్రులు",
+    findingHospitals: "దగ్గరి ఆసుపత్రులను వెతుకుతోంది...",
+    noHospitalsFound: "దగ్గరలో ఆసుపత్రులేవీ కనుగొనబడలేదు",
+    call: "కాల్ చేయండి",
+    map: "మ్యాప్",
+    startLiveShare: "లైవ్ లొకేషన్ షేర్‌ను ప్రారంభించండి",
+    sharingLive: "లైవ్ షేరింగ్",
+    stopShare: "షేర్‌ను ఆపివేయండి",
+    secureLink: "సురక్షితమైన లింక్ • 1 గంటలో స్వయంచాలకంగా తొలగించబడుతుంది",
+    nearbyFacilities: "దగ్గరి సౌకర్యాలు",
+    calibratingLocation: "లొకేషన్‌ను కాలిబ్రేట్ చేస్తోంది...",
+    satellitePrecision: "శాటిలైట్ ఖచ్చితత్వం",
+    yourLocation: "మీ స్థానం",
+    getDirections: "దిశలను పొందండి",
+    hospital: "ఆసుపత్రి",
+    pharmacy: "ఫార్మసీ",
+    beforeYouLeave: "మీరు వెళ్లే ముందు...",
+    emergencyChecklist: "మీ గుర్తింపు కార్డు (ఆధార్), గత వైద్య రికార్డులు మరియు ప్రస్తుత మందులు మీ వద్ద ఉన్నాయని నిర్ధారించుకోండి. మీరు ఒంటరిగా ఉంటే, మీ గమ్యం గురించి కుటుంబ సభ్యులకు తెలియజేయండి.",
+    update: "అప్‌డేట్",
+    scanning: "స్కాన్ చేస్తోంది...",
+    locationRequired: "లొకేషన్ అవసరం",
+    
+    // Login
+    welcomeBack: "మళ్ళీ స్వాగతం",
+    signInWithGoogle: "గూగుల్‌తో సైన్ ఇన్ చేయండి",
+    secureHealthcare: "సురక్షితమైన మరియు ప్రైవేట్ ఆరోగ్య సంరక్షణ సహాయకుడు",
+    betterInsights: "మెరుగైన అంతర్దృష్టులు, వేగవంతమైన సంరక్షణ. వైద్య మార్గదర్శకత్వం మరియు అత్యవసర సహాయం కోసం మీ తెలివైన సహచరుడు.",
+    encrypted: "ఎండ్-టు-ఎండ్ ఎన్క్రిప్ట్ చేయబడింది",
+    trustedBy: "నమ్మకమైన ఆరోగ్య సమాచారం కోరుకునే వ్యక్తులచే విశ్వసించబడింది. వృత్తిపరమైన వైద్య సహాయానికి ప్రత్యామ్నాయం కాదు.",
+    connecting: "కనెక్ట్ అవుతోంది...",
+    
+    // Disclaimer
+    importantDisclaimer: "ముఖ్యమైన వైద్య నిరాకరణ",
+    importantSafety: "ముఖ్యమైన భద్రతా సమాచారం",
+    readCarefully: "పాకెట్ హెల్త్ AIని ఉపయోగించే ముందు దయచేసి ఈ నిరాకరణను జాగ్రత్తగా చదవండి.",
+    notADoctor: "పాకెట్ హెల్త్ AI అనేది కృత్రిమ మేధస్సు ఆధారిత సమాచార సాధనం. ఇది డాక్టర్ కాదు మరియు ఇది వైద్య రోగ నిర్ధారణలు, చికిత్స సలహాలు లేదా ప్రిస్క్రిప్షన్లను అందించదు.",
+    disclaimerPoint1: "అందించిన సమాచారం కేవలం విద్యా మరియు అవగాహన ప్రయోజనాల కోసం మాత్రమే.",
+    disclaimerPoint2: "వైద్య పరిస్థితికి సంబంధించి మీకు ఏవైనా ప్రశ్నలు ఉంటే ఎల్లప్పుడూ మీ వైద్యుడిని లేదా ఇతర అర్హత కలిగిన ఆరోగ్య ప్రదాతను సంప్రదించండి.",
+    disclaimerPoint3: "ఈ అప్లికేషన్‌లో మీరు చదివిన దాని వల్ల వృత్తిపరమైన వైద్య సలహాను ఎప్పుడూ విస్మరించవద్దు లేదా దానిని పొందడంలో ఆలస్యం చేయవద్దు.",
+    disclaimerPoint4: "వైద్య అత్యవసర పరిస్థితిలో, మీ స్థానిక అత్యవసర సేవలకు (ఉదాహరణకు భారతదేశంలో 102/108) కాల్ చేయండి లేదా వెంటనే సమీపంలోని ఆసుపత్రిని సందర్శించండి.",
+    disclaimerPoint5: "ల్యాబ్ ఫలితాలు లేదా లక్షణాల AI వివరణలు తప్పుగా లేదా అసంపూర్ణంగా ఉండవచ్చు.",
+    disclaimerAcknowledge: "\"నాకు అర్థమైంది & అంగీకరిస్తున్నాను\" క్లిక్ చేయడం ద్వారా, మీరు ఈ నిబంధనలను చదివారని, అర్థం చేసుకున్నారని మరియు అంగీకరిస్తున్నారని మీరు అంగీకరిస్తున్నారు మరియు మీరు ఈ సాధనాన్ని వృత్తిపరమైన వైద్య సంరక్షణకు ప్రత్యామ్నాయంగా కాకుండా అనుబంధంగా బాధ్యతాయుతంగా ఉపయోగిస్తారని ధృవీకరిస్తున్నారు.",
+    acceptAndContinue: "నాకు అర్థమైంది & అంగీకరిస్తున్నాను",
+    readToBottom: "దయచేసి చివరి వరకు చదవండి",
+    consentStored: "మీ ఆరోగ్యమే మా ప్రాధాన్యత. ఈ సమ్మతి మీ పరికరంలో స్థానికంగా సేవ్ చేయబడుతుంది.",
+    
+    healthTips: [
+      { title: "హైడ్రేటెడ్ గా ఉండండి", text: "అభిజ్ఞా పనితీరు మరియు చర్మ ఆరోగ్యాన్ని కాపాడుకోవడానికి ప్రతిరోజూ 8 గ్లాసుల నీటిని తాగాలని లక్ష్యంగా పెట్టుకోండి.", icon: "💧", color: "text-blue-500" },
+      { title: "డిజిటల్ డిటాక్స్", text: "మెరుగైన మెలటోనిన్ ఉత్పత్తి కోసం నిద్రపోయే కనీసం 30 నిమిషాల ముందు అన్ని స్క్రీన్‌లను పవర్ డౌన్ చేయండి.", icon: "🌙", color: "text-indigo-500" },
+      { title: "మైండ్‌ఫుల్ నిమిషాలు", text: "కార్టిసాల్ తగ్గించడానికి và ఒత్తిడి స్థాయిలను తగ్గించడానికి ఈరోజు 5 నిమిషాల పాటు లోతైన శ్వాస తీసుకోండి.", icon: "🧘", color: "text-emerald-500" },
+      { title: "పోశ్చర్ చెక్", text: "మీ స్క్రీన్ కంటి స్థాయిలో ఉందని నిర్ధారించుకోండి మరియు పని చేస్తున్నప్పుడు మీ పాదాలను నేలపై ఫ్లాట్‌గా ఉంచండి.", icon: "📐", color: "text-amber-500" },
+      { title: "విటమిన్ డి బూస్ట్", text: "ఎముకల ఆరోగ్యం మరియు రోగనిరోధక వ్యవస్థకు మద్దతు ఇవ్వడానికి ఈరోజు 10 నిమిషాలు సహజ సూర్యకాంతిలో గడపండి.", icon: "☀️", color: "text-orange-500" },
+      { title: "ప్రోటీన్ పవర్", text: "రక్తంలో చక్కెరను స్థిరీకరించడానికి మరియు కండరాలను నిర్వహించడానికి ప్రతి భోజనంలో ప్రోటీన్ మూలాన్ని చేర్చండి.", icon: "🍳", color: "text-red-500" },
+      { title: "నడక ముఖ్యం", text: "జీర్ణక్రియ మరియు జీవక్రియను మెరుగుపరచడానికి మధ్యాహ్న భోజనం తర్వాత 10 నిమిషాల నడకకు ప్రయత్నించండి.", icon: "🚶", color: "text-teal-500" }
+    ],
+    
+    openingGreeting: `నమస్కారం! నేను పాకెట్ హెల్త్ AI — మీ వ్యక్తిగత ఆరోగ్య సహచరుడిని. 👋
+
+నేను మీకు వీటిలో సహాయపడగలను:
+🩺 మీ డాక్టర్ మీకు చెప్పిన దానిని అర్థం చేసుకోవడం
+🧪 మీ ల్యాబ్ నివేదికను సరళమైన భాషలోకి అనువదించడం
+⏳ మీ భవిష్యత్తు ఆరోగ్య ప్రమాదాలను అర్థం చేసుకోవడం
+💊 మీ మందులు ఒకదానితో ఒకటి స్పందిస్తాయో లేదో తనిఖీ చేయడం
+🏥 ఆసుపత్రి సందర్శనలో మార్గదర్శకత్వం
+📓 మీ లక్షణాలలో నమూనాలను కనుగొనడం`
+  }
+};

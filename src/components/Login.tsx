@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { LogIn, Heart, AlertCircle } from 'lucide-react';
+import { cn } from '@/src/lib/utils';
+import { Language } from '@/src/lib/translations';
+import { useLanguage } from '@/src/lib/LanguageContext';
+import { Globe, LogIn, Heart, AlertCircle } from 'lucide-react';
 import { signInWithGoogle, checkRedirectResult } from '@/src/lib/firebase';
 
-export default function Login() {
+interface LoginProps {}
+
+export default function Login({}: LoginProps) {
+  const { selectedLanguage: language, setSelectedLanguage: onLanguageChange, t } = useLanguage();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -42,6 +48,13 @@ export default function Login() {
     }
   };
 
+  const languages: { code: Language; label: string; flag: string }[] = [
+    { code: 'English', label: 'English', flag: '🇺🇸' },
+    { code: 'Hindi', label: 'हिन्दी', flag: '🇮🇳' },
+    { code: 'Kannada', label: 'ಕನ್ನಡ', flag: '🇮🇳' },
+    { code: 'Telugu', label: 'తెలుగు', flag: '🇮🇳' },
+  ];
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-slate-50 text-slate-900 overflow-hidden relative">
       {/* Decorative background elements */}
@@ -58,10 +71,29 @@ export default function Login() {
           <div className="absolute inset-0 bg-gradient-to-tr from-transparent to-white/20" />
         </div>
         
-        <h1 className="font-display font-bold text-4xl mb-3 text-slate-900 tracking-tight">PocketHealth AI</h1>
+        <h1 className="font-display font-bold text-4xl mb-3 text-slate-900 tracking-tight">{t.appName}</h1>
         <p className="text-slate-500 mb-10 leading-relaxed font-medium">
-          Better insights, faster care. Your intelligent companion for medical guidance and emergency assistance.
+          {t.betterInsights}
         </p>
+
+        {/* Language Selector in Login */}
+        <div className="w-full mb-8 flex flex-wrap justify-center gap-2">
+          {languages.map((lang) => (
+            <button
+              key={lang.code}
+              onClick={() => onLanguageChange(lang.code)}
+              className={cn(
+                "px-3 py-2 rounded-xl text-xs font-bold transition-all border flex items-center gap-2",
+                language === lang.code
+                  ? "bg-brand text-white border-brand shadow-lg shadow-brand/20"
+                  : "bg-white text-slate-500 border-slate-100 hover:border-slate-200"
+              )}
+            >
+              <span>{lang.flag}</span>
+              {lang.label}
+            </button>
+          ))}
+        </div>
 
         {error && (
           <motion.div 
@@ -88,20 +120,20 @@ export default function Login() {
           ) : (
             <img src="https://www.google.com/favicon.ico" alt="" className="w-6 h-6" aria-hidden="true" />
           )}
-          <span className="text-lg">{loading ? "Connecting..." : "Sign in with Google"}</span>
+          <span className="text-lg">{loading ? t.connecting : t.signInWithGoogle}</span>
           {!loading && <LogIn size={20} className="ml-2 text-slate-300 group-hover:text-brand transition-colors" />}
         </button>
 
         <div className="mt-10 flex items-center justify-center gap-3">
           <div className="w-2 h-2 rounded-full bg-emerald-500" />
           <p className="text-[10px] text-slate-400 uppercase tracking-widest font-black">
-            End-to-End Encrypted
+            {t.encrypted}
           </p>
         </div>
       </motion.div>
       
       <p className="mt-10 text-xs text-slate-400 max-w-xs text-center font-medium">
-        Trusted by individuals seeking reliable health information. Not a substitute for professional medical help.
+        {t.trustedBy}
       </p>
     </div>
   );

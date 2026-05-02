@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { Language } from '@/src/lib/translations';
+import { useLanguage } from '@/src/lib/LanguageContext';
 
 interface DisclaimerModalProps {
   onAccept: () => void;
   isOpen: boolean;
 }
 
-export default function DisclaimerModal({ onAccept, isOpen }: DisclaimerModalProps) {
+function DisclaimerModal({ onAccept, isOpen }: DisclaimerModalProps) {
+  const { t } = useLanguage();
   const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
@@ -39,8 +42,8 @@ export default function DisclaimerModal({ onAccept, isOpen }: DisclaimerModalPro
               <AlertTriangle size={24} />
             </div>
             <div>
-              <h2 id="disclaimer-title" className="font-display font-bold text-xl text-slate-900">Medical Disclaimer</h2>
-              <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">Important Safety Information</p>
+              <h2 id="disclaimer-title" className="font-display font-bold text-xl text-slate-900">{t.importantDisclaimer}</h2>
+              <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">{t.importantSafety}</p>
             </div>
           </div>
 
@@ -49,21 +52,20 @@ export default function DisclaimerModal({ onAccept, isOpen }: DisclaimerModalPro
             className="p-6 overflow-y-auto text-slate-600 space-y-4 text-sm leading-relaxed"
           >
             <p className="font-semibold text-slate-900">
-              Please read this disclaimer carefully before using PocketHealth AI.
+              {t.readCarefully}
             </p>
             <p>
-              PocketHealth AI is an artificial intelligence-powered informational tool. 
-              <span className="font-bold text-teal-700"> It is NOT a doctor, and it does not provide medical diagnoses, treatment advice, or prescriptions.</span>
+              {t.notADoctor}
             </p>
             <ul className="list-disc ml-5 space-y-2">
-              <li>Information provided is for educational and awareness purposes only.</li>
-              <li>Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.</li>
-              <li>Never disregard professional medical advice or delay in seeking it because of something you have read on this application.</li>
-              <li>In case of a medical emergency, call your local emergency services (e.g., 102/108 in India) or visit the nearest hospital immediately.</li>
-              <li>AI interpretations of lab results or symptoms may be inaccurate or incomplete.</li>
+              <li>{t.disclaimerPoint1}</li>
+              <li>{t.disclaimerPoint2}</li>
+              <li>{t.disclaimerPoint3}</li>
+              <li>{t.disclaimerPoint4}</li>
+              <li>{t.disclaimerPoint5}</li>
             </ul>
             <p>
-              By clicking "I Understand & Accept", you acknowledge that you have read, understood, and agree to these terms, and that you will use this tool responsibly as a supplement to, not a replacement for, professional medical care.
+              {t.disclaimerAcknowledge}
             </p>
           </div>
 
@@ -78,10 +80,10 @@ export default function DisclaimerModal({ onAccept, isOpen }: DisclaimerModalPro
               }`}
             >
               {hasScrolledToBottom ? <CheckCircle2 size={20} /> : null}
-              {hasScrolledToBottom ? 'I Understand & Accept' : 'Please read to the bottom'}
+              {hasScrolledToBottom ? t.acceptAndContinue : t.readToBottom}
             </button>
             <p className="text-[10px] text-center text-slate-400">
-              Your health is priority. This consent is stored locally on your device.
+              {t.consentStored}
             </p>
           </div>
         </motion.div>
@@ -89,3 +91,5 @@ export default function DisclaimerModal({ onAccept, isOpen }: DisclaimerModalPro
     </AnimatePresence>
   );
 }
+
+export default React.memo(DisclaimerModal);

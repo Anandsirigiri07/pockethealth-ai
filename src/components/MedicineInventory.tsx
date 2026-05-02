@@ -10,10 +10,13 @@ import {
   Pill,
   Clock,
   Info,
-  Loader2
+  Loader2,
+  Package
 } from 'lucide-react';
 import { db, auth, handleFirestoreError, OperationType } from '@/src/lib/firebase';
 import { collection, query, onSnapshot, deleteDoc, doc, orderBy } from 'firebase/firestore';
+import { Language } from '@/src/lib/translations';
+import { useLanguage } from '@/src/lib/LanguageContext';
 import { cn } from '@/src/lib/utils';
 
 interface Medicine {
@@ -33,7 +36,8 @@ interface MedicineInventoryProps {
   onClose: () => void;
 }
 
-export default function MedicineInventory({ isOpen, onClose }: MedicineInventoryProps) {
+function MedicineInventory({ isOpen, onClose }: MedicineInventoryProps) {
+  const { t } = useLanguage();
   const [medicines, setMedicines] = useState<Medicine[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -102,12 +106,14 @@ export default function MedicineInventory({ isOpen, onClose }: MedicineInventory
         >
           {/* Header */}
           <div className="p-6 pb-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-            <div>
-              <h3 className="text-xl font-display font-bold text-slate-900">Medicine Cabinet</h3>
-              <p className="text-xs text-slate-500 font-medium tracking-wide flex items-center gap-1.5 mt-0.5">
-                <Pill size={12} className="text-brand" />
-                {medicines.length} Medicines tracked
-              </p>
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-10 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center">
+                <Pill size={20} />
+              </div>
+              <div>
+                <h3 className="font-display font-bold text-xl text-slate-900">{t.medicineCabinet}</h3>
+                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{medicines.length} Medicines Stored</p>
+              </div>
             </div>
             <button 
               onClick={onClose}
@@ -123,13 +129,13 @@ export default function MedicineInventory({ isOpen, onClose }: MedicineInventory
               {expiredCount > 0 && (
                 <div className="flex-shrink-0 flex items-center gap-2 px-3 py-1.5 bg-red-100 text-red-700 rounded-xl text-xs font-bold border border-red-200">
                   <AlertTriangle size={14} />
-                  {expiredCount} Expired
+                  {expiredCount} {t.expired}
                 </div>
               )}
               {expiringCount > 0 && (
                 <div className="flex-shrink-0 flex items-center gap-2 px-3 py-1.5 bg-amber-100 text-amber-700 rounded-xl text-xs font-bold border border-amber-200">
                   <Clock size={14} />
-                  {expiringCount} Near Expiry
+                  {expiringCount} {t.expiringSoon}
                 </div>
               )}
             </div>
@@ -141,7 +147,7 @@ export default function MedicineInventory({ isOpen, onClose }: MedicineInventory
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                 <input 
                   type="text" 
-                  placeholder="Search medicines..." 
+                  placeholder={t.searchMedicines}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full bg-slate-100 border-none rounded-2xl py-3 pl-10 pr-4 text-sm focus:ring-2 focus:ring-brand/20 transition-all outline-none"
@@ -159,7 +165,7 @@ export default function MedicineInventory({ isOpen, onClose }: MedicineInventory
                         : "bg-white text-slate-500 border-slate-200 hover:border-slate-300"
                     )}
                   >
-                    {f}
+                    {f === 'all' ? t.all : f === 'warning' ? t.warning : t.expired}
                   </button>
                 ))}
              </div>
@@ -175,12 +181,9 @@ export default function MedicineInventory({ isOpen, onClose }: MedicineInventory
             ) : filteredMedicines.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-20 text-center px-10">
                  <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center text-slate-300 mb-4">
-                    <Pill size={32} />
+                    <Package size={48} className="text-slate-200" />
                  </div>
-                 <p className="text-slate-900 font-bold mb-1">No Medicines Found</p>
-                 <p className="text-slate-500 text-xs leading-relaxed">
-                   Scan your medicine packets to keep track of their expiry dates and usage.
-                 </p>
+                 <p className="text-slate-400 font-bold">{t.noMedicines}</p>
               </div>
             ) : (
               filteredMedicines.map((med, idx) => (
@@ -190,52 +193,59 @@ export default function MedicineInventory({ isOpen, onClose }: MedicineInventory
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.05 }}
                   className={cn(
-                    "group relative p-4 rounded-3xl border transition-all flex items-start gap-4",
+                    "group relative p-4 rounded-3xl border transition-all flex flex-col gap-4",
                     med.status === 'expired' ? "bg-red-50/30 border-red-100/50 hover:bg-red-50/50" :
                     med.status === 'warning' ? "bg-amber-50/30 border-amber-100/50 hover:bg-amber-50/50" :
                     "bg-white border-slate-100 hover:border-slate-200 hover:shadow-xl hover:shadow-slate-200/40"
                   )}
                 >
-                  <div className={cn(
-                    "w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-sm",
-                    med.status === 'expired' ? "bg-red-100 text-red-600" :
-                    med.status === 'warning' ? "bg-amber-100 text-amber-600" :
-                    "bg-emerald-100 text-emerald-600"
-                  )}>
-                    {med.status === 'expired' ? <AlertTriangle size={22} /> : 
-                     med.status === 'warning' ? <Clock size={22} /> : <CheckCircle size={22} />}
+                  <div className="flex items-start gap-4">
+                    <div className={cn(
+                      "w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-sm",
+                      med.status === 'expired' ? "bg-red-100 text-red-600" :
+                      med.status === 'warning' ? "bg-amber-100 text-amber-600" :
+                      "bg-emerald-100 text-emerald-600"
+                    )}>
+                      {med.status === 'expired' ? <AlertTriangle size={22} /> : 
+                       med.status === 'warning' ? <Clock size={22} /> : <CheckCircle size={22} />}
+                    </div>
+                    
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between mb-0.5">
+                        <h4 className="font-bold text-slate-900 truncate pr-2">{med.medicineName}</h4>
+                        <button 
+                          onClick={() => handleDelete(med.id)}
+                          className="opacity-0 group-hover:opacity-100 p-1.5 text-slate-400 hover:text-red-500 transition-all rounded-lg"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                      <span className={cn(
+                        "text-[9px] font-black px-2 py-0.5 rounded-full border uppercase tracking-tighter",
+                        med.status === 'expired' ? "bg-red-100 border-red-200 text-red-600" :
+                        med.status === 'warning' ? "bg-amber-100 border-amber-200 text-amber-600" :
+                        med.status === 'estimated' ? "bg-blue-100 border-blue-200 text-blue-600" :
+                        "bg-emerald-100 border-emerald-200 text-emerald-600"
+                      )}>
+                        {med.status === 'expired' ? t.expired : 
+                         med.status === 'warning' ? t.expiringSoon : 
+                         med.status === 'estimated' ? t.estimated : t.safeToUse}
+                      </span>
+                    </div>
                   </div>
                   
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between mb-0.5">
-                      <h4 className="font-bold text-slate-900 truncate pr-2">{med.medicineName}</h4>
-                      <button 
-                        onClick={() => handleDelete(med.id)}
-                        className="opacity-0 group-hover:opacity-100 p-1.5 text-slate-400 hover:text-red-500 transition-all rounded-lg"
-                      >
-                        <Trash2 size={16} />
-                      </button>
+                  <div className="grid grid-cols-2 gap-2 mt-3">
+                    <div className="bg-slate-50 p-2 rounded-xl border border-slate-100">
+                      <p className="text-[8px] text-slate-400 font-bold uppercase tracking-widest mb-0.5">{t.expDate}</p>
+                      <p className="text-[10px] font-bold text-slate-600">{med.detectedDate || "N/A"}</p>
                     </div>
-                    <div className="flex items-center gap-2 text-[10px] font-bold">
-                       <span className={cn(
-                         "uppercase tracking-wider px-1.5 py-0.5 rounded-md",
-                         med.status === 'expired' ? "bg-red-100 text-red-700" :
-                         med.status === 'warning' ? "bg-amber-100 text-amber-700" :
-                         "bg-emerald-100 text-emerald-700"
-                       )}>
-                         {med.status}
-                       </span>
-                       <span className="text-slate-400">•</span>
-                       <span className="text-slate-500 flex items-center gap-1">
-                          <Calendar size={10} />
-                          EXP: {med.detectedDate || "Estimated"}
-                       </span>
+                    <div className="bg-slate-50 p-2 rounded-xl border border-slate-100">
+                      <p className="text-[8px] text-slate-400 font-bold uppercase tracking-widest mb-0.5">{t.daysLeft}</p>
+                      <p className={cn(
+                        "text-[10px] font-bold",
+                        med.status === 'expired' ? "text-red-600" : "text-emerald-600"
+                      )}>{med.status === 'expired' ? t.expired.toUpperCase() : med.daysLeft}</p>
                     </div>
-                    {med.purpose && (
-                       <p className="mt-2 text-[10px] text-slate-500 leading-tight italic truncate">
-                         {med.purpose}
-                       </p>
-                    )}
                   </div>
                 </motion.div>
               ))
@@ -245,7 +255,7 @@ export default function MedicineInventory({ isOpen, onClose }: MedicineInventory
           <div className="p-4 bg-slate-50/50 border-t border-slate-100 flex items-center gap-2">
              <Info size={14} className="text-brand" />
              <p className="text-[10px] text-slate-500 font-medium">
-               Medications are tracked based on your scans. Always check physical packaging before use.
+               {t.disclaimer}
              </p>
           </div>
         </motion.div>
@@ -253,3 +263,5 @@ export default function MedicineInventory({ isOpen, onClose }: MedicineInventory
     </AnimatePresence>
   );
 }
+
+export default React.memo(MedicineInventory);

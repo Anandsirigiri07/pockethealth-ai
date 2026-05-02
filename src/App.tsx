@@ -17,11 +17,15 @@ import {
   AlertCircle,
   MapPin,
   Calendar,
-  ArrowLeft
+  ArrowLeft,
+  Languages,
+  Globe
 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { cn } from '@/src/lib/utils';
-import { chatWithPocketHealth, Message, OPENING_GREETING } from '@/src/lib/gemini';
+import { chatWithPocketHealth, Message } from '@/src/lib/gemini';
+import { Language } from '@/src/lib/translations';
+import { useLanguage } from '@/src/lib/LanguageContext';
 import DisclaimerModal from '@/src/components/DisclaimerModal';
 import { auth, logout } from '@/src/lib/firebase';
 import { onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
@@ -30,6 +34,7 @@ import EmergencyPanel from '@/src/components/EmergencyPanel';
 import LocationViewer from '@/src/components/LocationViewer';
 import MedicineScanner from '@/src/components/MedicineScanner';
 import MedicineInventory from '@/src/components/MedicineInventory';
+import LabTranslator from '@/src/components/LabTranslator';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '@/src/lib/firebase';
 
@@ -43,6 +48,8 @@ export default function App() {
   const [isEmergencyOpen, setIsEmergencyOpen] = useState(false);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
   const [isInventoryOpen, setIsInventoryOpen] = useState(false);
+  const [isLabOpen, setIsLabOpen] = useState(false);
+  const { selectedLanguage, setSelectedLanguage, t } = useLanguage();
   const [expiringSoonCount, setExpiringSoonCount] = useState(0);
   const [shareId, setShareId] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -108,7 +115,12 @@ export default function App() {
   const handleSend = async (text: string = input) => {
     if (!text.trim() || isLoading) return;
 
-    const newMessage: Message = { role: 'user', text };
+    const newMessage: Message = { 
+      id: Math.random().toString(36).substring(2, 11),
+      role: 'user', 
+      text,
+      timestamp: Date.now()
+    };
     const updatedMessages = [...messages, newMessage];
     
     setMessages(updatedMessages);
@@ -119,13 +131,20 @@ export default function App() {
     inputRef.current?.focus();
 
     try {
-      const response = await chatWithPocketHealth(updatedMessages);
-      setMessages(prev => [...prev, { role: 'model', text: response }]);
+      const response = await chatWithPocketHealth(updatedMessages, selectedLanguage);
+      setMessages(prev => [...prev, { 
+        id: Math.random().toString(36).substring(2, 11),
+        role: 'model', 
+        text: response,
+        timestamp: Date.now()
+      }]);
     } catch (error) {
       console.error(error);
       setMessages(prev => [...prev, { 
+        id: Math.random().toString(36).substring(2, 11),
         role: 'model', 
-        text: "I'm sorry, I encountered an error. Please try again. If the issue persists, check your connection." 
+        text: "I'm sorry, I encountered an error. Please try again. If the issue persists, check your connection.",
+        timestamp: Date.now()
       }]);
     } finally {
       setIsLoading(false);
@@ -134,16 +153,17 @@ export default function App() {
     }
   };
 
+
   const modes = [
-    { id: 'opinion', label: 'Second Opinion', icon: Stethoscope, prompt: 'I want a second opinion on a medical condition my doctor mentioned.' },
-    { id: 'lab', label: 'Lab Translator', icon: TestTube, prompt: 'Can you help me translate my blood test report results?' },
-    { id: 'risk', label: 'Risk Narrator', icon: History, prompt: 'I want to know my future health risks based on my lifestyle.' },
-    { id: 'meds', label: 'Medication Check', icon: Pill, prompt: 'Can you check if these medications are safe to take together?' },
-    { id: 'hospital', label: 'Hospital Guide', icon: Hospital, prompt: 'I am planning to visit a hospital and need a guide on what to expect.' },
-    { id: 'expiry', label: 'Medicine Scanner', icon: Calendar, action: () => setIsScannerOpen(true) },
-    { id: 'inventory', label: 'Medicine Cabinet', icon: Pill, action: () => setIsInventoryOpen(true) },
-    { id: 'sos', label: 'Emergency & Map', icon: AlertCircle, action: () => setIsEmergencyOpen(true) },
-    { id: 'symptoms', label: 'Symptom Analyser', icon: ClipboardList, prompt: 'I have been logging my symptoms and want you to find patterns.' },
+    { id: 'opinion', label: t.secondOpinion, icon: Stethoscope, prompt: 'I want a second opinion on a medical condition my doctor mentioned.' },
+    { id: 'lab', label: t.labTranslator, icon: TestTube, action: () => setIsLabOpen(true) },
+    { id: 'risk', label: t.riskNarrator, icon: History, prompt: 'I want to know my future health risks based on my lifestyle.' },
+    { id: 'meds', label: t.medicationCheck, icon: Pill, prompt: 'Can you check if these medications are safe to take together?' },
+    { id: 'hospital', label: t.hospitalGuide, icon: Hospital, prompt: 'I am planning to visit a hospital and need a guide on what to expect.' },
+    { id: 'expiry', label: t.medicineScanner, icon: Calendar, action: () => setIsScannerOpen(true) },
+    { id: 'inventory', label: t.medicineCabinetMode, icon: Pill, action: () => setIsInventoryOpen(true) },
+    { id: 'sos', label: t.emergencyMap, icon: AlertCircle, action: () => setIsEmergencyOpen(true) },
+    { id: 'symptoms', label: t.symptomAnalyser, icon: ClipboardList, prompt: 'I have been logging my symptoms and want you to find patterns.' },
   ];
 
   if (authLoading) {
@@ -164,7 +184,7 @@ export default function App() {
     return <LocationViewer shareId={shareId} />;
   }
 
-  if (!activeUser) {
+  if (!user) {
     return <Login />;
   }
 
@@ -180,7 +200,7 @@ export default function App() {
 
   const getDailyTip = () => {
     const dayOfYear = Math.floor((new Date().getTime() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);
-    return healthTips[dayOfYear % healthTips.length];
+    return t.healthTips[dayOfYear % t.healthTips.length];
   };
 
   const dailyTip = getDailyTip();
@@ -209,15 +229,32 @@ export default function App() {
               <Heart size={20} fill="currentColor" />
             </div>
             <div>
-              <h1 className="font-display font-bold text-lg leading-tight text-slate-900 tracking-tight">PocketHealth AI</h1>
+              <h1 className="font-display font-bold text-lg leading-tight text-slate-900 tracking-tight">{t.appName}</h1>
               <div className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-                <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Always Connected</p>
+                <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">{t.alwaysConnected}</p>
               </div>
             </div>
           </div>
           
             <div className="flex items-center gap-1.5">
+              <div className="relative group mr-1">
+                <div className="flex items-center gap-1 px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 transition-all rounded-xl border border-slate-200 cursor-pointer">
+                  <Languages size={16} className="text-brand" />
+                  <select 
+                    value={selectedLanguage}
+                    onChange={(e) => setSelectedLanguage(e.target.value as Language)}
+                    className="bg-transparent text-[11px] font-bold outline-none border-none cursor-pointer appearance-none pr-1 uppercase tracking-tight"
+                    aria-label="Select Language"
+                  >
+                    <option value="English">ENG</option>
+                    <option value="Hindi">हिन्दी</option>
+                    <option value="Kannada">ಕನ್ನಡ</option>
+                    <option value="Telugu">తెలుగు</option>
+                  </select>
+                </div>
+              </div>
+
               <button 
                 onClick={() => setIsInventoryOpen(true)}
                 className={cn(
@@ -266,6 +303,7 @@ export default function App() {
         </div>
       </header>
 
+      {/* Modals */}
       <DisclaimerModal 
         isOpen={isDisclaimerOpen} 
         onAccept={handleAcceptDisclaimer} 
@@ -281,9 +319,14 @@ export default function App() {
         onClose={() => setIsScannerOpen(false)} 
       />
 
-      <MedicineInventory
-        isOpen={isInventoryOpen}
-        onClose={() => setIsInventoryOpen(false)}
+      <MedicineInventory 
+        isOpen={isInventoryOpen} 
+        onClose={() => setIsInventoryOpen(false)} 
+      />
+
+      <LabTranslator 
+        isOpen={isLabOpen} 
+        onClose={() => setIsLabOpen(false)} 
       />
 
       {/* Main Chat Area */}
@@ -297,17 +340,18 @@ export default function App() {
         <AnimatePresence initial={false}>
           {messages.length === 0 && !isLoading && (
             <motion.div 
+              key="empty-state"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="py-10 px-4 flex flex-col items-center text-center"
             >
               <div className="w-20 h-20 bg-gradient-to-tr from-brand to-cyan-400 rounded-3xl flex items-center justify-center text-white shadow-2xl mb-6 relative group">
                 <Heart size={40} fill="currentColor" />
-                <div className="absolute -top-2 -right-2 bg-emerald-500 text-[10px] font-bold py-1 px-2 rounded-full border-2 border-white shadow-sm">AI POWERED</div>
+                <div className="absolute -top-2 -right-2 bg-emerald-500 text-[10px] font-bold py-1 px-2 rounded-full border-2 border-white shadow-sm">{t.aiPowered}</div>
               </div>
-              <h2 className="text-3xl font-display font-bold text-slate-900 mb-3 tracking-tight">How can I help you today?</h2>
+              <h2 className="text-3xl font-display font-bold text-slate-900 mb-3 tracking-tight">{t.howCanIHelp}</h2>
               <p className="text-slate-500 text-sm max-w-sm mb-10 leading-relaxed font-medium">
-                Your empathetic, medical-grade assistant for quick health insights and emergency navigation.
+                {t.appSubtitle}
               </p>
               
               <div className="w-full grid grid-cols-2 gap-4" aria-label="Quick start options">
@@ -344,7 +388,7 @@ export default function App() {
 
           {messages.map((msg, idx) => (
             <motion.div
-              key={idx}
+              key={msg.id || `msg-${idx}`}
               initial={{ opacity: 0, y: 10, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.2 }}
@@ -377,7 +421,7 @@ export default function App() {
                   {idx === messages.length - 1 && msg.role === 'model' && (
                     <div className="mt-4 pt-4 border-t border-slate-100/50 text-[10px] text-slate-400 flex items-start gap-1 font-medium">
                       <ShieldCheck size={12} className="mt-0.5 text-brand" aria-hidden="true" />
-                      <span>Medical awareness info only. Always consult a professional.</span>
+                      <span>{t.medicalDisclaimer}</span>
                     </div>
                   )}
                 </div>
@@ -424,7 +468,7 @@ export default function App() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask anything about your health..."
+              placeholder={t.askPlaceholder}
               className="w-full bg-slate-100 border border-transparent rounded-[2rem] py-4 pl-6 pr-14 text-sm focus:bg-white focus:border-brand/30 focus:ring-4 focus:ring-brand/5 shadow-inner transition-all outline-none font-medium placeholder:text-slate-400"
               disabled={isLoading}
               aria-label="Chat input"
@@ -446,7 +490,7 @@ export default function App() {
             type="button"
             onClick={() => setMessages([])}
             className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all border border-transparent hover:border-red-100 flex-shrink-0"
-            title="Reset Chat"
+            title={t.resetChat}
           >
             <History size={20} />
           </button>
@@ -456,13 +500,13 @@ export default function App() {
            animate={{ opacity: 1, y: 0 }}
            className="mt-6 p-4 rounded-3xl bg-gradient-to-br from-white to-brand/5 border border-brand/10 shadow-sm relative overflow-hidden group"
         >
-           <div className="flex items-start gap-4 relative z-10">
-             <div className="text-2xl group-hover:scale-110 transition-transform duration-500">{dailyTip.icon}</div>
-             <div className="flex-1">
-               <h4 className={cn("text-xs font-black uppercase tracking-widest mb-1", dailyTip.color)}>
-                 Daily Health Wisdom • {dailyTip.title}
-               </h4>
-               <p className="text-[11px] text-slate-500 font-medium leading-relaxed leading-tight">
+            <div className="flex items-start gap-4 relative z-10">
+              <div className="text-2xl group-hover:scale-110 transition-transform duration-500">{dailyTip.icon}</div>
+              <div className="flex-1">
+                <h4 className={cn("text-xs font-black uppercase tracking-widest mb-1", dailyTip.color)}>
+                  {t.dailyWisdom} • {dailyTip.title}
+                </h4>
+                <p className="text-[11px] text-slate-500 font-medium leading-relaxed leading-tight">
                  {dailyTip.text}
                </p>
              </div>

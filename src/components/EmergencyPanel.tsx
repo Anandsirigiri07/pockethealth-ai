@@ -6,6 +6,8 @@ import L from 'leaflet';
 
 import { db, auth, handleFirestoreError, OperationType } from '@/src/lib/firebase';
 import { collection, addDoc, updateDoc, doc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { Language } from '@/src/lib/translations';
+import { useLanguage } from '@/src/lib/LanguageContext';
 
 // ... (marker icon setup) ...
 const markerIcon = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png';
@@ -59,7 +61,8 @@ interface EmergencyPanelProps {
   onClose: () => void;
 }
 
-export default function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps) {
+function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps) {
+  const { selectedLanguage: language, t } = useLanguage();
   const [coords, setCoords] = useState<[number, number] | null>(null);
   const [locations, setLocations] = useState<Location[]>([]);
   const [isLocating, setIsLocating] = useState(false);
@@ -73,7 +76,7 @@ export default function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps)
   const shareInterval = useRef<any>(null);
 
   const emergencyNumbers = [
-    { label: 'Ambulance', number: '102', description: 'National Ambulance Service' },
+    { label: t.callAmbulance, number: '102', description: 'National Ambulance Service' },
     { label: 'Emergency (All-in-one)', number: '112', description: 'Single Emergency Response Number' },
     { label: 'Medical Helpline', number: '108', description: 'Disaster management/Emergency' },
   ];
@@ -98,7 +101,7 @@ export default function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps)
         id: el.id,
         lat: el.lat || el.center.lat,
         lon: el.lon || el.center.lon,
-        name: el.tags.name || (el.tags.amenity === 'hospital' ? 'Unnamed Hospital' : 'Unnamed Pharmacy'),
+        name: el.tags.name || (el.tags.amenity === 'hospital' ? t.hospital : t.pharmacy),
         type: el.tags.amenity as 'hospital' | 'pharmacy'
       }));
       
@@ -170,6 +173,14 @@ export default function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps)
       handleGetLocation();
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    return () => {
+      if (shareInterval.current) {
+        clearInterval(shareInterval.current);
+      }
+    };
+  }, []);
 
   const handleSOSCall = (number: string) => {
     window.location.href = `tel:${number}`;
@@ -264,7 +275,7 @@ export default function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps)
                   <div className="w-10 h-10 bg-red-100 text-red-600 rounded-xl flex items-center justify-center">
                     <AlertCircle size={24} />
                   </div>
-                  <h2 className="font-display font-bold text-2xl text-slate-900">Emergency SOS</h2>
+                  <h2 className="font-display font-bold text-2xl text-slate-900">{t.emergencySos}</h2>
                 </div>
                 <button 
                   onClick={onClose}
@@ -299,20 +310,20 @@ export default function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps)
                   >
                     <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                     <Share2 size={20} className="relative z-10" />
-                    <span className="relative z-10">Start Live Location Share</span>
+                    <span className="relative z-10">{t.startLiveShare}</span>
                   </button>
                 ) : (
                   <div className="bg-brand/[0.02] border border-brand/20 rounded-[2.5rem] p-6 shadow-inner relative overflow-hidden">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-3">
                         <span className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
-                        <span className="text-sm font-bold text-slate-900 tracking-tight uppercase">Sharing Live</span>
+                        <span className="text-sm font-bold text-slate-900 tracking-tight uppercase">{t.sharingLive}</span>
                       </div>
                       <button 
                         onClick={stopSharing}
                         className="text-[10px] font-bold text-red-600 px-4 py-2 bg-red-50 hover:bg-red-100 rounded-xl transition-colors border border-red-100"
                       >
-                        STOP SHARE
+                        {t.stopShare}
                       </button>
                     </div>
                     
@@ -330,7 +341,7 @@ export default function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps)
                       </div>
                     )}
                     <p className="text-[10px] text-slate-400 mt-4 text-center font-bold uppercase tracking-widest leading-relaxed">
-                      Secure Link • Self-Destructs in 1 hr
+                      {t.secureLink}
                     </p>
                   </div>
                 )}
@@ -343,7 +354,7 @@ export default function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps)
                     <div className="w-8 h-8 bg-brand/10 text-brand rounded-xl flex items-center justify-center">
                       <MapPin size={16} />
                     </div>
-                    <h3 className="font-bold text-xl tracking-tight">Nearby Facilities</h3>
+                    <h3 className="font-bold text-xl tracking-tight">{t.nearbyFacilities}</h3>
                   </div>
                   <button 
                     onClick={handleGetLocation}
@@ -351,7 +362,7 @@ export default function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps)
                     className="text-[10px] font-black tracking-widest uppercase text-brand hover:text-brand-dark flex items-center gap-2 bg-brand/5 px-4 py-2 rounded-full transition-all border border-brand/10"
                   >
                     {isLocating ? <Loader2 size={12} className="animate-spin" /> : <Crosshair size={12} />}
-                    {isLocating ? 'Scanning...' : 'Update'}
+                    {isLocating ? t.scanning : t.update}
                   </button>
                 </div>
                 
@@ -359,7 +370,7 @@ export default function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps)
                   {!coords && !isLocating && !error && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-50 z-[50]">
                       <MapPin size={32} className="text-slate-300 mb-2" />
-                      <p className="text-sm text-slate-500">Location required</p>
+                      <p className="text-sm text-slate-500">{t.locationRequired}</p>
                     </div>
                   )}
                   
@@ -376,8 +387,8 @@ export default function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps)
                         <Loader2 size={48} className="text-brand animate-spin mb-4" />
                         <MapPin size={22} className="absolute top-3.5 left-3.5 text-brand" />
                       </div>
-                      <p className="text-sm font-bold text-slate-900 tracking-tight">Calibrating Location...</p>
-                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Satellite Precision</p>
+                      <p className="text-sm font-bold text-slate-900 tracking-tight">{t.calibratingLocation}</p>
+                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">{t.satellitePrecision}</p>
                     </div>
                   )}
 
@@ -395,7 +406,7 @@ export default function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps)
                       <ChangeView center={coords} />
                       
                       <Marker position={coords}>
-                        <Popup>Your Location</Popup>
+                        <Popup>{t.yourLocation}</Popup>
                       </Marker>
 
                       {locations.map((loc) => (
@@ -414,7 +425,7 @@ export default function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps)
                                 onClick={() => getDirections(loc.lat, loc.lon)}
                                 className="w-full bg-brand text-white text-[10px] font-bold py-2 rounded-lg flex items-center justify-center gap-1.5 shadow-md shadow-brand/20 active:scale-95 transition-all"
                               >
-                                <Navigation size={12} /> Get Directions
+                                <Navigation size={12} /> {t.getDirections}
                               </button>
                             </div>
                           </Popup>
@@ -425,10 +436,10 @@ export default function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps)
                 </div>
                 <div className="flex gap-5 mt-4 text-[10px] font-black uppercase tracking-widest text-slate-400 justify-center">
                   <div className="flex items-center gap-2">
-                    <div className="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_5px_rgba(239,68,68,0.5)]" /> Hospital
+                    <div className="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_5px_rgba(239,68,68,0.5)]" /> {t.hospital}
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-2.5 h-2.5 rounded-full bg-brand shadow-[0_0_5px_rgba(37,99,235,0.5)]" /> Pharmacy
+                    <div className="w-2.5 h-2.5 rounded-full bg-brand shadow-[0_0_5px_rgba(37,99,235,0.5)]" /> {t.pharmacy}
                   </div>
                 </div>
                 
@@ -444,7 +455,7 @@ export default function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps)
                     className="flex flex-col items-center justify-center gap-2 bg-white p-4 rounded-3xl border border-slate-100 hover:border-brand/30 hover:bg-brand/5 transition-all text-slate-900 font-bold text-xs shadow-sm"
                   >
                     <Navigation size={18} className="text-brand" />
-                    Hospitals
+                    {t.hospital}
                   </button>
                   <button
                     onClick={() => {
@@ -456,14 +467,14 @@ export default function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps)
                     className="flex flex-col items-center justify-center gap-2 bg-white p-4 rounded-3xl border border-slate-100 hover:border-blue-300 hover:bg-blue-50 transition-all text-slate-900 font-bold text-xs shadow-sm"
                   >
                     <ExternalLink size={18} className="text-blue-500" />
-                    Pharmacies
+                    {t.pharmacy}
                   </button>
                 </div>
 
                 {/* Results List */}
                 {locations.length > 0 && (
                   <div className="mt-8 space-y-3">
-                    <h4 className="font-bold text-slate-900 mb-2 px-1">Nearby Results ({locations.length})</h4>
+                    <h4 className="font-bold text-slate-900 mb-2 px-1">{t.nearbyFacilities} ({locations.length})</h4>
                     <div className="max-h-60 overflow-y-auto pr-2 space-y-3 custom-scrollbar">
                       {locations.map(loc => (
                         <div key={loc.id} className="bg-white border border-slate-100 p-4 rounded-2xl flex items-center justify-between shadow-sm hover:shadow-md transition-shadow">
@@ -491,9 +502,9 @@ export default function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps)
                   <AlertCircle size={20} />
                 </div>
                 <div className="text-sm text-amber-900 leading-relaxed">
-                  <p className="font-bold text-lg mb-1">Before you leave...</p>
+                  <p className="font-bold text-lg mb-1">{t.beforeYouLeave}</p>
                   <p className="text-amber-800/80">
-                    Ensure you have your identification (Aadhaar), previous medical records, and current medications. If you're alone, inform a family member of your destination.
+                    {t.emergencyChecklist}
                   </p>
                 </div>
               </div>
@@ -504,3 +515,5 @@ export default function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps)
     </AnimatePresence>
   );
 }
+
+export default React.memo(EmergencyPanel);
