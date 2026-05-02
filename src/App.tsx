@@ -19,7 +19,8 @@ import {
   Calendar,
   ArrowLeft,
   Languages,
-  Globe
+  Globe,
+  Apple
 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { cn } from '@/src/lib/utils';
@@ -36,6 +37,7 @@ import MedicineScanner from '@/src/components/MedicineScanner';
 import MedicineInventory from '@/src/components/MedicineInventory';
 import LabTranslator from '@/src/components/LabTranslator';
 import MedicalImageExplainer from '@/src/components/MedicalImageExplainer';
+import NutritionScanner from '@/src/components/NutritionScanner';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '@/src/lib/firebase';
 
@@ -51,6 +53,7 @@ export default function App() {
   const [isInventoryOpen, setIsInventoryOpen] = useState(false);
   const [isLabOpen, setIsLabOpen] = useState(false);
   const [isMedicalImageOpen, setIsMedicalImageOpen] = useState(false);
+  const [isNutritionOpen, setIsNutritionOpen] = useState(false);
   const { selectedLanguage, setSelectedLanguage, t } = useLanguage();
   const [expiringSoonCount, setExpiringSoonCount] = useState(0);
   const [shareId, setShareId] = useState<string | null>(null);
@@ -166,6 +169,7 @@ export default function App() {
     { id: 'inventory', label: t.medicineCabinetMode, icon: Pill, action: () => setIsInventoryOpen(true) },
     { id: 'sos', label: t.emergencyMap, icon: AlertCircle, action: () => setIsEmergencyOpen(true) },
     { id: 'scan', label: t.medicalImageExplainer, icon: Stethoscope, action: () => setIsMedicalImageOpen(true) },
+    { id: 'nutrition', label: t.nutritionScanner, icon: Apple, action: () => setIsNutritionOpen(true) },
     { id: 'symptoms', label: t.symptomAnalyser, icon: ClipboardList, prompt: 'I have been logging my symptoms and want you to find patterns.' },
   ];
 
@@ -335,6 +339,11 @@ export default function App() {
       <MedicalImageExplainer 
         isOpen={isMedicalImageOpen} 
         onClose={() => setIsMedicalImageOpen(false)} 
+      />
+
+      <NutritionScanner 
+        isOpen={isNutritionOpen} 
+        onClose={() => setIsNutritionOpen(false)} 
       />
 
       {/* Main Chat Area */}
