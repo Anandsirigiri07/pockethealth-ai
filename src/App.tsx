@@ -20,7 +20,8 @@ import {
   ArrowLeft,
   Languages,
   Globe,
-  Apple
+  Apple,
+  Loader2
 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { cn } from '@/src/lib/utils';
@@ -195,16 +196,6 @@ export default function App() {
     return <Login />;
   }
 
-  const healthTips = [
-    { title: "Stay Hydrated", text: "Aim for 8 glasses of water daily to maintain cognitive function and skin health.", icon: "💧", color: "text-blue-500" },
-    { title: "Digital Detox", text: "Power down all screens at least 30 minutes before sleep for better melatonin production.", icon: "🌙", color: "text-indigo-500" },
-    { title: "Mindful Minutes", text: "Take 5 minutes today for deep breathing to lower cortisol and reduce stress levels.", icon: "🧘", color: "text-emerald-500" },
-    { title: "Posture Check", text: "Ensure your screen is at eye level and keep your feet flat on the floor while working.", icon: "📐", color: "text-amber-500" },
-    { title: "Vitamin D Boost", text: "Spend 10 minutes in natural sunlight today to support bone health and immune system.", icon: "☀️", color: "text-orange-500" },
-    { title: "Protein Power", text: "Include a protein source in every meal to help stabilize blood sugar and maintain muscle.", icon: "🍳", color: "text-red-500" },
-    { title: "Steps Matter", text: "Try to take a 10-minute walk after lunch to improve digestion and metabolism.", icon: "🚶", color: "text-teal-500" }
-  ];
-
   const getDailyTip = () => {
     const dayOfYear = Math.floor((new Date().getTime() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);
     return t.healthTips[dayOfYear % t.healthTips.length];
@@ -213,99 +204,75 @@ export default function App() {
   const dailyTip = getDailyTip();
 
   return (
-    <div className="flex flex-col h-screen max-w-2xl mx-auto bg-slate-50 shadow-2xl overflow-hidden relative sm:border-x border-slate-200">
+    <div className="flex flex-col h-screen max-w-2xl mx-auto bg-mesh-light shadow-2xl overflow-hidden relative sm:border-x border-slate-200/50">
       <a href="#chat-input" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-brand focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">
         Skip to chat input
       </a>
 
       {/* Header */}
-      <header className="px-6 py-4 bg-white/70 backdrop-blur-xl border-b border-slate-200/50 sticky top-0 z-[40] shrink-0" role="banner">
+      <header className="px-6 py-5 glass-morphism sticky top-0 z-[40] shrink-0" role="banner">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             {messages.length > 0 && (
               <button
                 onClick={() => setMessages([])}
-                className="p-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 transition-all rounded-xl border border-slate-200 active:scale-95"
+                className="p-3 bg-white hover:bg-slate-50 text-slate-600 transition-all rounded-2xl border border-slate-100 shadow-sm active:scale-95"
                 aria-label="Back to home"
-                title="Back to home"
               >
-                <ArrowLeft size={18} />
+                <ArrowLeft size={20} />
               </button>
             )}
-            <div className="w-10 h-10 bg-brand rounded-2xl flex items-center justify-center text-white shadow-lg shadow-brand/20" aria-hidden="true">
-              <Heart size={20} fill="currentColor" />
+            <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-indigo-700 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-200" aria-hidden="true">
+              <Heart size={24} fill="currentColor" className="animate-pulse" />
             </div>
             <div>
-              <h1 className="font-display font-bold text-lg leading-tight text-slate-900 tracking-tight">{t.appName}</h1>
+              <h1 className="font-display font-bold text-xl leading-tight text-slate-900 tracking-tight">{t.appName}</h1>
               <div className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-                <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">{t.alwaysConnected}</p>
+                <span className="w-1.5 h-1.5 bg-success rounded-full" />
+                <p className="text-[10px] text-slate-500 uppercase tracking-widest font-black">{t.alwaysConnected}</p>
               </div>
             </div>
           </div>
           
-            <div className="flex items-center gap-1.5">
-              <div className="relative group mr-1">
-                <div className="flex items-center gap-1 px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 transition-all rounded-xl border border-slate-200 cursor-pointer">
-                  <Languages size={16} className="text-brand" />
-                  <select 
-                    value={selectedLanguage}
-                    onChange={(e) => setSelectedLanguage(e.target.value as Language)}
-                    className="bg-transparent text-[11px] font-bold outline-none border-none cursor-pointer appearance-none pr-1 uppercase tracking-tight"
-                    aria-label="Select Language"
-                  >
-                    <option value="English">ENG</option>
-                    <option value="Hindi">हिन्दी</option>
-                    <option value="Kannada">ಕನ್ನಡ</option>
-                    <option value="Telugu">తెలుగు</option>
-                  </select>
-                </div>
+          <div className="flex items-center gap-2">
+            <div className="relative group">
+              <div className="flex items-center gap-1 px-3 py-2 bg-white/50 backdrop-blur-md hover:bg-white text-slate-600 transition-all rounded-xl border border-slate-200/50 cursor-pointer shadow-sm">
+                <Languages size={16} className="text-brand" />
+                <select 
+                  value={selectedLanguage}
+                  onChange={(e) => setSelectedLanguage(e.target.value as Language)}
+                  className="bg-transparent text-[11px] font-black outline-none border-none cursor-pointer appearance-none pr-1 uppercase tracking-tight"
+                >
+                  <option value="English">ENG</option>
+                  <option value="Hindi">हिन्दी</option>
+                  <option value="Kannada">ಕನ್ನಡ</option>
+                  <option value="Telugu">తెలుగు</option>
+                </select>
               </div>
+            </div>
 
-              <button 
-                onClick={() => setIsInventoryOpen(true)}
-                className={cn(
-                  "p-2.5 transition-all rounded-xl border relative",
-                  expiringSoonCount > 0 
-                  ? "bg-amber-50 text-amber-600 border-amber-200" 
-                  : "bg-slate-50 text-slate-500 border-slate-100 hover:bg-slate-100"
-                )}
-                aria-label="Medicine Cabinet"
-                title="Medicine Cabinet"
-              >
-                <Pill size={18} />
-                {expiringSoonCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[9px] font-black rounded-full flex items-center justify-center border-2 border-white animate-bounce-slow">
-                    {expiringSoonCount}
-                  </span>
-                )}
-              </button>
-              <button 
-                onClick={() => setIsEmergencyOpen(true)}
-              className="p-2.5 bg-brand/5 hover:bg-brand/10 text-brand transition-all rounded-xl border border-brand/10"
-              aria-label="Find nearby care"
-              title="Nearby Care"
+            <button 
+              onClick={() => setIsInventoryOpen(true)}
+              className={cn(
+                "p-3 transition-all rounded-2xl border relative shadow-sm",
+                expiringSoonCount > 0 
+                ? "bg-amber-50 text-amber-600 border-amber-200" 
+                : "bg-white text-slate-500 border-slate-100 hover:bg-slate-50"
+              )}
             >
-              <MapPin size={18} />
+              <Pill size={20} />
+              {expiringSoonCount > 0 && (
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-danger text-white text-[10px] font-black rounded-full flex items-center justify-center border-2 border-white animate-bounce-slow">
+                  {expiringSoonCount}
+                </span>
+              )}
             </button>
             <button 
-              onClick={() => setIsEmergencyOpen(true)}
-              className="p-2.5 bg-red-50 hover:bg-red-100 text-red-600 transition-all rounded-xl border border-red-100"
-              aria-label="Emergency SOS"
-              title="Emergency SOS"
+              onClick={logout}
+              className="p-3 bg-white hover:bg-slate-50 text-slate-400 hover:text-slate-600 transition-all rounded-2xl border border-slate-100 shadow-sm"
             >
-              <AlertCircle size={18} />
+              <LogOut size={20} />
             </button>
-            <div className="w-px h-6 bg-slate-200 mx-1" />
-            <div className="group relative">
-              <button 
-                onClick={logout}
-                className="p-2.5 hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-all rounded-xl border border-transparent hover:border-slate-200"
-                aria-label="Log out"
-              >
-                <LogOut size={18} />
-              </button>
-            </div>
           </div>
         </div>
       </header>
@@ -346,38 +313,42 @@ export default function App() {
         onClose={() => setIsNutritionOpen(false)} 
       />
 
-      {/* Main Chat Area */}
+      {/* Main Content Area */}
       <main 
         ref={scrollRef}
-        className="flex-1 overflow-y-auto p-4 space-y-6 scroll-smooth"
-        aria-live="polite"
-        aria-atomic="false"
+        className="flex-1 overflow-y-auto p-6 space-y-8 scroll-smooth custom-scrollbar"
         id="chat-log"
       >
-        <AnimatePresence initial={false}>
-          {messages.length === 0 && !isLoading && (
+        <AnimatePresence initial={false} mode="wait">
+          {messages.length === 0 && !isLoading ? (
             <motion.div 
-              key="empty-state"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="py-10 px-4 flex flex-col items-center text-center"
+              key="home-screen"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="space-y-10"
             >
-              <div className="w-20 h-20 bg-gradient-to-tr from-brand to-cyan-400 rounded-3xl flex items-center justify-center text-white shadow-2xl mb-6 relative group">
-                <Heart size={40} fill="currentColor" />
-                <div className="absolute -top-2 -right-2 bg-emerald-500 text-[10px] font-bold py-1 px-2 rounded-full border-2 border-white shadow-sm">{t.aiPowered}</div>
+              {/* Hero Section */}
+              <div className="relative pt-4 text-center">
+                <div className="inline-block px-4 py-1.5 bg-indigo-50 text-indigo-600 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-6 border border-indigo-100/50">
+                   ⚡ {t.aiPowered}
+                </div>
+                <h2 className="text-4xl font-display font-extrabold text-slate-900 mb-4 tracking-tight leading-[1.1]">
+                  {t.howCanIHelp}
+                </h2>
+                <p className="text-slate-500 text-base max-w-sm mx-auto leading-relaxed font-medium">
+                  {t.appSubtitle}
+                </p>
               </div>
-              <h2 className="text-3xl font-display font-bold text-slate-900 mb-3 tracking-tight">{t.howCanIHelp}</h2>
-              <p className="text-slate-500 text-sm max-w-sm mb-10 leading-relaxed font-medium">
-                {t.appSubtitle}
-              </p>
-              
-              <div className="w-full grid grid-cols-2 gap-4" aria-label="Quick start options">
+
+              {/* Modes Grid */}
+              <div className="grid grid-cols-2 gap-4">
                 {modes.map((mode, i) => (
                   <motion.button
                     key={mode.id}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: i * 0.05 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.1 }}
                     onClick={() => {
                       if ('action' in mode && mode.action) {
                         mode.action();
@@ -385,153 +356,184 @@ export default function App() {
                         handleSend(mode.prompt);
                       }
                     }}
-                    className="group p-5 bg-white border border-slate-100 rounded-3xl text-left hover:border-brand/40 hover:bg-brand/[0.02] transition-all active:scale-[0.98] shadow-sm hover:shadow-xl hover:shadow-brand/5 flex flex-col gap-4 relative overflow-hidden"
+                    className="group relative p-6 bg-white border border-slate-100 rounded-[2.5rem] text-left transition-all hover:border-brand/30 hover:bg-brand/[0.01] active:scale-[0.98] premium-shadow hover:shadow-indigo-100 overflow-hidden"
                   >
-                    <div className="absolute top-0 right-0 p-1 opacity-0 group-hover:opacity-10 transition-opacity">
-                      <mode.icon size={60} />
+                    <div className="absolute top-0 right-0 p-2 opacity-0 group-hover:opacity-[0.03] transition-all group-hover:scale-110 duration-500">
+                      <mode.icon size={100} />
                     </div>
                     <div className={cn(
-                      "w-10 h-10 rounded-2xl flex items-center justify-center transition-all shadow-sm",
-                      mode.id === 'sos' ? "bg-red-50 text-red-600" : "bg-brand/5 text-brand"
+                      "w-14 h-14 rounded-2xl flex items-center justify-center transition-all mb-4 shadow-sm border border-transparent",
+                      mode.id === 'sos' ? "bg-red-50 text-red-600 group-hover:bg-red-100" : "bg-indigo-50 text-indigo-600 group-hover:bg-indigo-100"
                     )}>
-                      <mode.icon size={22} />
+                      <mode.icon size={28} />
                     </div>
-                    <span className="text-sm font-bold text-slate-900 group-hover:text-brand">{mode.label}</span>
+                    <div>
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 group-hover:text-indigo-400 transition-colors">Featured</p>
+                      <span className="text-base font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">{mode.label}</span>
+                    </div>
                   </motion.button>
                 ))}
               </div>
-            </motion.div>
-          )}
 
-          {messages.map((msg, idx) => (
-            <motion.div
-              key={msg.id || `msg-${idx}`}
-              initial={{ opacity: 0, y: 10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.2 }}
-              className={cn(
-                "flex w-full mb-4",
-                msg.role === 'user' ? "justify-end" : "justify-start"
-              )}
-            >
-              <div className={cn(
-                "flex max-w-[85%] gap-3",
-                msg.role === 'user' ? "flex-row-reverse" : "flex-row"
-              )}>
-                <div className={cn(
-                  "w-9 h-9 rounded-2xl flex-shrink-0 flex items-center justify-center mt-1 overflow-hidden shadow-sm",
-                  msg.role === 'user' ? "bg-white text-slate-400 border border-slate-200" : "bg-brand text-white"
-                )}>
-                  {msg.role === 'user' ? (
-                    activeUser?.photoURL ? <img src={activeUser.photoURL} alt="" className="w-full h-full object-cover" /> : <User size={18} />
-                  ) : <Sparkles size={18} />}
+              {/* Daily Insight Card */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="p-8 bg-slate-900 rounded-[2.5rem] text-white relative overflow-hidden group shadow-2xl shadow-indigo-900/20"
+              >
+                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-700">
+                  <Sparkles size={120} />
                 </div>
-                <div className={cn(
-                  "p-4 shadow-sm relative",
-                  msg.role === 'user' 
-                    ? "chat-bubble-user" 
-                    : "chat-bubble-ai"
-                )}>
-                  <div className="markdown-body prose-sm max-w-none">
-                    <ReactMarkdown>{msg.text}</ReactMarkdown>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-indigo-500/20 backdrop-blur-xl rounded-xl flex items-center justify-center text-indigo-400 border border-indigo-500/20">
+                    <Heart size={20} />
                   </div>
-                  {idx === messages.length - 1 && msg.role === 'model' && (
-                    <div className="mt-4 pt-4 border-t border-slate-100/50 text-[10px] text-slate-400 flex items-start gap-1 font-medium">
-                      <ShieldCheck size={12} className="mt-0.5 text-brand" aria-hidden="true" />
-                      <span>{t.medicalDisclaimer}</span>
-                    </div>
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-300">Daily Wellness Insight</p>
+                </div>
+                <p className="text-xl font-display font-bold leading-snug relative z-10">
+                  "{dailyTip.text}"
+                </p>
+                <div className="mt-6 flex items-center gap-2 text-indigo-400 font-bold text-xs">
+                  <span>Learn more about this</span>
+                  <ArrowLeft size={14} className="rotate-180" />
+                </div>
+              </motion.div>
+            </motion.div>
+          ) : (
+            <div className="space-y-6">
+              {messages.map((msg, idx) => (
+                <motion.div
+                  key={msg.id || `msg-${idx}`}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={cn(
+                    "flex w-full",
+                    msg.role === 'user' ? "justify-end" : "justify-start"
                   )}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-          
-          {isLoading && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex justify-start mb-4"
-            >
-              <div className="flex max-w-[85%] gap-3">
-                <div className="w-9 h-9 rounded-2xl flex-shrink-0 flex items-center justify-center bg-brand text-white mt-1 shadow-md shadow-brand/20">
-                  <Sparkles size={18} className="animate-spin duration-700" />
-                </div>
-                <div className="chat-bubble-ai p-4 flex items-center gap-2 h-12">
-                  <div className="flex gap-1">
-                    <motion.span animate={{ opacity: [0.3, 1, 0.3], y: [0, -4, 0] }} transition={{ repeat: Infinity, duration: 1, delay: 0 }} className="w-2 h-2 bg-brand/40 rounded-full" />
-                    <motion.span animate={{ opacity: [0.3, 1, 0.3], y: [0, -4, 0] }} transition={{ repeat: Infinity, duration: 1, delay: 0.2 }} className="w-2 h-2 bg-brand/40 rounded-full" />
-                    <motion.span animate={{ opacity: [0.3, 1, 0.3], y: [0, -4, 0] }} transition={{ repeat: Infinity, duration: 1, delay: 0.4 }} className="w-2 h-2 bg-brand/40 rounded-full" />
+                >
+                  <div className={cn(
+                    "flex max-w-[90%] gap-3",
+                    msg.role === 'user' ? "flex-row-reverse" : "flex-row"
+                  )}>
+                    <div className={cn(
+                      "w-10 h-10 rounded-2xl flex-shrink-0 flex items-center justify-center mt-1 overflow-hidden shadow-sm",
+                      msg.role === 'user' ? "bg-white text-slate-400 border border-slate-200" : "bg-indigo-600 text-white shadow-lg shadow-indigo-200"
+                    )}>
+                      {msg.role === 'user' ? (
+                        activeUser?.photoURL ? <img src={activeUser.photoURL} alt="" className="w-full h-full object-cover" /> : <User size={20} />
+                      ) : <Sparkles size={20} />}
+                    </div>
+                    <div className={cn(
+                      "p-6 shadow-sm relative",
+                      msg.role === 'user' 
+                        ? "chat-bubble-user" 
+                        : "chat-bubble-ai"
+                    )}>
+                      <div className="markdown-body prose-sm max-w-none">
+                        <ReactMarkdown>{msg.text}</ReactMarkdown>
+                      </div>
+                      {idx === messages.length - 1 && msg.role === 'model' && (
+                        <div className="mt-5 pt-5 border-t border-slate-100 text-[10px] text-slate-400 flex items-start gap-2 font-medium">
+                          <ShieldCheck size={14} className="mt-0.5 text-indigo-500 shrink-0" />
+                          <span className="leading-tight">{t.medicalDisclaimer}</span>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </div>
-            </motion.div>
+                </motion.div>
+              ))}
+              
+              {isLoading && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex justify-start mb-4"
+                >
+                  <div className="flex max-w-[85%] gap-3">
+                    <div className="w-10 h-10 rounded-2xl flex-shrink-0 flex items-center justify-center bg-indigo-600 text-white mt-1 shadow-lg shadow-indigo-200">
+                      <Loader2 size={20} className="animate-spin" />
+                    </div>
+                    <div className="chat-bubble-ai p-6 flex items-center gap-2 h-14">
+                      <div className="flex gap-1.5">
+                        <motion.span animate={{ opacity: [0.3, 1, 0.3], y: [0, -4, 0] }} transition={{ repeat: Infinity, duration: 1, delay: 0 }} className="w-2 h-2 bg-indigo-400 rounded-full" />
+                        <motion.span animate={{ opacity: [0.3, 1, 0.3], y: [0, -4, 0] }} transition={{ repeat: Infinity, duration: 1, delay: 0.2 }} className="w-2 h-2 bg-indigo-400 rounded-full" />
+                        <motion.span animate={{ opacity: [0.3, 1, 0.3], y: [0, -4, 0] }} transition={{ repeat: Infinity, duration: 1, delay: 0.4 }} className="w-2 h-2 bg-indigo-400 rounded-full" />
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </div>
           )}
         </AnimatePresence>
       </main>
 
       {/* Input Area */}
-      <footer className="p-6 pb-8 bg-white border-t border-slate-100 z-[40]">
-        <form 
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSend();
-          }}
-          className="relative flex items-center gap-3 pt-2"
-        >
-          <div className="relative flex-1 group">
-            <input
-              id="chat-input"
-              ref={inputRef}
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder={t.askPlaceholder}
-              className="w-full bg-slate-100 border border-transparent rounded-[2rem] py-4 pl-6 pr-14 text-sm focus:bg-white focus:border-brand/30 focus:ring-4 focus:ring-brand/5 shadow-inner transition-all outline-none font-medium placeholder:text-slate-400"
-              disabled={isLoading}
-              aria-label="Chat input"
-            />
-            <button
-              type="submit"
-              disabled={!input.trim() || isLoading}
-              className={cn(
-                "absolute right-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center transition-all",
-                input.trim() && !isLoading 
-                  ? "bg-brand text-white shadow-lg shadow-brand/20 hover:scale-105 active:scale-95" 
-                  : "text-slate-300"
-              )}
-            >
-              <Send size={20} />
-            </button>
-          </div>
-          <button 
-            type="button"
-            onClick={() => setMessages([])}
-            className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all border border-transparent hover:border-red-100 flex-shrink-0"
-            title={t.resetChat}
+      <footer className="p-6 pb-8 sticky bottom-0 z-30 pointer-events-none">
+        <div className="pointer-events-auto">
+          <form 
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSend();
+            }}
+            className="flex items-center gap-3"
           >
-            <History size={20} />
-          </button>
-        </form>
-        <motion.div 
-           initial={{ opacity: 0, y: 10 }}
-           animate={{ opacity: 1, y: 0 }}
-           className="mt-6 p-4 rounded-3xl bg-gradient-to-br from-white to-brand/5 border border-brand/10 shadow-sm relative overflow-hidden group"
-        >
-            <div className="flex items-start gap-4 relative z-10">
-              <div className="text-2xl group-hover:scale-110 transition-transform duration-500">{dailyTip.icon}</div>
-              <div className="flex-1">
-                <h4 className={cn("text-xs font-black uppercase tracking-widest mb-1", dailyTip.color)}>
-                  {t.dailyWisdom} • {dailyTip.title}
-                </h4>
-                <p className="text-[11px] text-slate-500 font-medium leading-relaxed leading-tight">
-                 {dailyTip.text}
-               </p>
-             </div>
-           </div>
-           <div className="absolute -bottom-4 -right-4 text-brand/5 opacity-0 group-hover:opacity-100 transition-opacity">
-              <ShieldCheck size={80} />
-           </div>
-        </motion.div>
+            <div className="relative flex-1 group">
+              <input
+                id="chat-input"
+                ref={inputRef}
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder={t.askPlaceholder}
+                className="w-full bg-white border border-slate-200 rounded-[2.5rem] py-5 pl-8 pr-14 text-sm focus:border-indigo-400 focus:ring-8 focus:ring-indigo-50 shadow-[0_15px_50px_rgba(0,0,0,0.1)] transition-all outline-none font-medium placeholder:text-slate-400"
+                disabled={isLoading}
+              />
+              <button
+                type="submit"
+                disabled={!input.trim() || isLoading}
+                className={cn(
+                  "absolute right-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center transition-all",
+                  input.trim() && !isLoading 
+                    ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200 hover:scale-105 active:scale-95" 
+                    : "bg-slate-50 text-slate-200"
+                )}
+              >
+                <Send size={18} />
+              </button>
+            </div>
+            
+            {messages.length > 0 && (
+              <button 
+                type="button"
+                onClick={() => setMessages([])}
+                className="w-14 h-14 rounded-full bg-white flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all border border-slate-200 shadow-xl flex-shrink-0"
+              >
+                <History size={22} />
+              </button>
+            )}
+          </form>
+          {messages.length === 0 && (
+            <motion.div 
+               initial={{ opacity: 0, y: 10 }}
+               animate={{ opacity: 1, y: 0 }}
+               className="mt-6 p-5 rounded-[2.5rem] bg-white/40 backdrop-blur-xl border border-white/50 shadow-sm relative overflow-hidden group"
+            >
+                <div className="flex items-start gap-4 relative z-10">
+                  <div className="text-2xl group-hover:scale-110 transition-transform duration-500">{dailyTip.icon}</div>
+                  <div className="flex-1">
+                    <h4 className={cn("text-[10px] font-black uppercase tracking-widest mb-1", dailyTip.color)}>
+                      {t.dailyWisdom} • {dailyTip.title}
+                    </h4>
+                    <p className="text-[11px] text-slate-500 font-medium leading-relaxed">
+                     {dailyTip.text}
+                   </p>
+                 </div>
+                </div>
+            </motion.div>
+          )}
+        </div>
       </footer>
     </div>
   );

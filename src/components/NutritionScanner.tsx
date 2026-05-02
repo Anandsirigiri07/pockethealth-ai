@@ -131,19 +131,19 @@ function NutritionScanner({ isOpen, onClose }: NutritionScannerProps) {
             initial={{ scale: 0.9, y: 40 }}
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.9, y: 40 }}
-            className="w-full max-w-2xl bg-white rounded-[3rem] shadow-2xl overflow-hidden flex flex-col max-h-[92vh] border border-white/20"
+            className="w-full max-w-2xl bg-white rounded-[3rem] shadow-2xl overflow-hidden flex flex-col max-h-[92vh] border border-white/20 premium-shadow"
           >
             {/* Header */}
-            <div className="p-8 border-b flex items-center justify-between bg-white/50 backdrop-blur-md sticky top-0 z-20">
+            <div className="p-8 border-b flex items-center justify-between glass-morphism sticky top-0 z-20">
               <div className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-gradient-to-br from-brand to-cyan-500 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-brand/20">
+                <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 via-indigo-600 to-indigo-700 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-indigo-100">
                   <Apple size={28} />
                 </div>
                 <div>
                   <h3 className="font-display font-bold text-2xl text-slate-900 tracking-tight">{t.nutritionScanner}</h3>
                   <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                    <p className="text-[11px] text-slate-500 font-black uppercase tracking-widest">{t.nutritionAnalysis} • {language}</p>
+                    <span className="w-2 h-2 bg-success rounded-full animate-pulse" />
+                    <p className="text-[11px] text-slate-500 font-black uppercase tracking-widest leading-none">{t.nutritionAnalysis} • {language}</p>
                   </div>
                 </div>
               </div>
