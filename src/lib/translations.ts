@@ -1,4 +1,4 @@
-export type Language = 'English' | 'Hindi' | 'Kannada' | 'Telugu';
+export type Language = 'English' | 'Hindi' | 'Kannada' | 'Telugu' | 'Chinese' | 'Japanese';
 
 export const translations = {
   English: {
@@ -696,5 +696,353 @@ I can help you with:
 💊 మీ మందులు ఒకదానితో ఒకటి స్పందిస్తాయో లేదో తనిఖీ చేయడం
 🏥 ఆసుపత్రి సందర్శనలో మార్గదర్శకత్వం
 📓 మీ లక్షణాలలో నమూనాలను కనుగొనడం`
+  },
+  Chinese: {
+    appName: "口袋健康 AI",
+    alwaysConnected: "始终在线",
+    howCanIHelp: "今天我能为您做些什么？",
+    appSubtitle: "您的共情式医疗级助手，提供快速健康见解和紧急导航。",
+    aiPowered: "人工智能驱动",
+    askPlaceholder: "咨询任何关于您健康的问题...",
+    dailyWisdom: "每日健康锦囊",
+    backHome: "返回首页",
+    logout: "退出登录",
+    resetChat: "重置聊天",
+    medicalDisclaimer: "仅限医疗意识信息。请务必咨询专业人士。",
+    nearbyCare: "附近医疗",
+    emergencySos: "紧急求救 SOS",
+    medicineCabinet: "家庭药箱",
+    
+    // Modes
+    secondOpinion: "寻求二诊",
+    labTranslator: "化验单解读",
+    riskNarrator: "风险评估",
+    medicationCheck: "用药检查",
+    hospitalGuide: "就医指南",
+    medicineScanner: "药品扫描",
+    medicineCabinetMode: "药箱管理",
+    emergencyMap: "急救与地图",
+    symptomAnalyser: "症状分析",
+    medicalImageExplainer: "影像解读",
+    nutritionScanner: "营养扫描",
+    
+    // Scanner/Translator
+    expiryChecker: "有效期检查",
+    aiVisionScan: "AI 视觉扫描",
+    liveCameraScan: "实时相机扫描",
+    realTimeDetection: "使用相机进行实时检测",
+    orUpload: "或上传",
+    chooseFromDevice: "从设备选择",
+    centerExpiryBox: "将有效期标签置于框内中央",
+    analyzeImage: "分析此图片",
+    analyzingPack: "AI 正在读取包装...",
+    analyzingLabels: "正在分析有效期标签",
+    analysisFailed: "分析失败",
+    goBack: "返回",
+    close: "关闭",
+    saveToInventory: "保存到库存",
+    savedToCabinet: "已保存到药箱",
+    
+    // Lab Translator
+    reportAnalysis: "报告分析",
+    takePhotoReport: "拍摄报告照片",
+    positionReport: "将您的化验单置于相机框内",
+    uploadReportImage: "上传报告图片",
+    analyzingReport: "正在分析报告...",
+    extractingData: "正在提取医疗数据",
+    analyzeAnother: "分析另一份报告",
+    
+    // Medical Image Explainer
+    scanAnalysis: "影像分析",
+    takePhotoScan: "拍摄影像照片",
+    positionScan: "将影像置于框内",
+    uploadScanImage: "上传影像图片",
+    analyzingScan: "AI 正在读取您的影像和报告...",
+    scanResults: "影像解读结果",
+    
+    // Nutrition Scanner
+    nutritionAnalysis: "营养分析",
+    takePhotoLabel: "拍摄食品标签照片",
+    uploadFoodImage: "上传食品图片",
+    analyzingFood: "正在分析食物...",
+    nutritionResults: "营养分析结果",
+    setProfile: "营养档案",
+    healthGoal: "健康目标",
+    dietaryType: "饮食类型",
+    allergies: "过敏原",
+    ageGroup: "年龄组",
+    weightLoss: "减重",
+    muscleGain: "增肌",
+    diabetesMgmt: "糖尿病管理",
+    heartHealth: "心脏健康",
+    wellness: "日常健康",
+    veg: "素食",
+    vegan: "纯素食",
+    nonVeg: "非素食",
+    jain: "耆那教饮食",
+    keto: "生酮饮食",
+    child: "儿童",
+    teen: "青少年",
+    adult: "成年人",
+    senior: "老年人",
+    saveProfile: "保存档案",
+    
+    // Inventory
+    noMedicines: "未找到药品",
+    searchMedicines: "搜索药品...",
+    all: "全部",
+    warning: "警告",
+    disclaimer: "药品是根据您的扫描结果追踪的。使用前请务必检查实物包装。",
+    expiringSoon: "即将过期",
+    expired: "已过期",
+    safeToUse: "可安全使用",
+    estimated: "预计",
+    daysLeft: "剩余天数",
+    mfgDate: "生产日期",
+    expDate: "过期日期",
+    indications: "适应症",
+    aiVerification: "AI 验证",
+    
+    // Emergency
+    callAmbulance: "呼叫救护车",
+    nearbyHospitals: "附近医院",
+    findingHospitals: "正在寻找附近医院...",
+    noHospitalsFound: "附近未找到医院",
+    call: "呼叫",
+    map: "地图",
+    startLiveShare: "开始实时位置共享",
+    sharingLive: "正在实时共享",
+    stopShare: "停止共享",
+    secureLink: "安全链接 • 1 小时后自动失效",
+    nearbyFacilities: "附近设施",
+    calibratingLocation: "正在校准位置...",
+    satellitePrecision: "卫星精度",
+    yourLocation: "您的位置",
+    getDirections: "获取路线",
+    hospital: "医院",
+    pharmacy: "药店",
+    beforeYouLeave: "出发前...",
+    emergencyChecklist: "确保您携带了身份证件、既往医疗记录和当前服用的药物。如果您是独自一人，请告知家属您的目的地。",
+    update: "更新",
+    scanning: "扫描中...",
+    locationRequired: "需要位置信息",
+    
+    // Login
+    welcomeBack: "欢迎回来",
+    signInWithGoogle: "使用 Google 登录",
+    secureHealthcare: "安全私密的医疗助手",
+    betterInsights: "更深刻的见解，更快速的护理。您进行医疗指导和紧急救助的智能伙伴。",
+    encrypted: "端到端加密",
+    trustedBy: "深受寻求可靠健康信息的人士信赖。不能替代专业的医疗帮助。",
+    connecting: "连接中...",
+    
+    // Disclaimer
+    importantDisclaimer: "重要医疗免责声明",
+    importantSafety: "重要安全信息",
+    readCarefully: "在使用 PocketHealth AI 之前，请仔细阅读本免责声明。",
+    notADoctor: "PocketHealth AI 是一款人工智能驱动的信息化工具。它不是医生，不提供医疗诊断、治疗建议或处方。",
+    disclaimerPoint1: "提供的信息仅用于教育和意识目的。",
+    disclaimerPoint2: "关于医疗状况的任何问题，请务必咨询您的医生或其他合格的医疗服务提供者。",
+    disclaimerPoint3: "切勿因您在本应用程序上阅读的内容而忽视专业的医疗建议或延迟就医。",
+    disclaimerPoint4: "如果发生医疗紧急情况，请立即拨打当地急救电话或前往最近的医院。",
+    disclaimerPoint5: "AI 对化验结果或症状的解读可能不准确或不完整。",
+    disclaimerAcknowledge: "点击“我理解并接受”，即表示您确认已阅读、理解并同意这些条款，并将负责任地使用此工具，将其作为专业医疗护理的补充而非替代。",
+    acceptAndContinue: "我理解并接受",
+    readToBottom: "请阅读到底部",
+    consentStored: "您的健康是首要任务。此同意书存储在您的设备本地。",
+    
+    healthTips: [
+      { title: "保持水分", text: "每天目标喝 8 杯水，以维持认知功能和皮肤健康。", icon: "💧", color: "text-blue-500" },
+      { title: "数字排毒", text: "睡觉前至少 30 分钟关闭所有屏幕，以促进褪黑素生成。", icon: "🌙", color: "text-indigo-500" },
+      { title: "正念时刻", text: "今天花 5 分钟进行深呼吸，以降低皮质醇并缓解压力。", icon: "🧘", color: "text-emerald-500" },
+      { title: "姿势检查", text: "确保屏幕与眼睛齐平，工作时双脚平放在地板上。", icon: "📐", color: "text-amber-500" },
+      { title: "补充维生素 D", text: "今天在自然阳光下待 10 分钟，以支持骨骼健康和免疫系统。", icon: "☀️", color: "text-orange-500" },
+      { title: "蛋白质力量", text: "每餐都包含蛋白质来源，以帮助稳定血糖并维持肌肉。", icon: "🍳", color: "text-red-500" },
+      { title: "步数很重要", text: "午饭后尝试散步 10 分钟，以改善消化和代谢。", icon: "🚶", color: "text-teal-500" }
+    ],
+    
+    openingGreeting: `您好！我是 PocketHealth AI —— 您的个人健康伴侣。 👋
+    
+我可以帮您：
+🩺 理解医生告诉您的内容
+🧪 将您的化验报告翻译成通俗易懂的语言
+⏳ 了解您未来的健康风险
+💊 检查您的药物是否存在相互作用
+🏥 引导您进行医院就诊
+📓 在您的症状中寻找规律`
+  },
+  Japanese: {
+    appName: "ポケットヘルス AI",
+    alwaysConnected: "常時接続中",
+    howCanIHelp: "今日はどのようにお手伝いしましょうか？",
+    appSubtitle: "迅速な健康管理と緊急時のナビゲーションのための、共感型医療グレードアシスタント。",
+    aiPowered: "AI搭載",
+    askPlaceholder: "健康について何でも聞いてください...",
+    dailyWisdom: "今日の健康知識",
+    backHome: "ホームに戻る",
+    logout: "ログアウト",
+    resetChat: "チャットをリセット",
+    medicalDisclaimer: "医療啓発情報のみ。必ず専門家に相談してください。",
+    nearbyCare: "近くのケア",
+    emergencySos: "緊急 SOS",
+    medicineCabinet: "薬箱",
+    
+    // Modes
+    secondOpinion: "セカンドオピニオン",
+    labTranslator: "検査結果解説",
+    riskNarrator: "リスク診断",
+    medicationCheck: "薬の飲み合わせ確認",
+    hospitalGuide: "通院ガイド",
+    medicineScanner: "お薬スキャナー",
+    medicineCabinetMode: "薬箱管理",
+    emergencyMap: "緊急・マップ",
+    symptomAnalyser: "症状分析",
+    medicalImageExplainer: "画像診断解説",
+    nutritionScanner: "栄養スキャナー",
+    
+    // Scanner/Translator
+    expiryChecker: "使用期限チェッカー",
+    aiVisionScan: "AIビジョンスキャン",
+    liveCameraScan: "ライブカメラスキャン",
+    realTimeDetection: "カメラを使用してリアルタイムで検出します",
+    orUpload: "またはアップロード",
+    chooseFromDevice: "デバイスから選択",
+    centerExpiryBox: "使用期限ラベルを枠内の中央に合わせてください",
+    analyzeImage: "この画像を分析する",
+    analyzingPack: "AIがパッケージを読み取っています...",
+    analyzingLabels: "使用期限ラベルを分析中",
+    analysisFailed: "分析に失敗しました",
+    goBack: "戻る",
+    close: "閉じる",
+    saveToInventory: "在庫に保存",
+    savedToCabinet: "薬箱に保存されました",
+    
+    // Lab Translator
+    reportAnalysis: "レポート分析",
+    takePhotoReport: "レポートを撮影",
+    positionReport: "検査レポートをカメラ枠内に配置してください",
+    uploadReportImage: "レポート画像をアップロード",
+    analyzingReport: "レポートを分析中...",
+    extractingData: "医療データを抽出しています",
+    analyzeAnother: "別のレポートを分析",
+    
+    // Medical Image Explainer
+    scanAnalysis: "スキャン分析",
+    takePhotoScan: "スキャンを撮影",
+    positionScan: "スキャンを枠内に配置してください",
+    uploadScanImage: "スキャン画像をアップロード",
+    analyzingScan: "AIがスキャンとレポートを読み取っています...",
+    scanResults: "スキャン解説結果",
+    
+    // Nutrition Scanner
+    nutritionAnalysis: "栄養分析",
+    takePhotoLabel: "食品ラベルを撮影",
+    uploadFoodImage: "食品画像をアップロード",
+    analyzingFood: "食品を分析中...",
+    nutritionResults: "栄養分析結果",
+    setProfile: "栄養プロフィール",
+    healthGoal: "健康目標",
+    dietaryType: "食事タイプ",
+    allergies: "アレルギー",
+    ageGroup: "年齢層",
+    weightLoss: "減量",
+    muscleGain: "筋力アップ",
+    diabetesMgmt: "糖尿病管理",
+    heartHealth: "心臓の健康",
+    wellness: "一般的な健康",
+    veg: "ベジタリアン",
+    vegan: "ヴィーガン",
+    nonVeg: "ノンベジタリアン",
+    jain: "ジャイナ教食",
+    keto: "ケトジェニック",
+    child: "子供",
+    teen: "ティーン",
+    adult: "成人",
+    senior: "シニア",
+    saveProfile: "プロフィールを保存",
+    
+    // Inventory
+    noMedicines: "薬が見つかりません",
+    searchMedicines: "薬を検索...",
+    all: "すべて",
+    warning: "警告",
+    disclaimer: "お薬はスキャンに基づいて追跡されます。使用前に必ず実際のパッケージを確認してください。",
+    expiringSoon: "期限間近",
+    expired: "期限切れ",
+    safeToUse: "安全に使用可能",
+    estimated: "推定",
+    daysLeft: "残り日数",
+    mfgDate: "製造日",
+    expDate: "使用期限",
+    indications: "適応症",
+    aiVerification: "AI検証",
+    
+    // Emergency
+    callAmbulance: "救急車を呼ぶ",
+    nearbyHospitals: "近くの病院",
+    findingHospitals: "近くの病院を探しています...",
+    noHospitalsFound: "近くに病院が見つかりません",
+    call: "電話",
+    map: "マップ",
+    startLiveShare: "現在地の共有を開始",
+    sharingLive: "現在地を共有中",
+    stopShare: "共有を停止",
+    secureLink: "安全なリンク • 1時間で自動消去",
+    nearbyFacilities: "近くの施設",
+    calibratingLocation: "位置を調整中...",
+    satellitePrecision: "衛星精度",
+    yourLocation: "あなたの現在地",
+    getDirections: "ルート案内",
+    hospital: "病院",
+    pharmacy: "薬局",
+    beforeYouLeave: "出発する前に...",
+    emergencyChecklist: "身分証明書（マイナンバーカード等）、以前の医療記録、現在服用中の薬を忘れずに持ってください。一人の場合は、家族に行き先を伝えてください。",
+    update: "更新",
+    scanning: "スキャン中...",
+    locationRequired: "位置情報が必要です",
+    
+    // Login
+    welcomeBack: "お帰りなさい",
+    signInWithGoogle: "Googleでサインイン",
+    secureHealthcare: "安全でプライベートなヘルスケアアシスタント",
+    betterInsights: "より良い洞察、より迅速なケア。医療指導と緊急支援のためのインテリジェントなパートナー。",
+    encrypted: "エンドツーエンド暗号化",
+    trustedBy: "信頼できる健康情報を求める方々に支持されています。専門的な医療アドバイスの代わりにはなりません。",
+    connecting: "接続中...",
+    
+    // Disclaimer
+    importantDisclaimer: "重要な医療免責事項",
+    importantSafety: "重要な安全情報",
+    readCarefully: "PocketHealth AIを使用する前に、この免責事項を注意深くお読みください。",
+    notADoctor: "PocketHealth AIはAI搭載の情報ツールです。医師ではなく、診断、治療アドバイス、処方は行いません。",
+    disclaimerPoint1: "提供される情報は教育および啓発目的のみに使用されます。",
+    disclaimerPoint2: "病状に関する質問については、必ず医師またはその他の資格を持つ医療提供者のアドバイスを求めてください。",
+    disclaimerPoint3: "このアプリケーションで読んだ内容を理由に、専門的な医療アドバイスを無視したり、受診を遅らせたりしないでください。",
+    disclaimerPoint4: "緊急の場合は、直ちに現地の救急番号（日本では119番）に電話するか、最寄りの病院を受診してください。",
+    disclaimerPoint5: "検査結果や症状のAIによる解釈は、不正確または不完全な場合があります。",
+    disclaimerAcknowledge: "「理解して同意する」をクリックすることで、これらの条件を読み、理解し、同意したことを認め、このツールを専門的な医療の代わりではなく補助として責任を持って使用することに同意したものとみなされます。",
+    acceptAndContinue: "理解して同意する",
+    readToBottom: "最後までお読みください",
+    consentStored: "あなたの健康が第一です。この同意はデバイスにローカルに保存されます。",
+    
+    healthTips: [
+      { title: "水分補給", text: "認知機能と肌の健康を維持するために、1日8杯の水を目標にしましょう。", icon: "💧", color: "text-blue-500" },
+      { title: "デジタルデトックス", text: "良質な睡眠のために、寝る30分前にはすべての画面をオフにしましょう。", icon: "🌙", color: "text-indigo-500" },
+      { title: "マインドフルネス", text: "ストレスを軽減するために、今日5分間深呼吸をしてみましょう。", icon: "🧘", color: "text-emerald-500" },
+      { title: "姿勢チェック", text: "画面が目の高さにあることを確認し、作業中は足を床に平らにつけましょう。", icon: "📐", color: "text-amber-500" },
+      { title: "日光浴", text: "骨の健康と免疫システムのために、1日10分間は自然光を浴びましょう。", icon: "☀️", color: "text-orange-500" },
+      { title: "プロテインの力", text: "血糖値を安定させ筋肉を維持するために、毎食タンパク質を摂取しましょう。", icon: "🍳", color: "text-red-500" },
+      { title: "歩くことは大切", text: "消化と代謝を良くするために、昼食後に10分間歩いてみましょう。", icon: "🚶", color: "text-teal-500" }
+    ],
+    
+    openingGreeting: `こんにちは！ポケットヘルス AI です。あなたのパーソナル健康パートナーです。 👋
+    
+お手伝いできること：
+🩺 医師の説明を分かりやすく解説します
+🧪 検査レポートを平易な言葉に翻訳します
+⏳ 将来の健康リスクを予測します
+💊 薬の飲み合わせをチェックします
+🏥 通院時のガイドをします
+📓 症状のパターンを見つけ出します`
   }
 };

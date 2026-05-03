@@ -247,6 +247,8 @@ export default function App() {
                   <option value="Hindi">हिन्दी</option>
                   <option value="Kannada">ಕನ್ನಡ</option>
                   <option value="Telugu">తెలుగు</option>
+                  <option value="Chinese">中文</option>
+                  <option value="Japanese">日本語</option>
                 </select>
               </div>
             </div>
