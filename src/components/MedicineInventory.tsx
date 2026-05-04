@@ -102,7 +102,7 @@ function MedicineInventory({ isOpen, onClose }: MedicineInventoryProps) {
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          className="relative w-full max-w-lg bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[85vh] border border-slate-100"
+          className="relative w-full max-w-lg bg-white rounded-t-[2.5rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col h-full md:max-h-[85dvh] border border-slate-100"
         >
           {/* Header */}
           <div className="p-6 pb-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">

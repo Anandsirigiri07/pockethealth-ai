@@ -204,13 +204,13 @@ export default function App() {
   const dailyTip = getDailyTip();
 
   return (
-    <div className="flex flex-col h-screen max-w-2xl mx-auto bg-mesh-light shadow-2xl overflow-hidden relative sm:border-x border-slate-200/50">
+    <div className="flex flex-col h-screen h-[100dvh] max-w-2xl mx-auto bg-mesh-light shadow-2xl overflow-hidden relative sm:border-x border-slate-200/50">
       <a href="#chat-input" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-brand focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">
         Skip to chat input
       </a>
 
       {/* Header */}
-      <header className="px-6 py-5 glass-morphism sticky top-0 z-[40] shrink-0" role="banner">
+      <header className="px-6 pt-[calc(1.25rem+env(safe-area-inset-top,0px))] pb-5 glass-morphism sticky top-0 z-[40] shrink-0" role="banner">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             {messages.length > 0 && (
@@ -472,7 +472,7 @@ export default function App() {
       </main>
 
       {/* Input Area */}
-      <footer className="p-6 pb-8 sticky bottom-0 z-30 pointer-events-none">
+      <footer className="p-6 pb-[calc(2rem+env(safe-area-inset-bottom,0px))] sticky bottom-0 z-30 pointer-events-none">
         <div className="pointer-events-auto">
           <form 
             onSubmit={(e) => {

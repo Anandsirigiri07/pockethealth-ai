@@ -263,7 +263,7 @@ function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps) {
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed bottom-0 left-0 right-0 max-w-2xl mx-auto bg-white rounded-t-[2.5rem] shadow-2xl z-[70] overflow-hidden flex flex-col max-h-[95vh]"
+            className="fixed bottom-0 left-0 right-0 max-w-2xl mx-auto bg-white rounded-t-[2.5rem] shadow-2xl z-[70] overflow-hidden flex flex-col max-h-[95vh] max-h-[95dvh]"
           >
             <div className="p-1 flex justify-center">
               <div className="w-12 h-1.5 bg-slate-200 rounded-full my-2" />

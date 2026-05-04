@@ -56,7 +56,7 @@ export default function Login({}: LoginProps) {
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-slate-50 text-slate-900 overflow-hidden relative">
+    <div className="flex flex-col items-center justify-center min-h-screen h-[100dvh] p-6 bg-slate-50 text-slate-900 overflow-hidden relative">
       {/* Decorative background elements */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-brand/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl opacity-60" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-500/5 rounded-full translate-y-1/2 -translate-x-1/2 blur-3xl opacity-60" />

@@ -96,13 +96,13 @@ function LabTranslator({ isOpen, onClose }: LabTranslatorProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-md"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-0 md:p-4 bg-slate-900/90 backdrop-blur-md"
         >
           <motion.div
             initial={{ scale: 0.9, y: 20 }}
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.9, y: 20 }}
-            className="w-full max-w-xl bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+            className="w-full max-w-xl bg-white rounded-t-[2.5rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col h-full md:max-h-[90dvh]"
           >
             {/* Header */}
             <div className="p-6 border-b flex items-center justify-between bg-white sticky top-0 z-10">
@@ -170,8 +170,11 @@ function LabTranslator({ isOpen, onClose }: LabTranslatorProps) {
                       ref={webcamRef}
                       screenshotFormat="image/jpeg"
                       videoConstraints={{
-                        facingMode: cameraFacingMode
+                        facingMode: cameraFacingMode,
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
                       }}
+                      onUserMediaError={() => setError("Camera access denied. Please allow camera permissions in your browser settings.")}
                       className="w-full h-full object-cover"
                     />
                     

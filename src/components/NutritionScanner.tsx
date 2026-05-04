@@ -125,13 +125,13 @@ function NutritionScanner({ isOpen, onClose }: NutritionScannerProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/95 backdrop-blur-xl"
+          className="fixed inset-0 z-[100] flex items-end md:items-center justify-center p-0 md:p-4 bg-slate-900/95 backdrop-blur-xl"
         >
           <motion.div
             initial={{ scale: 0.9, y: 40 }}
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.9, y: 40 }}
-            className="w-full max-w-2xl bg-white rounded-[3rem] shadow-2xl overflow-hidden flex flex-col max-h-[92vh] border border-white/20 premium-shadow"
+            className="w-full max-w-2xl bg-white rounded-t-[3rem] md:rounded-[3rem] shadow-2xl overflow-hidden flex flex-col h-full md:max-h-[92dvh] border border-white/20 premium-shadow"
           >
             {/* Header */}
             <div className="p-8 border-b flex items-center justify-between glass-morphism sticky top-0 z-20">
@@ -218,8 +218,11 @@ function NutritionScanner({ isOpen, onClose }: NutritionScannerProps) {
                       ref={webcamRef}
                       screenshotFormat="image/jpeg"
                       videoConstraints={{
-                        facingMode: cameraFacingMode
+                        facingMode: cameraFacingMode,
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
                       }}
+                      onUserMediaError={() => setError("Camera access denied. Please check your browser permissions.")}
                       className="w-full h-full object-cover brightness-110 contrast-110"
                     />
                     

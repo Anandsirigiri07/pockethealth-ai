@@ -309,7 +309,7 @@ CRITICAL: The "purpose" and "reasoning" fields MUST be written in ${language}.`,
             initial={{ scale: 0.9, y: 20 }}
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.9, y: 20 }}
-            className="w-full max-w-lg bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+            className="w-full max-w-lg bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] max-h-[90dvh]"
           >
             {/* Header */}
             <div className="p-6 border-b flex items-center justify-between bg-white sticky top-0 z-10">
@@ -377,8 +377,11 @@ CRITICAL: The "purpose" and "reasoning" fields MUST be written in ${language}.`,
                       ref={webcamRef}
                       screenshotFormat="image/jpeg"
                       videoConstraints={{
-                        facingMode: cameraFacingMode
+                        facingMode: cameraFacingMode,
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
                       }}
+                      onUserMediaError={() => setError("Camera access denied or not available. Please check permissions.")}
                       className="w-full h-full object-cover"
                     />
                     
