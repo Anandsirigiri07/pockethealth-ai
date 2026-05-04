@@ -380,6 +380,42 @@ CRITICAL: Your entire response MUST be in ${language}.`,
   return response.text || "I'm sorry, I couldn't analyze the food image. Please try again.";
 }
 
+export async function interpretDermResults(predictions: any[], language: string = 'English') {
+  const ai = getAI();
+  
+  const predictionsString = predictions.map(p => `${p.className}: ${(p.probability * 100).toFixed(1)}%`).join('\n');
+
+  const response = await ai.models.generateContent({
+    model: "gemini-3-flash-preview",
+    contents: {
+      role: 'user',
+      parts: [
+        {
+          text: `You are PocketHealth AI's "Specialized Model Interpreter." 
+          A specialized on-device computer vision model (TFJS) has analyzed a photo of a user's skin lesion/area and returned these confidence scores:
+          
+          ${predictionsString}
+          
+          TASK:
+          1. EMPATHETIC ACKNOWLEDGMENT: Acknowledge that they are checking a skin concern.
+          2. TECHNICAL INTERPRETATION: Explain what these scores mean in PLAIN language. (e.g., "The model is most confident that this looks like [X]").
+          3. SAFETY FIRST: Remind them that on-device models are screening tools, not diagnostic.
+          4. NEXT STEPS: Suggest what to look for (ABCDE of moles: Asymmetry, Border, Color, Diameter, Evolving) and when to see a dermatologist.
+          5. FORMAT: Use clear headings and bullet points.
+          
+          CRITICAL: Your entire response MUST be in ${language}.`,
+        },
+      ],
+    },
+    config: {
+      systemInstruction: SYSTEM_PROMPT,
+      temperature: 0.5,
+    }
+  });
+
+  return response.text || "I'm sorry, I couldn't interpret the results. Please see a doctor if you are concerned.";
+}
+
 export const OPENING_GREETING = `Hi! I'm PocketHealth AI — your personal health companion. 👋
 
 I can help you with:

@@ -27,9 +27,20 @@ View your app in AI Studio: https://ai.studio/apps/5aee4f1c-d457-47f1-ad53-7da6c
    - `APP_URL`: The production URL of your app.
 3. The build command is `npm run build` and the output directory is `dist`.
 
-## ✨ Features
-- **Scan Explainer**: Decode radiology reports and medical images.
-- **Nutrition Scanner**: Identify Indian foods and decode nutrition labels.
-- **Medicine Cabinet**: Track expiry dates and manage your medications.
-- **Emergency SOS**: Quick access to nearby healthcare and emergency contacts.
-- **Multi-lingual**: Support for English, Hindi, Kannada, and Telugu.
+## ✨ Key Features
+- 🔍 **DermCheck AI (Hybrid)**: On-device skin screening with empathetic AI interpretation.
+- 🔬 **Scan Explainer**: Decode radiology reports and medical images (X-rays, CTs).
+- 🥗 **Nutrition Scanner**: Identify Indian foods and decode nutrition labels with goal alignment.
+- 💊 **Medicine Cabinet**: Track expiry dates and manage your medications with offline persistence.
+- 🆘 **Emergency SOS**: Quick access to nearby healthcare with offline location support.
+- 🌐 **Multi-lingual**: Full support for English, Hindi, Kannada, Telugu, Chinese, and Japanese.
+
+## 🚀 Specialized Hybrid AI
+PocketHealth AI uses a unique **Hybrid AI Architecture**:
+1. **On-Device specialized models (TFJS)**: For rapid, private screening that works offline.
+2. **Cloud-based LLMs (Gemini Flash)**: For high-empathy interpretation and complex medical reasoning.
+
+## 🏠 Offline-First Capabilities
+- **PWA Integration**: Installable as a mobile app.
+- **Offline Persistence**: Uses Firestore offline caching for all your medical data.
+- **Offline Screening**: The DermCheck neural network runs locally in the browser, providing utility even in remote areas.

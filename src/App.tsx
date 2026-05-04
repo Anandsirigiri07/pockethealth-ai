@@ -21,7 +21,8 @@ import {
   Languages,
   Globe,
   Apple,
-  Loader2
+  Loader2,
+  Activity
 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { cn } from '@/src/lib/utils';
@@ -39,6 +40,7 @@ import MedicineInventory from '@/src/components/MedicineInventory';
 import LabTranslator from '@/src/components/LabTranslator';
 import MedicalImageExplainer from '@/src/components/MedicalImageExplainer';
 import NutritionScanner from '@/src/components/NutritionScanner';
+import DermScanner from './components/DermScanner';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '@/src/lib/firebase';
 
@@ -55,6 +57,8 @@ export default function App() {
   const [isLabOpen, setIsLabOpen] = useState(false);
   const [isMedicalImageOpen, setIsMedicalImageOpen] = useState(false);
   const [isNutritionOpen, setIsNutritionOpen] = useState(false);
+  const [isDermOpen, setIsDermOpen] = useState(false);
+  const [isOffline, setIsOffline] = useState(!window.navigator.onLine);
   const { selectedLanguage, setSelectedLanguage, t } = useLanguage();
   const [expiringSoonCount, setExpiringSoonCount] = useState(0);
   const [shareId, setShareId] = useState<string | null>(null);
@@ -76,6 +80,17 @@ export default function App() {
       setAuthLoading(false);
     });
     return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const handleOnline = () => setIsOffline(false);
+    const handleOffline = () => setIsOffline(true);
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
   }, []);
 
   const activeUser = user;
@@ -137,6 +152,15 @@ export default function App() {
     inputRef.current?.focus();
 
     try {
+      if (isOffline) {
+        setMessages(prev => [...prev, { 
+          id: Math.random().toString(36).substring(2, 11),
+          role: 'model', 
+          text: "I'm currently in **Offline Mode**. I can't access my full AI brain right now, but your data is safely saved and I'll be ready for full conversation as soon as you're back online! 🌐",
+          timestamp: Date.now()
+        }]);
+        return;
+      }
       const response = await chatWithPocketHealth(updatedMessages, selectedLanguage);
       setMessages(prev => [...prev, { 
         id: Math.random().toString(36).substring(2, 11),
@@ -171,6 +195,7 @@ export default function App() {
     { id: 'sos', label: t.emergencyMap, icon: AlertCircle, action: () => setIsEmergencyOpen(true) },
     { id: 'scan', label: t.medicalImageExplainer, icon: Stethoscope, action: () => setIsMedicalImageOpen(true) },
     { id: 'nutrition', label: t.nutritionScanner, icon: Apple, action: () => setIsNutritionOpen(true) },
+    { id: 'derm', label: 'DermCheck AI', icon: Activity, action: () => setIsDermOpen(true) },
     { id: 'symptoms', label: t.symptomAnalyser, icon: ClipboardList, prompt: 'I have been logging my symptoms and want you to find patterns.' },
   ];
 
@@ -208,6 +233,21 @@ export default function App() {
       <a href="#chat-input" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-brand focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">
         Skip to chat input
       </a>
+
+      {/* Offline Banner */}
+      <AnimatePresence>
+        {isOffline && (
+          <motion.div 
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="bg-amber-500 text-white px-6 py-2 flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest z-[50]"
+          >
+            <Globe size={14} className="animate-pulse" />
+            Offline Mode • Limited AI Functionality
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Header */}
       <header className="px-6 pt-[calc(1.25rem+env(safe-area-inset-top,0px))] pb-5 glass-morphism sticky top-0 z-[40] shrink-0" role="banner">
@@ -313,6 +353,11 @@ export default function App() {
       <NutritionScanner 
         isOpen={isNutritionOpen} 
         onClose={() => setIsNutritionOpen(false)} 
+      />
+
+      <DermScanner
+        isOpen={isDermOpen}
+        onClose={() => setIsDermOpen(false)}
       />
 
       {/* Main Content Area */}

@@ -1,10 +1,25 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged, User, signInAnonymously } from 'firebase/auth';
-import { getFirestore, doc, getDocFromServer } from 'firebase/firestore';
+import { getFirestore, doc, getDocFromServer, enableIndexedDbPersistence } from 'firebase/firestore';
 import firebaseConfig from '@/firebase-applet-config.json';
 
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
+
+// Enable offline persistence
+let persistenceEnabled = false;
+if (typeof window !== 'undefined' && !persistenceEnabled) {
+  enableIndexedDbPersistence(db).then(() => {
+    persistenceEnabled = true;
+  }).catch((err) => {
+    if (err.code === 'failed-precondition') {
+      console.warn('Multiple tabs open, persistence enabled in only one tab.');
+    } else {
+      console.error('Firestore persistence error:', err.code);
+    }
+  });
+}
+
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 
